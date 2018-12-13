@@ -1,7 +1,13 @@
-<ul>
-  <!--
-<li *ng-for = "let tool of tools">
-<p>{{tool.name}} , {{tool.groupId}}</p>
-</li>
--->
-</ul>
+<a href="#" class="list-group-item list-group-item-action" *ngFor="let offer of offers">
+  <div class="row">
+    <div class="col-sm-2">
+      <img class="my-image-size" src="{{offer.imgSrc}}">
+    </div>
+    <div class="col-sm-4">
+      <h3>{{offer.name}}</h3>
+    </div>
+    <div class="col-sm-6">
+      <p>{{offer.name}} , {{offer.groupId}}</p>
+    </div>
+  </div>
+</a>

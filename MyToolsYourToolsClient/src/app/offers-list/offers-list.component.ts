@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {TOOLS} from './mockToolsTable'
+import {OFFERS} from './mockToolsTable';
 
 
 @Component({
@@ -9,7 +9,7 @@ import {TOOLS} from './mockToolsTable'
   styleUrls: ['./offers-list.component.css']
 })
 export class OffersListComponent implements OnInit {
-   tools = TOOLS;
+   offers = OFFERS;
 
   constructor() { }
 
