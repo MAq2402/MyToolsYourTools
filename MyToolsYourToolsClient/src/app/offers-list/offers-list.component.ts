@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import {OFFERS} from './mockToolsTable';
+import { Offer } from '../models/offer';
+import { OfferService } from '../services/offer.service';
 
 
 @Component({
@@ -9,11 +11,12 @@ import {OFFERS} from './mockToolsTable';
   styleUrls: ['./offers-list.component.css']
 })
 export class OffersListComponent implements OnInit {
-   offers = OFFERS;
+   offers: Offer[] = [];
 
-  constructor() { }
+  constructor(private offerService: OfferService) { }
 
   ngOnInit() {
+    this.offerService.getOffers().subscribe(o => this.offers = o);
   }
 
 }
