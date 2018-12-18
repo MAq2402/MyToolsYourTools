@@ -1,7 +1,9 @@
 .register{
-    background: -webkit-linear-gradient(left, #048019, #6ac772);
+    background: -webkit-linear-gradient(left, #057e19, #81bd86);
     margin-top: 3%;
     padding: 3%;
+    width: 100%;
+    max-width: none;
 }
 .register-left{
     text-align: center;
@@ -60,39 +62,13 @@
     border: none;
     border-radius: 1.5rem;
     padding: 2%;
-    background: #00cc1b;
+    background: #029115;
     color: #fff;
     font-weight: 600;
     width: 50%;
     cursor: pointer;
 }
-.register .nav-tabs{
-    margin-top: 3%;
-    border: none;
-    background: #00af0f;
-    border-radius: 1.5rem;
-    width: 28%;
-    float: right;
-}
-.register .nav-tabs .nav-link{
-    padding: 2%;
-    height: 34px;
-    font-weight: 600;
-    color: #fff;
-    border-top-right-radius: 1.5rem;
-    border-bottom-right-radius: 1.5rem;
-}
-/* .register .nav-tabs .nav-link:hover{
-    border: none;
-} */
-/* }
-.register .nav-tabs .nav-link.active{
-    width: 100px;
-    color: #009c00;
-    border: 2px solid #006115;
-    border-top-left-radius: 1.5rem;
-    border-bottom-left-radius: 1.5rem;
-} */
+
 .register-heading{
     text-align: center;
     margin-top: 8%;
