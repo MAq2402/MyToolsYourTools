@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OfferService } from '../services/offer.service';
 import { Offer } from '../models/offer';
 
 @Component({
@@ -9,9 +10,13 @@ import { Offer } from '../models/offer';
 export class OffersComponent implements OnInit {
 
   searchedOffers: Offer[];
-  constructor() { }
 
+  constructor(private offerService: OfferService) {
+
+  }
+offers: Offer[];
   ngOnInit() {
+    this.offerService.getOffers().subscribe(o => this.offers = o);
   }
 
   onSearched(searchQuery: string) {

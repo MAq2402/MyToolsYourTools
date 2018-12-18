@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import {OFFERS} from './mockToolsTable';
 import { Offer } from '../models/offer';
@@ -11,12 +11,12 @@ import { OfferService } from '../services/offer.service';
   styleUrls: ['./offers-list.component.css']
 })
 export class OffersListComponent implements OnInit {
-   offers: Offer[] = [];
+  @Input() offers: Offer[];
 
-  constructor(private offerService: OfferService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.offerService.getOffers().subscribe(o => this.offers = o);
+   
   }
 
 }

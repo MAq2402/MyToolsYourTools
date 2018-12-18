@@ -2,8 +2,10 @@
   <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
+
   <app-offers-bar  (searchQueryEmitter) ="onSearched($event)"></app-offers-bar>
-  <app-offers-list ></app-offers-list>
+  <app-offers-list [offers] = "offers"></app-offers-list>
+
   </div>
   <div class="col-sm-1"></div>
 
