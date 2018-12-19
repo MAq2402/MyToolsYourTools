@@ -6,5 +6,4 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-    title = 'Register yourself in My Tools Your Tools';
 }
