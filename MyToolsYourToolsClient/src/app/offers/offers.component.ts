@@ -9,12 +9,22 @@ import { Offer } from '../models/offer';
 })
 export class OffersComponent implements OnInit {
 
-  constructor(private offerService: OfferService) { 
+  searchedOffers: Offer[];
+  offers: Offer[];
 
+  constructor(private offerService: OfferService) {
   }
-offers: Offer[];
+
   ngOnInit() {
     this.offerService.getOffers().subscribe(o => this.offers = o);
+    this.searchedOffers = this.offers;
+  }
+  onSearched(searchQuery: string) {
+    if (searchQuery) {
+      this.searchedOffers = this.offers.filter(o => o.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    } else {
+      this.searchedOffers = this.offers;
+    }
   }
 
 }
