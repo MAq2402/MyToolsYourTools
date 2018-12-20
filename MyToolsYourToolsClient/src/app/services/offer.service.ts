@@ -13,5 +13,9 @@ export class OfferService {
   getOffers(): Observable<Offer[]> {
     return of(OFFERS);
   }
+  addOffer(offer: Offer): Observable<Offer> {
+    OFFERS.push(offer);
+    return of();
+  }
 
 }
