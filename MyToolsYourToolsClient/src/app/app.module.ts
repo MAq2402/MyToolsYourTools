@@ -15,6 +15,7 @@ import { NotificationsComponent } from './admin-panel/notifications/notification
 import { OffersListComponent } from './offers-list/offers-list.component';
 import { OffersCreatorComponent } from './offers-creator/offers-creator.component';
 import { ToolDetailsComponent } from './tool-details/tool-details.component';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ToolDetailsComponent } from './tool-details/tool-details.component';
     NotificationsComponent,
     OffersListComponent,
     OffersCreatorComponent,
-    ToolDetailsComponent
+    ToolDetailsComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule
