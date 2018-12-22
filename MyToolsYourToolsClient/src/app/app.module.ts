@@ -18,6 +18,7 @@ import { OffersCreatorComponent } from './offers-creator/offers-creator.componen
 import { ToolDetailsComponent } from './tool-details/tool-details.component';
 import { RegisterComponent } from './register/register.component';
 import { OfferFormComponent } from './offers/offer-form/offer-form.component';
+import { OffersModalComponent } from './offers/offers-modal/offers-modal.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { OfferFormComponent } from './offers/offer-form/offer-form.component';
     OffersCreatorComponent,
     ToolDetailsComponent,
     RegisterComponent,
-    OfferFormComponent
+    OfferFormComponent,
+    OffersModalComponent
   ],
   imports: [
     BrowserModule,
