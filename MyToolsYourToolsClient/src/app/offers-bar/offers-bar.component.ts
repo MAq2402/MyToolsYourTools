@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-offers-bar',
@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OffersBarComponent implements OnInit {
 
+  @Output() searchQueryEmitter = new EventEmitter<string>();
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onKey(event: any) {
+    this.searchQueryEmitter.emit(event.target.value);
   }
 
 }
