@@ -13,4 +13,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MyToolsYourToolsBackend.Application\MyToolsYourToolsBackend.Application.csproj" />
+    <ProjectReference Include="..\MyToolsYourToolsBackend.Domain\MyToolsYourToolsBackend.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
