@@ -1,5 +1,5 @@
-<a href="#" class="list-group-item list-group-item-action" *ngFor="let offer of offers">
-  <div class="row">
+<a [routerLink]="['offer-view', offer.id]" class="list-group-item list-group-item-action" *ngFor="let offer of offers">
+  <div class="row" onclick={sendOffer(offer)} >
     <div class="col-sm-2">
       <img class="my-image-size" src="{{offer.imgSrc}}">
     </div>
@@ -7,7 +7,7 @@
       <h3>{{offer.name}}</h3>
     </div>
     <div class="col-sm-6">
-      <p>{{offer.name}} , {{offer.groupId}}</p>
+      <p>{{offer.category}}, {{searchGroupName(offer.groupId)}}</p>
     </div>
   </div>
 </a>
