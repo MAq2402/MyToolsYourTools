@@ -5,7 +5,7 @@
       <app-offers-bar
         (searchQueryEmitter)="onSearched($event)"
       ></app-offers-bar>
-      <app-offers-list [offers]="searchedOffers"></app-offers-list>
+      <app-offers-list [offers]="searchedOffers" [groups]="groups"></app-offers-list>
     </div>
     <div class="col-sm-1"></div>
   </div>

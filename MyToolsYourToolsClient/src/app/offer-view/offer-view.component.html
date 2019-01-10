@@ -1,0 +1,19 @@
+<div class = "container my-offers">
+<div class="row">
+    <div class="col">
+      <img class="my-image-size" src="{{offer.imgSrc}}">
+    </div>
+    <div class="col">
+      <h1 class="text-center">{{offer.name}}</h1>
+      <a>od: </a>
+      <a [routerLink]="['']" class="badge badge-success top-buffer40">{{getUserName(offer.ownerId)}}</a>
+      <p></p>
+      <a>udostępnione w grupie: </a>
+      <a>{{getGroupName(offer.groupId)}}</a>
+      <p class="top-buffer20">opis:</p>
+      <p class="font-weight-light">{{offer.description}}</p>
+      <hr class="mb-4">
+      <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0 my-button" (click)="sendRentRequest($event, offer.ownerId, offer.id)">Złóż prośbę o wypożyczenie</button>
+    </div>
+</div>
+</div>
