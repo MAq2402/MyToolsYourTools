@@ -16,6 +16,12 @@ import { OffersListComponent } from './offers-list/offers-list.component';
 import { OffersCreatorComponent } from './offers-creator/offers-creator.component';
 import { ToolDetailsComponent } from './tool-details/tool-details.component';
 import { RegisterComponent } from './register/register.component';
+import { OfferViewComponent } from './offer-view/offer-view.component';
+import { AppRoutingModule } from './app-routing.module';
+import { OfferService } from './services/offer.service';
+import { GroupService } from './services/group.service';
+import { UserService } from './services/user.service';
+import { RentService } from './services/rent.service';
 
 
 @NgModule({
@@ -32,12 +38,14 @@ import { RegisterComponent } from './register/register.component';
     OffersListComponent,
     OffersCreatorComponent,
     ToolDetailsComponent,
-    RegisterComponent
+    RegisterComponent,
+    OfferViewComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [OfferService, UserService, GroupService, RentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
