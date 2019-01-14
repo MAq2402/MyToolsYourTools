@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MyToolsYourToolsBackend.API.Infrastructure;
 using MyToolsYourToolsBackend.Application.Services;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 
@@ -33,6 +34,7 @@ namespace MyToolsYourToolsBackend.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +48,8 @@ namespace MyToolsYourToolsBackend.API
             {
                 app.UseHsts();
             }
+
+            AutoMapperConfiguration.Configure();
 
             app.UseHttpsRedirection();
             app.UseMvc();
