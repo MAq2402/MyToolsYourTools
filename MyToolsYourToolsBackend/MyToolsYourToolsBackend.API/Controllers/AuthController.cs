@@ -11,7 +11,8 @@ using MyToolsYourToolsBackend.Application.Services;
 namespace MyToolsYourToolsBackend.API.Controllers
 {
     [Route("api")]
-    public class AuthController : Controller
+    [ApiController]
+    public class AuthController : ControllerBase
     {
         private IAuthService _authService;
 
@@ -24,6 +25,18 @@ namespace MyToolsYourToolsBackend.API.Controllers
         {
             var user = _authService.Register(registerCredentials);
 
+            return Ok(user);
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody]LoginCredentialsDto loginCredentials)
+        {
+            var user = _authService.Login(loginCredentials);
+
+            if(user == null)
+            {
+                return BadRequest("Wrong credentials");
+            }
             return Ok(user);
         }
  

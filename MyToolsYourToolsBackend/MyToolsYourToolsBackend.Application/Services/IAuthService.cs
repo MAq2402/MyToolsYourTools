@@ -8,5 +8,6 @@ namespace MyToolsYourToolsBackend.Application.Services
     public interface IAuthService
     {
         UserDto Register(RegisterCredentialsDto registerCredentials);
+        UserDto Login(LoginCredentialsDto loginCredentials);
     }
 }

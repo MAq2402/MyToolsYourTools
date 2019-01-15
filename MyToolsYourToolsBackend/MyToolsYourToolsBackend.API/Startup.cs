@@ -33,6 +33,11 @@ namespace MyToolsYourToolsBackend.API
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "MyToolsYourTools", Version = "v1" });
+            });
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
         }
@@ -49,6 +54,12 @@ namespace MyToolsYourToolsBackend.API
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyToolsYourTools");
+            });
             AutoMapperConfiguration.Configure();
 
             app.UseHttpsRedirection();
