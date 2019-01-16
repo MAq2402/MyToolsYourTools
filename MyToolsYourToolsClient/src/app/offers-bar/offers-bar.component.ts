@@ -15,6 +15,8 @@ export class OffersBarComponent implements OnInit {
   @Output() selectedCategoryEmmitter = new EventEmitter<string>();
   categories = Category;
   categoryNames = [];
+  selectedCategory: String = "Wszystkie";
+  selectedGroup: String = "Wszystkie";
 
   constructor() { 
     this.categoryNames = Object.keys(Category);
@@ -26,9 +28,29 @@ export class OffersBarComponent implements OnInit {
   onKey(event: any) {
     this.searchQueryEmitter.emit(event.target.value);
   }
-  onGroupSelect(event: number){
+  onGroupSelect(groupId: number){
+    this.selectedGroupEmmitter.emit(groupId);
+    if(groupId){
+    for (const g of this.groups) {
+      if (g.id === groupId) {
+       this.selectedGroup = g.name;
+      }
+    }
+  }
+    else {
+      this.selectedGroup = "Wszystkie";
+    }
+  }
+  onCategorySelect(category: Category){
+    this. selectedCategoryEmmitter.emit(category);
+    if(category){
+    this.selectedCategory = category.toString();
+    }
+    else{
+      this.selectedCategory = "Wszystkie";
+    }
+
     
-    this.selectedGroupEmmitter.emit(event);
   }
 
 
