@@ -32,6 +32,14 @@ export class OffersComponent implements OnInit {
       this.searchedOffers = this.activeOffers;
     }
   }
+  filterByGroup(groupId: number){
+    console.log("jestem tu");
+    if (groupId) {
+      this.searchedOffers = this.activeOffers.filter(o => o.groupId==groupId);
+    } else {
+      this.searchedOffers = this.activeOffers;
+    }
+  }
 
   private searchGroupName(groupId) {
     for (const g of this.groups) {

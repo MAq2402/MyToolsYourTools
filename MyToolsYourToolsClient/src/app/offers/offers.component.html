@@ -3,7 +3,7 @@
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
       <app-offers-bar
-        (searchQueryEmitter)="onSearched($event)"
+        (searchQueryEmitter)="onSearched($event)" [groups]="groups" (selectedGroupEmitter)="filterByGroup($event)"
       ></app-offers-bar>
       <app-offers-list [offers]="searchedOffers" [groups]="groups"></app-offers-list>
     </div>

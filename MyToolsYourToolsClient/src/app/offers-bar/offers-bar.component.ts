@@ -1,4 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Group } from '../models/Group';
+import { Category } from '../enums/Category';
 
 @Component({
   selector: 'app-offers-bar',
@@ -8,7 +10,15 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class OffersBarComponent implements OnInit {
 
   @Output() searchQueryEmitter = new EventEmitter<string>();
-  constructor() { }
+  @Input() groups:Group[];
+  @Output() selectedGroupEmmitter = new EventEmitter<number>();
+  @Output() selectedCategoryEmmitter = new EventEmitter<string>();
+  categories = Category;
+  categoryNames = [];
+
+  constructor() { 
+    this.categoryNames = Object.keys(Category);
+  }
 
   ngOnInit() {
   }
@@ -16,5 +26,10 @@ export class OffersBarComponent implements OnInit {
   onKey(event: any) {
     this.searchQueryEmitter.emit(event.target.value);
   }
+  onGroupSelect(event: number){
+    
+    this.selectedGroupEmmitter.emit(event);
+  }
+
 
 }
