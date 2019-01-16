@@ -9,4 +9,11 @@ export class Offer {
   status: OfferStatus;
   groupId: number;
   ownerId: number;
+
+  constructor(name, category, description, groupId) {
+    this.name = name;
+    this.description = description;
+    this.category = category;
+    this.groupId = groupId;
+  }
 }

@@ -33,7 +33,12 @@ export class OfferService {
   }
 
   addOffer(offer: Offer) {
+    offer.id = 4;
+    offer.imgSrc = 'https://cdn2.iconfinder.com/data/icons/ballicons-2-free/100/wrench-512.png';
+    offer.ownerId = 2;
+    offer.status = OfferStatus.active;
     this.offers.push(offer);
+    // TODO: zapis do bazy
   }
 
   getOffers(): Observable<Offer[]> {
