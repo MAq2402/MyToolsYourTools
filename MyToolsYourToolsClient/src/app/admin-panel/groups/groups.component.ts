@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 
 import { Group } from '../../models/Group';
 import { GroupService } from '../../services/group.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-groups',
@@ -11,24 +10,25 @@ import { Observable } from 'rxjs';
 })
 export class GroupsComponent implements OnInit {
 
-  isMyGroupsActive: boolean;
+  searchQueryEmitter = new EventEmitter<string>();
 
+  isMyGroupsActive: boolean;
 
   currentUserId: number;
   allGroups: Group[];
   userGroups: Group[];
   activeGroups: Group[];
+  searchedGroups: Group[];
 
   constructor(
     private groupService: GroupService
   ) { }
 
   ngOnInit() {
-    // ZAGWARANTOWAĆ ASYNCHRONICZNE POBIERANIE GRUP
     this.currentUserId = 1;
-    this.toggleGroups(true);
     this.groupService.getGroups().subscribe(g => this.allGroups = g);
-    this.groupService.getUserGroups(this.currentUserId).subscribe(g => this.userGroups = g);
+    this.groupService.getUserGroups(this.currentUserId).subscribe(ug => this.userGroups = ug);
+    this.toggleGroups(true);
   }
 
   toggleGroups(myGroupsActivated: boolean) {
@@ -37,13 +37,22 @@ export class GroupsComponent implements OnInit {
       this.activeGroups = this.userGroups;
     } else {
       this.isMyGroupsActive = false;
-      // DODAĆ paging, albo to z back-endu pojdzie
-      // activeGroups można użyć do obcinania
       this.activeGroups = this.allGroups;
+    }
+    this.searchedGroups = this.activeGroups;
+  }
+
+  checkIfCanJoinGroup(group: Group) {
+    return this.userGroups.includes(group) && !this.isMyGroupsActive;
+  }
+
+  onKey(event: any) {
+    const searchQuery = event.target.value;
+    if (searchQuery) {
+      this.searchedGroups = this.activeGroups.filter(o => o.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    } else {
+      this.searchedGroups = this.activeGroups;
     }
   }
 
-  getActiveGroups() {
-    return this.activeGroups;
-  }
 }

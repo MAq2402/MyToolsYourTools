@@ -21,3 +21,8 @@
   background-color: #0062cc;
   color: white;
 }
+
+.my-input {
+  width: 100%;
+  margin-bottom: 8px;
+}
