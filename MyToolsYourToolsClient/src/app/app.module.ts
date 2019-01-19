@@ -23,6 +23,7 @@ import { OfferService } from './services/offer.service';
 import { GroupService } from './services/group.service';
 import { UserService } from './services/user.service';
 import { RentService } from './services/rent.service';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { RentService } from './services/rent.service';
     OffersCreatorComponent,
     ToolDetailsComponent,
     RegisterComponent,
-    OfferViewComponent
+    OfferViewComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
