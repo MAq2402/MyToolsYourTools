@@ -1,44 +1,45 @@
 <div class="container register">
-  <div class="row">
-      <div class="col-md-3 register-left">
-        <i class="material-icons">build</i>
-          <h3>Witaj!</h3>
-          <p>Wypełnij formularz by stać się użytkownikiem portalu MyToolYourTool!</p>
-          <input type="submit" name="" value="Zaloguj się"/><br/>
-      </div>
-      <div class="col-md-9 register-right">
-          <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                  <h3 class="register-heading">Zarejestruj się</h3>
-                  <div class="row register-form">
-                      <div class="col-md-6">
-                          <div class="form-group">
-                              <input type="text" class="form-control" placeholder="Imię" value="" required/>
-                          </div>
-                          <div class="form-group">
-                              <input type="text" class="form-control" placeholder="Nazwisko" value="" required/>
-                          </div>
-                          <div class="form-group">
-                              <input type="password" class="form-control" placeholder="Hasło" value="" required/>
-                          </div>
-                          <div class="form-group">
-                              <input type="password" class="form-control"  placeholder="Powtórz hasło" value="" required/>
-                              <label style="font-size:90%; padding-top: 15px; padding-left: 3px;">Wszystkie pola są wymagane.</label>
-                          </div>
-                      </div>
-                      <div class="col-md-6">
-                          <div class="form-group">
-                              <input type="email" class="form-control" placeholder="Adres e-mail" value="" required/>
-                          </div>
-                          <div class="form-group">
-                              <input type="tel" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Numer telefonu" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" value="" required/>
-                              <label style="font-size:70%; padding-left: 3px;">Format numeru telefonu: 123-456-789</label>
-                          </div>                                                    
-                          <input type="submit" class="btnRegister" value="Zarejestruj się"/>
-                      </div>
-                  </div>
-              </div>              
-          </div>
-      </div>
-  </div>
+    <a class="homePageLink" [routerLink]=""><button class="btn btnHomePage">Home page</button></a>
+    <div class="row">
+        <div class="col-md-3 register-left">    
+            <i class="material-icons">build</i>        
+            <h3>Witaj!</h3>
+            <p>Wypełnij formularz by stać się użytkownikiem portalu MyToolYourTool!</p>
+            <input type="submit" name="" value="Zaloguj się"/><br/>
+        </div>
+        <div class="col-md-9 register-right">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-panel fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">                
+                    <h3 class="register-heading">Zarejestruj się</h3>                
+                    <div class="row register-form">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Imię" value="" required/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Nazwisko" value="" required/>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Hasło" value="" required/>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control"  placeholder="Powtórz hasło" value="" required/>
+                                <label style="font-size:90%; padding-top: 15px; padding-left: 3px;">Wszystkie pola są wymagane.</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Adres e-mail" value="" required/>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" minlength="9" maxlength="9" name="txtEmpPhone" class="form-control" placeholder="Numer telefonu" pattern="[0-9]{9}" value="" required/>
+                                <label style="font-size:70%; padding-left: 3px;">Format numeru telefonu: 123456789</label>
+                            </div>                                                    
+                            <input type="submit" class="btnRegister" value="Zarejestruj się"/>
+                        </div>
+                    </div>
+                </div>              
+            </div>
+        </div>
+    </div>
 </div>
