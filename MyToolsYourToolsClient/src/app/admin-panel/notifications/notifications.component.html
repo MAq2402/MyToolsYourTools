@@ -1,3 +1,57 @@
-<p>
-  notifications works!
-</p>
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-sm-12 justify-content-center">
+        <h5>Powiadomienia</h5>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="list-group">
+        <div class="list-group-item list-group-item-action" *ngFor="let request of rentRequests">
+          <div class="row">
+            <div class="col">
+              <span>Użytkownik
+                <a href="admin-panel">{{request.targetNotificationUserName}}</a>
+                prosi o udostępnienie przedmiotu oferty:
+                <a href="admin-panel">{{request.offerName}}</a>
+              </span>
+            </div>
+            <div clss="col-auto">
+              <button class="btn btn-success btn-sm float-right">
+                <i class="material-icons">done</i>
+              </button>
+            </div>
+            <div clss="col-auto">
+              <button class="btn btn-danger btn-sm float-right">
+                <i class="material-icons">clear</i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="list-group-item list-group-item-action" *ngFor="let opinion of opinions">
+          <div class="row">
+            <div class="col">
+              <span>Wystaw opinię użytkownikowi
+                <a href="admin-panel">{{opinion.targetNotificationUserName}}</a>
+                za przedmiot oferty:
+                <a href="admin-panel">{{opinion.offerName}}</a>
+              </span>
+            </div>
+            <div clss="col-auto">
+              <form>
+                <div class="form-group">
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+                </div>
+              </form>
+            </div>
+            <div clss="col-auto">
+              <button class="btn btn-success btn-sm float-right my-send-button"> Wyślij</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
