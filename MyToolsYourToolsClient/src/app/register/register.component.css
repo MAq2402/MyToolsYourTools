@@ -69,7 +69,7 @@
     cursor: pointer;
 }
 
-.btnHomePage {
+.btnLoginPage {
     border-radius: 1.5rem;
     background: #f8f9fa;
     color: #383d41;
@@ -83,7 +83,7 @@
     color: #495057;
 }
 
-.homePageLink{
+.loginPageLink{
     position: relative;
     margin: auto;
     margin-left: 8.7%;
