@@ -1,1 +1,29 @@
-<a routerLink="/register">Nie masz konta? Zarejestruj się!</a>
+
+
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">				
+				<h4 class="modal-title">Logowanie</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form (ngSubmit)= "onSubmit()">
+					<div class="form-group">
+						<i class="fa fa-user"></i>
+						<input type="text" [(ngModel)] = "model.userName" name = "userName"class="form-control" placeholder="Nazwa użytkownika" required="required">
+					</div>
+					<div class="form-group">
+						<i class="fa fa-lock"></i>
+						<input type="password" [(ngModel)] = "model.password" name="password" class="form-control" placeholder="Hasło" required="required">					
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-success btn-block btn-lg" value="Zaloguj się!">
+					</div>
+				</form>				
+				
+			</div>
+			<div class="modal-footer">
+				<a routerLink="/register">Nie masz konta? Zarejestruj się!</a>
+			</div>
+		</div>
+	</div>
