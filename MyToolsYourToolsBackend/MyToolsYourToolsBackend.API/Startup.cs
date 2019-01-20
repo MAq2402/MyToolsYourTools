@@ -38,6 +38,12 @@ namespace MyToolsYourToolsBackend.API
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "MyToolsYourTools", Version = "v1" });
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyToolsYourTools",
+                builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());
+            });
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
         }
