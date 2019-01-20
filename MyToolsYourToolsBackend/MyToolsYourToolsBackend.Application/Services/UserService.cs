@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AutoMapper;
 using MyToolsYourToolsBackend.Application.Dtos;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
@@ -16,9 +17,9 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             _dbContext = dbContext;
         }
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<UserDto> GetUsers()
         {
-            return _dbContext.Users;
+            return Mapper.Map<IEnumerable<UserDto>>(_dbContext.Users);
         }
     }
 }
