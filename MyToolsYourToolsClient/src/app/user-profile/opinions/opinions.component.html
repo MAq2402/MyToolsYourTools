@@ -1,3 +1,24 @@
-<p>
-  opinions works!
-</p>
+
+<div class="my-row">
+<h3 class="allign-middle" >Opinie użytkownika:</h3>
+<div class="my-div">
+  <a class="list-group-item list-group-item-action " *ngFor="let opinion of opinions">
+    
+  <div class="row">
+  
+      <div class="col-sm-8">
+       
+      {{opinion.message}}
+      </div>
+      <div class="col-sm-4">
+        Wystawiono przez: 
+        <button type="button" class="btn btn-outline-success">
+            {{searchRatingUserName(opinion.ratingUserId)}} {{searchRatingUserSurname(opinion.ratingUserId)}}
+        </button>
+           
+      
+      </div>
+    </div>
+  </a>
+  </div>
+  </div>

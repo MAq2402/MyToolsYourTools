@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { User } from '../../models/User';
+import { OpinionService } from '../../services/opinion.service';
+import { Opinion } from '../../models/Opinion';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-opinions',
@@ -7,9 +11,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OpinionsComponent implements OnInit {
 
-  constructor() { }
+  @Input() user: User;
+  opinions: Opinion[];
+  users: User[];
+
+  constructor(private opinionService: OpinionService, private userService: UserService) { }
 
   ngOnInit() {
+  this.opinionService.getOpinions().subscribe(o => this.opinions = o);
+  this.userService.getUsers().subscribe(u => this.users = u);
+  this.opinions = this.opinions.filter( o => o.ratedUserId === this.user.id);
   }
 
+
+  private searchRatingUserName(ratingUserId: number){
+
+    return  this.users.find(u => u.id === ratingUserId).name;
+  }
+
+  private searchRatingUserSurname(ratingUserId: number){
+
+    return  this.users.find(u => u.id === ratingUserId).surname;
+  }
 }

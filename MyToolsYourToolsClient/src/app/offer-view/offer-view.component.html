@@ -6,7 +6,9 @@
     <div class="col">
       <h1 class="text-center">{{offer.name}}</h1>
       <a>od: </a>
-      <a [routerLink]="['']" class="badge badge-success top-buffer40">{{getUserName(offer.ownerId)}}</a>
+      <a [routerLink]="['user-profile', offer.id, offer.ownerId]" class="badge badge-success top-buffer40">
+        {{getUserName(offer.ownerId)}} {{getUserSurname(offer.ownerId)}}
+      </a>
       <p></p>
       <a>udostępnione w grupie: </a>
       <a>{{getGroupName(offer.groupId)}}</a>
