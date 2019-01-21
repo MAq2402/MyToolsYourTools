@@ -21,10 +21,9 @@ namespace MyToolsYourToolsBackend.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetUsers()
         {
             return Ok(_userService.GetUsers());
         }
-
     }
 }

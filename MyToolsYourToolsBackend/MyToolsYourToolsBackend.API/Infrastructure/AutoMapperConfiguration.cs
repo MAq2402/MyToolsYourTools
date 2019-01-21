@@ -16,6 +16,9 @@ namespace MyToolsYourToolsBackend.API.Infrastructure
             {
                 cfg.CreateMap<RegisterCredentialsDto, User>();
                 cfg.CreateMap<User, UserDto>();
+
+                cfg.CreateMap<Offer, OfferDto>();
+                cfg.CreateMap<OfferForCreationDto, Offer>();
             });
         }
     }
