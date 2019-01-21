@@ -15,6 +15,7 @@ const httpOptions = {
 })
 export class AuthService {
   currentUser: User;
+  error: String;
   baseUrl = 'https://localhost:5001/api/';
   constructor(private http: HttpClient, public router: Router) {}
 
@@ -30,7 +31,9 @@ export class AuthService {
       this.currentUser = u;
       localStorage.setItem('auth_key', u.id);
       this.router.navigate(['']);
-    });
+    },
+    (error:String)=>{this.error = error}
+    );
 
   }
 }

@@ -19,10 +19,12 @@
 					<div class="form-group">
 						<input type="submit" class="btn btn-success btn-block btn-lg" value="Zaloguj się!">
 					</div>
+					<span *ngIf="currentLoginError" class="badge badge-danger text-center">Błędny login lub hasło</span>
 				</form>				
 				
 			</div>
 			<div class="modal-footer">
+				
 				<a routerLink="/register">Nie masz konta? Zarejestruj się!</a>
 			</div>
 		</div>
