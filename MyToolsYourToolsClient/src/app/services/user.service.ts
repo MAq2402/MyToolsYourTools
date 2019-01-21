@@ -22,4 +22,7 @@ users: User[] = [
     this.users.push(user);
   }
 
+  getUserById(id: string): Observable<User> {
+    return of(this.users.find(x => x.id === id));
+  }
 }

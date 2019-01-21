@@ -16,7 +16,11 @@ export class OffersComponent implements OnInit {
   activeOffers: Offer[];
   searchedOffers: Offer[];
   currentSearch: String;
+ login
   currentGroupId: number; 
+
+
+
   currentCategory: Category;
   offers: Offer[];
   groups: Group[];
@@ -33,6 +37,7 @@ categories: Category;
   searchAndFilter(){
     if(this.currentSearch&&this.currentGroupId&&this.currentCategory){
       this.searchedOffers = this.activeOffers.filter(o => o.name.toLowerCase().includes(this.currentSearch.toLowerCase()));
+
       this.searchedOffers = this.searchedOffers.filter(o => o.groupId==this.currentGroupId);
       this.searchedOffers = this.searchedOffers.filter(o => o.category==this.currentCategory);
     }
@@ -47,39 +52,43 @@ categories: Category;
     else if(this.currentCategory&&this.currentGroupId){
       this.searchedOffers = this.activeOffers.filter(o => o.category==this.currentCategory);
       this.searchedOffers = this.searchedOffers.filter(o => o.groupId==this.currentGroupId);
+
     }
     else if(this.currentSearch){
       this.searchedOffers = this.activeOffers.filter(o => o.name.toLowerCase().includes(this.currentSearch.toLowerCase()));
     }
     else if(this.currentGroupId){
+
       this.searchedOffers = this.activeOffers.filter(o => o.groupId==this.currentGroupId);
     }
     else if(this.currentCategory){
       this.searchedOffers = this.activeOffers.filter(o => o.category==this.currentCategory);
+
     }
     else{
       this.searchedOffers = this.activeOffers;
     }
   }
 
-  
-  
+
   onSearched(searchQuery: String) {
     if (searchQuery) {
       this.currentSearch = searchQuery;
       this.searchAndFilter();
      }
   }
+
   onGroup(groupId: number){
       this.currentGroupId = groupId;
       this.searchAndFilter();
     
+
   }
 
   onCategorySelected(category: Category){
       this.currentCategory = category;
      this.searchAndFilter();
-    
+
   }
 
   private searchGroupName(groupId) {

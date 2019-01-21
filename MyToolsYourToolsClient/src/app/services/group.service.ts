@@ -8,8 +8,8 @@ import { Observable, of } from 'rxjs';
 export class GroupService {
 
 groups: Group[] = [
-  {id: 1, name: 'Januszery'},
-  {id: 2, name: 'Zmitac'}
+  {id: '1', name: 'Januszery'},
+  {id: '2', name: 'Zmitac'}
 ];
 
   constructor() { }

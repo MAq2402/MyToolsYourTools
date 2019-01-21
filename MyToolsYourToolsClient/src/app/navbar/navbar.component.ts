@@ -19,4 +19,9 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
+
+  goToOfferCreator() {
+    this.router.navigate(['offer-creator']);
+  }
+
 }
