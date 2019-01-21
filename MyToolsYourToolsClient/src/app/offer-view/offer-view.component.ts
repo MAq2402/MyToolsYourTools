@@ -44,7 +44,7 @@ groups: Group[];
   private getUserName(userId) {
     for (const user of this.users) {
       if (user.id === userId) {
-        return user.name;
+        return user.firstName + ' ' +  user.lastName;
       }
     }
   }

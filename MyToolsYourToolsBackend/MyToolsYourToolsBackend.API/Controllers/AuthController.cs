@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using MyToolsYourToolsBackend.Application.Dtos;
 using MyToolsYourToolsBackend.Application.Services;
@@ -12,6 +13,7 @@ namespace MyToolsYourToolsBackend.API.Controllers
 {
     [Route("api")]
     [ApiController]
+    [EnableCors("MyToolsYourTools")]
     public class AuthController : ControllerBase
     {
         private IAuthService _authService;

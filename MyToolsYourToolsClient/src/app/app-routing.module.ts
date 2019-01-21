@@ -6,17 +6,11 @@ import { OffersCreatorComponent } from './offers-creator/offers-creator.componen
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-    { path: '', component: OffersComponent },
-    { path: 'offer-view/:id', component: OfferViewComponent,
-        children: [{
-            path: 'user-profile/:id/:userId', redirectTo: '/user-profile/:id/:userId', pathMatch: 'full'
-        }] },
-
-const routes: Routes = [
-    { path: '', component: OffersComponent },
-    { path: '', component: LoginComponent },
+    { path: '', component: OffersComponent, canActivate: [AuthGuard] },
+    { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'offer-view/:id', component: OfferViewComponent },
     { path: 'offer-creator', component: OffersCreatorComponent },
