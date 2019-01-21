@@ -1,5 +1,5 @@
 
 export class UserGroup {
-    userId: number;
-    groupId: number;
+    userId: string;
+    groupId: string;
 }

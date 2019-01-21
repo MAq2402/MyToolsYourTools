@@ -10,15 +10,15 @@ import { Category } from '../enums/Category';
 export class OffersBarComponent implements OnInit {
 
   @Output() searchQueryEmitter = new EventEmitter<string>();
-  @Input() groups:Group[];
-  @Output() selectedGroupEmmitter = new EventEmitter<number>();
+  @Input() groups: Group[];
+  @Output() selectedGroupEmmitter = new EventEmitter<string>();
   @Output() selectedCategoryEmmitter = new EventEmitter<string>();
   categories = Category;
   categoryNames = [];
   selectedCategory: String = "Wszystkie";
   selectedGroup: String = "Wszystkie";
 
-  constructor() { 
+  constructor() {
     this.categoryNames = Object.keys(Category);
   }
 
@@ -28,30 +28,24 @@ export class OffersBarComponent implements OnInit {
   onKey(event: any) {
     this.searchQueryEmitter.emit(event.target.value);
   }
-  onGroupSelect(groupId: number){
+  onGroupSelect(groupId: string) {
     this.selectedGroupEmmitter.emit(groupId);
-    if(groupId){
+    if (groupId) {
     for (const g of this.groups) {
       if (g.id === groupId) {
        this.selectedGroup = g.name;
       }
     }
-  }
-    else {
+  } else {
       this.selectedGroup = "Wszystkie";
     }
   }
   onCategorySelect(category: Category){
     this. selectedCategoryEmmitter.emit(category);
-    if(category){
+    if (category) {
     this.selectedCategory = category.toString();
-    }
-    else{
+    } else {
       this.selectedCategory = "Wszystkie";
     }
-
-    
   }
-
-
 }

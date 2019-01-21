@@ -12,14 +12,10 @@ const routes: Routes = [
     { path: '', component: OffersComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'offer-view/:id', component: OfferViewComponent },
-    { path: 'offer-creator', component: OffersCreatorComponent },
-    { path: 'user-profile/:id/:userId', component: UserProfileComponent,
-        children: [{
-        path: 'offer-view/:id', redirectTo: '/offer-view/:id', pathMatch: 'full'
-        }] },
-    { path: '**',  component: OffersComponent }
-    
+    { path: 'offer-view/:id', component: OfferViewComponent, canActivate: [AuthGuard] },
+    { path: 'offer-creator', component: OffersCreatorComponent, canActivate: [AuthGuard] },
+    { path: 'user-profile/:userId', component: UserProfileComponent, canActivate: [AuthGuard]},
+    { path: '**',  component: OffersComponent, redirectTo: '', pathMatch: 'full', canActivate: [AuthGuard] }
 ];
 
 @NgModule({

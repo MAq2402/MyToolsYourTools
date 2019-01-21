@@ -7,12 +7,11 @@ import { User } from '../../models/User';
   styleUrls: ['./data.component.css']
 })
 export class DataComponent implements OnInit {
-  
   @Input() user: User;
 
   constructor() { }
 
-  ngOnInit() {                                                              
+  ngOnInit() {
   }
 
 }

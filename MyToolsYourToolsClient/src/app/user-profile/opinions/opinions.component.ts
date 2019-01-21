@@ -24,13 +24,13 @@ export class OpinionsComponent implements OnInit {
   }
 
 
-  private searchRatingUserName(ratingUserId: number){
+  private searchRatingUserName(ratingUserId: string) {
 
-    return  this.users.find(u => u.id === ratingUserId).name;
+    return  this.users.find(u => u.id === ratingUserId).firstName;
   }
 
-  private searchRatingUserSurname(ratingUserId: number){
+  private searchRatingUserSurname(ratingUserId: string) {
 
-    return  this.users.find(u => u.id === ratingUserId).surname;
+    return  this.users.find(u => u.id === ratingUserId).lastName;
   }
 }

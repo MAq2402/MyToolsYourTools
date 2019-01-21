@@ -1,7 +1,7 @@
 
-export class Opinion{
-    id: number;
+export class Opinion {
+    id: string;
     message: string;
-    ratedUserId: number;
-    ratingUserId: number;
+    ratedUserId: string;
+    ratingUserId: string;
 }
