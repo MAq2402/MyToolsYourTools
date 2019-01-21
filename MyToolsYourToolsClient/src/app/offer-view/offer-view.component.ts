@@ -31,6 +31,7 @@ groups: Group[];
     });
   }
 
+
   private getOffer(id) {
     for (const offer of this.offers) {
       if (offer.id === id) {
@@ -44,6 +45,14 @@ groups: Group[];
     for (const user of this.users) {
       if (user.id === userId) {
         return user.firstName + ' ' +  user.lastName;
+      }
+    }
+  }
+
+  private getUserSurname(userId) {
+    for (const user of this.users) {
+      if (user.id === userId) {
+        return user.surname;
       }
     }
   }

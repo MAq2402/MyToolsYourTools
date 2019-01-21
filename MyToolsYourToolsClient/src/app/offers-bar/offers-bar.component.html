@@ -9,22 +9,21 @@
             Grupa
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" *ngFor="let group of groups" href="#" value = "group.id" (click)="onGroupSelect(group.id)">{{group.name}}</a>
+            <a class="dropdown-item"  href="#"  (click)="onGroupSelect(null)">Wszystkie</a>
+            
           </div>
+          <span>{{this.selectedGroup}}</span>
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Kategoria
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item"  (click)="onCategorySelect(null)" href="#">Wszystkie</a>
+              <a class="dropdown-item" *ngFor="let name of categoryNames" (click)="onCategorySelect(categories[name])" href="#">{{categories[name]}}</a>
             </div>
+            <span>{{this.selectedCategory}}</span>
           </li>
 
       </ul>
