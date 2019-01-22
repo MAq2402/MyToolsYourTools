@@ -14,14 +14,16 @@ import { Offer } from '../models/Offer';
 export class OfferCreatorComponent implements OnInit {
 name = new FormControl('');
 description = new FormControl('');
-category: Category;
-group: Group;
+imageSrc = new FormControl('');
+category: Category = Category.carriages;
 groups: Group[];
+group: Group;
 
   constructor(private groupService: GroupService, private offerService: OfferService) { }
 
   ngOnInit() {
     this.groupService.getGroups().subscribe(o => this.groups = o);
+    this.group = this.groups[0];
   }
 
   categoryToString() {
@@ -41,7 +43,10 @@ groups: Group[];
   }
 
   addOffer() {
-    this.offerService.addOffer(new Offer(this.name.value, this.category, this.description.value, this.group.id));
+    this.offerService.addOffer(new Offer(this.name.value, this.category, this.description.value, this.imageSrc.value, this.group.id));
+    this.name.reset();
+    this.description.reset();
+    this.imageSrc.reset();
   }
 }
 

@@ -22,12 +22,9 @@
           </div>
 
         <div class="col-md-6 mb-4">
-          <label>Zdjęcie narzędzia</label>
-          <div class="custom-file">
-              <input type="file" class="custom-file-input" id="validatedCustomFile" required >
-              <label class="custom-file-label" for="validatedCustomFile">Wybierz plik...</label>
-            </div>
-            </div>
+            <label>Zdjęcie przedmiotu <span class="text-muted">(Opcjonalne)</span></label>
+            <input type="text" class="form-control" placeholder="" value="" [formControl]="imageSrc">
+          </div>
         </div>
 
         <div class="row">
@@ -46,7 +43,7 @@
         </div>
 
         <hr class="mb-4">
-        <button class="btn btn-outline-success btn-lg btn-block my-button" [routerLink]="['']" [disabled]="!canClickButton()" type="submit">Dodaj ofertę</button>
+        <button class="btn btn-outline-success btn-lg btn-block my-button" [disabled]="!canClickButton()" type="submit">Dodaj ofertę</button>
       </form>
     </div>
   </div>
