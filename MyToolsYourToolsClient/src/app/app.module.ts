@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -23,6 +24,8 @@ import { GroupService } from './services/group.service';
 import { UserService } from './services/user.service';
 import { RentService } from './services/rent.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+
 
 
 @NgModule({
@@ -41,13 +44,15 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ToolDetailsComponent,
     RegisterComponent,
     OfferViewComponent,
-    OfferCreatorComponent
+    OfferCreatorComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [OfferService, UserService, GroupService, RentService],
   bootstrap: [AppComponent]

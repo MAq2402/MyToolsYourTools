@@ -3,12 +3,19 @@ import { Routes, RouterModule } from '@angular/router';
 import { OfferViewComponent } from './offer-view/offer-view.component';
 import { OffersComponent } from './offers/offers.component';
 import { OfferCreatorComponent } from './offer-creator/offer-creator.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-    { path: '', component: OffersComponent },
-    { path: 'offer-view/:id', component: OfferViewComponent },
-    { path: 'offer-creator', component: OfferCreatorComponent },
-    { path: '**',  component: OffersComponent }
+    { path: '', component: OffersComponent, canActivate: [AuthGuard] },
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: 'offer-view/:id', component: OfferViewComponent, canActivate: [AuthGuard] },
+    { path: 'offer-creator', component: OfferCreatorComponent, canActivate: [AuthGuard] },
+    { path: 'user-profile/:userId', component: UserProfileComponent, canActivate: [AuthGuard]},
+    { path: '**',  component: OffersComponent, redirectTo: '', pathMatch: 'full', canActivate: [AuthGuard] }
 ];
 
 @NgModule({
