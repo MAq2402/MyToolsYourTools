@@ -1,12 +1,12 @@
 import {OfferStatus} from '../enums/OfferStatus';
 
 export class Offer {
-  id: number;
+  id: string;
   name: string;
   category: string;
   description: string;
   imgSrc: string;
   status: OfferStatus;
-  groupId: number;
-  ownerId: number;
+  groupId: string;
+  ownerId: string;
 }

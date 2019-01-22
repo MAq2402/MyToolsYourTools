@@ -9,8 +9,8 @@ import { UserGroup } from '../models/UserGroup';
 export class GroupService {
 
 groups: Group[] = [
-  {id: 1, name: 'Januszery'},
-  {id: 2, name: 'Zmitac'}
+  {id: '1', name: 'Januszery'},
+  {id: '2', name: 'Zmitac'}
 ];
 
 userGroups: UserGroup[] = [
