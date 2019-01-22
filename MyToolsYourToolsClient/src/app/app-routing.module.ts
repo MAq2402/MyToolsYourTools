@@ -15,7 +15,7 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'offer-view/:id', component: OfferViewComponent, canActivate: [AuthGuard] },
     { path: 'offer-creator', component: OffersCreatorComponent, canActivate: [AuthGuard] },
-    { path: 'admin-panel', component: AdminPanelComponent },
+    { path: 'admin-panel', component: AdminPanelComponent, canActivate: [AuthGuard] },
     { path: 'user-profile/:userId', component: UserProfileComponent, canActivate: [AuthGuard]},
     { path: '**',  component: OffersComponent, redirectTo: '', pathMatch: 'full', canActivate: [AuthGuard] }
 ];

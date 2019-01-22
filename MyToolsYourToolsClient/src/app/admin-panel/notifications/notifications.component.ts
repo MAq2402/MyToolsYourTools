@@ -10,7 +10,7 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class NotificationsComponent implements OnInit {
 
-  currentUserId = 1;
+  currentUserId = '1';
 
   rentRequests: Notification[];
   opinions: Notification[];

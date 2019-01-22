@@ -8,56 +8,46 @@ import { Category } from '../enums/Category';
   styleUrls: ['./offers-bar.component.css']
 })
 export class OffersBarComponent implements OnInit {
-
   @Output() searchQueryEmitter = new EventEmitter<string>();
 
-  @Input() groups:Group[];
-  @Output() selectedGroupEmmitter = new EventEmitter<number>();
+  @Input() groups: Group[];
+  @Output() selectedGroupEmmitter = new EventEmitter<string>();
 
   @Output() selectedCategoryEmmitter = new EventEmitter<string>();
   categories = Category;
   categoryNames = [];
-  selectedCategory: String = "Wszystkie";
-  selectedGroup: String = "Wszystkie";
+  selectedCategory: String = 'Wszystkie';
+  selectedGroup: String = 'Wszystkie';
 
-
-  constructor() { 
-
-
+  constructor() {
     this.categoryNames = Object.keys(Category);
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onKey(event: any) {
     this.searchQueryEmitter.emit(event.target.value);
   }
 
-  onGroupSelect(groupId: number){
+  onGroupSelect(groupId: string) {
     this.selectedGroupEmmitter.emit(groupId);
-    if(groupId){
-
-    for (const g of this.groups) {
-      if (g.id === groupId) {
-       this.selectedGroup = g.name;
+    if (groupId) {
+      for (const g of this.groups) {
+        if (g.id === groupId) {
+          this.selectedGroup = g.name;
+        }
       }
-    }
-
-  }
-    else {
-
-      this.selectedGroup = "Wszystkie";
+    } else {
+      this.selectedGroup = 'Wszystkie';
     }
   }
-  onCategorySelect(category: Category){
-    this. selectedCategoryEmmitter.emit(category);
+  onCategorySelect(category: Category) {
+    this.selectedCategoryEmmitter.emit(category);
 
-    if(category){
-    this.selectedCategory = category.toString();
-    }
-    else{
-      this.selectedCategory = "Wszystkie";
+    if (category) {
+      this.selectedCategory = category.toString();
+    } else {
+      this.selectedCategory = 'Wszystkie';
     }
   }
 }

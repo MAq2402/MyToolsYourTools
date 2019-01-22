@@ -1,11 +1,11 @@
 import { NotificationType } from '../enums/NotificationType';
 
 export class Notification {
-  id: number;
-  ownerId: number;
-  targetNotificationUserId: number;
+  id: string;
+  ownerId: string;
+  targetNotificationUserId: string;
   targetNotificationUserName: string;
-  offerId: number;
+  offerId: string;
   offerName: string;
   type: NotificationType;
 }

@@ -16,8 +16,8 @@ export class OffersComponent implements OnInit {
   activeOffers: Offer[];
   searchedOffers: Offer[];
   currentSearch: String;
- login
-  currentGroupId: number; 
+  login;
+  currentGroupId: string;
 
 
 
@@ -78,11 +78,9 @@ categories: Category;
      }
   }
 
-  onGroup(groupId: number){
+  onGroup(groupId: string){
       this.currentGroupId = groupId;
       this.searchAndFilter();
-    
-
   }
 
   onCategorySelected(category: Category){

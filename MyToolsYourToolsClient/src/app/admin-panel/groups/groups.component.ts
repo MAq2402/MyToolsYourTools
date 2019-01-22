@@ -14,7 +14,7 @@ export class GroupsComponent implements OnInit {
 
   isMyGroupsActive: boolean;
 
-  currentUserId: number;
+  currentUserId: string;
   allGroups: Group[];
   userGroups: Group[];
   activeGroups: Group[];
@@ -25,7 +25,7 @@ export class GroupsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentUserId = 1;
+    this.currentUserId = '1';
     this.groupService.getGroups().subscribe(g => this.allGroups = g);
     this.groupService.getUserGroups(this.currentUserId).subscribe(ug => this.userGroups = ug);
     this.toggleGroups(true);

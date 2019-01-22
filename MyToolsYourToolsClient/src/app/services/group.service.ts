@@ -14,7 +14,7 @@ groups: Group[] = [
 ];
 
 userGroups: UserGroup[] = [
-  {userId: 1, groupId: 1}
+  {userId: '1', groupId: '1'}
 ];
 
   constructor() { }
@@ -23,7 +23,7 @@ userGroups: UserGroup[] = [
     return of(this.groups);
   }
 
-  getUserGroups(currentUserId: number): Observable<Group[]> {
+  getUserGroups(currentUserId: string): Observable<Group[]> {
     const indexesOfUserGroups = this.userGroups.filter(ug => ug.userId === currentUserId).map(ug => ug.groupId);
     return of(this.groups.filter(g => indexesOfUserGroups.includes(g.id)));
   }
