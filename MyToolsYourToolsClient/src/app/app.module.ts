@@ -25,7 +25,7 @@ import { UserService } from './services/user.service';
 import { RentService } from './services/rent.service';
 import { NotificationService } from './services/notification.service';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 
 
