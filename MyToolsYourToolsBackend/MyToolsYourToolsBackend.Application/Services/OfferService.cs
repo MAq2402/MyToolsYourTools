@@ -17,19 +17,38 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             _dbContext = dbContext;
         }
-        public OfferDto AddOffer(OfferForCreationDto offer)
+        public OfferDto AddOffer(OfferForCreationDto offer, Guid userId)
         {
-            throw new NotImplementedException();
+            var offerToSave = Mapper.Map<Offer>(offer);
+
+            _dbContext.Users.FirstOrDefault(u => u.Id == userId).Offers.Add(offerToSave);
+
+            if(!(_dbContext.SaveChanges() > 1))
+            {
+                throw new Exception("Could not add offer");
+            }
+
+            return Mapper.Map<OfferDto>(offerToSave);
+
         }
 
-        public IEnumerable<OfferDto> GetOffers(Guid userId)
+        public IEnumerable<OfferDto> GetAllOffers()
         {
-            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
-            var userGroups = _dbContext.UserGroups.Where(x => x.UserId == userId);
-            //var offers = _dbContext.Offers.Where(x => userGroups.Any(y => x.OwnerId == y.UserId));
-
-
             return Mapper.Map<IEnumerable<OfferDto>>(_dbContext.Offers);
+        }
+
+        public OfferDto GetOffer(Guid id)
+        {
+            var offerFromRepo = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
+
+            return Mapper.Map<OfferDto>(offerFromRepo);
+        }
+
+        public IEnumerable<OfferDto> GetUserOffers(Guid userId)
+        {
+            var offersFromRepo = _dbContext.Offers.Where(o => o.OwnerId == userId);
+
+            return Mapper.Map<IEnumerable<OfferDto>>(offersFromRepo);
         }
     }
 }

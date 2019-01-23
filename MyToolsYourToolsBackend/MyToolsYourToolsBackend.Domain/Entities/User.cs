@@ -13,9 +13,9 @@ namespace MyToolsYourToolsBackend.Domain.Entities
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public IEnumerable<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
-        public IEnumerable<Offer> Offers { get; set; } = new List<Offer>();
-        public IEnumerable<Rent> Rents { get; set; } = new List<Rent>();
+        public ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
+        public ICollection<Offer> Offers { get; set; } = new List<Offer>();
+        public ICollection<Rent> Rents { get; set; } = new List<Rent>();
         public int Points { get; set; }
     }
 }

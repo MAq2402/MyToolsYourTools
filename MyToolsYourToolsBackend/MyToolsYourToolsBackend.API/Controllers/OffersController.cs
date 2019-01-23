@@ -10,30 +10,45 @@ using MyToolsYourToolsBackend.Application.Services;
 
 namespace MyToolsYourToolsBackend.API.Controllers
 {
-    [Route("api/{userId}/offers")]
+    [Route("api")]
     [ApiController]
     public class OffersController : ControllerBase
     {
         private IOfferService _offerService;
+        private IUserService _userService;
 
-        public OffersController(IOfferService offerService)
+        public OffersController(IOfferService offerService, IUserService userService)
         {
             _offerService = offerService;
+            _userService = userService;
         }
-       [HttpGet]
-       public IActionResult GetOffers(Guid userId)
+       [HttpGet("offers")]
+       public IActionResult GetOffers()
        {
-            return Ok(_offerService.GetOffers(userId));
+            return Ok(_offerService.GetAllOffers());
        }
 
-       // [HttpGet]
-       // public IActionResult
-       //[HttpPost()]
-       //public IActionResult AddOffer([FromBody]OfferForCreationDto offerFromBody,Guid userId)
-       //{
-       //     var userToReturn = _offerService.AddOffer(offerFromBody);
+        [HttpGet("{userId}/offers")]
+        public IActionResult GetUserOffers(Guid userId)
+        {
+            return Ok(_offerService.GetUserOffers(userId));
+        }
 
-       //     return CreatedAtRoute()
-       //}
+        [HttpGet("offers/{id}",Name = nameof(GetOffer))]
+        public IActionResult GetOffer(Guid id)
+        {
+            return Ok(_offerService.GetOffer(id));
+        }
+        [HttpPost("{userId}/offers")]
+        public IActionResult AddOffer([FromBody]OfferForCreationDto offerFromBody, Guid userId)
+        {
+            if (!_userService.CheckIfUserExists(userId))
+            {
+                return NotFound();
+            }
+            var offerToReturn = _offerService.AddOffer(offerFromBody, userId);
+
+            return CreatedAtRoute(nameof(GetOffer), new { id = offerToReturn.Id }, offerToReturn);
+        }
     }
 }

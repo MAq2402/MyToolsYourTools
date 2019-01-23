@@ -17,6 +17,12 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             _dbContext = dbContext;
         }
+
+        public bool CheckIfUserExists(Guid userId)
+        {
+            return _dbContext.Users.Any(u => u.Id == userId);
+        }
+
         public IEnumerable<UserDto> GetUsers()
         {
             return Mapper.Map<IEnumerable<UserDto>>(_dbContext.Users);

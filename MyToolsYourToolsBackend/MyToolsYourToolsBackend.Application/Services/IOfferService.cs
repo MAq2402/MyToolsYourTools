@@ -7,7 +7,9 @@ namespace MyToolsYourToolsBackend.Application.Services
 {
     public interface IOfferService
     {
-        IEnumerable<OfferDto> GetOffers(Guid userId);
-        OfferDto AddOffer(OfferForCreationDto offer);
+        IEnumerable<OfferDto> GetUserOffers(Guid userId);
+        IEnumerable<OfferDto> GetAllOffers();
+        OfferDto AddOffer(OfferForCreationDto offer, Guid userId);
+        OfferDto GetOffer(Guid id);
     }
 }
