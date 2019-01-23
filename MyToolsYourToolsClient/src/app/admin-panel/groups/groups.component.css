@@ -1,0 +1,28 @@
+.my-button:hover {
+  color: white;
+  background-color: #7bb1eb;
+}
+.my-button {
+  background-color: white;
+  border-radius: 0%;
+}
+
+.my-buttons-wrap{
+  padding-top: 0px
+}
+
+.my-buttons-container{
+  margin-top: 8px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.my-button-active {
+  background-color: #0062cc;
+  color: white;
+}
+
+.my-input {
+  width: 100%;
+  margin-bottom: 8px;
+}

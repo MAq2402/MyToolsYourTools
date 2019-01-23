@@ -1,12 +1,20 @@
 import {OfferStatus} from '../enums/OfferStatus';
 
 export class Offer {
-  id: number;
+  id: string;
   name: string;
   category: string;
   description: string;
   imgSrc: string;
   status: OfferStatus;
-  groupId: number;
-  ownerId: number;
+  groupId: string;
+  ownerId: string;
+
+  constructor(name, category, description, imageSrc, groupId) {
+    this.name = name;
+    this.description = description;
+    this.category = category;
+    this.groupId = groupId;
+    this.imgSrc = imageSrc;
+  }
 }

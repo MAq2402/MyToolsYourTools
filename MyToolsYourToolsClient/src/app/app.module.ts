@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -13,7 +14,7 @@ import { OpinionsComponent } from './user-profile/opinions/opinions.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { NotificationsComponent } from './admin-panel/notifications/notifications.component';
 import { OffersListComponent } from './offers-list/offers-list.component';
-import { OffersCreatorComponent } from './offers-creator/offers-creator.component';
+import { OfferCreatorComponent } from './offer-creator/offer-creator.component';
 import { ToolDetailsComponent } from './tool-details/tool-details.component';
 import { RegisterComponent } from './register/register.component';
 import { OfferViewComponent } from './offer-view/offer-view.component';
@@ -22,6 +23,11 @@ import { OfferService } from './services/offer.service';
 import { GroupService } from './services/group.service';
 import { UserService } from './services/user.service';
 import { RentService } from './services/rent.service';
+import { NotificationService } from './services/notification.service';
+import { GroupsComponent } from './admin-panel/groups/groups.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+
 
 
 @NgModule({
@@ -36,16 +42,22 @@ import { RentService } from './services/rent.service';
     AdminPanelComponent,
     NotificationsComponent,
     OffersListComponent,
-    OffersCreatorComponent,
+    OfferCreatorComponent,
     ToolDetailsComponent,
     RegisterComponent,
-    OfferViewComponent
+    GroupsComponent,
+    OfferViewComponent,
+    OfferCreatorComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [OfferService, UserService, GroupService, RentService],
+  providers: [OfferService, UserService, GroupService, RentService, NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

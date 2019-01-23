@@ -1,0 +1,14 @@
+.my-row{
+    margin-top: 10%;
+}
+
+.my-btn{
+    padding: 5px;
+    width: 50%;
+    height: 50%;
+}
+
+.my-div{
+    overflow: scroll;
+    height: 400px;
+}

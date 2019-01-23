@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>Dodaj swoją ofertę</h2>
+  </div>
+ 
+  <div class="row">
+    <div class="col my-column">
+      <form class="was-validated" novalidate="" (ngSubmit)="addOffer()">
+        <div class="row">
+          <div class="col mb-4">
+            <label>Nazwa oferty</label>
+            <input type="text" class="form-control" placeholder="" value="" required="" [formControl]="name">
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <label>Kategoria</label>
+            <select [(ngModel)]="category" class="custom-select d-block w-100" required="" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let category of categoryToString()" [value]="category">{{category}}</option>
+            </select>
+          </div>
+
+        <div class="col-md-6 mb-4">
+            <label>Zdjęcie przedmiotu <span class="text-muted">(Opcjonalne)</span></label>
+            <input type="text" class="form-control" placeholder="" value="" [formControl]="imageSrc">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-4">
+              <label>Grupa, w której przedmiot zostanie udostępniony</label>
+              <div class="custom-control custom-radio" *ngFor="let g of groups">
+                  <input [(ngModel)]="group" type="radio" class="custom-control-input" id="{{g.id}}" [value]="g" name="groups" required>
+                  <label class="custom-control-label" for="{{g.id}}">{{g.name}}</label>
+                </div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="email">Opis <span class="text-muted">(Opcjonalny)</span></label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [formControl]="description"></textarea>
+        </div>
+
+        <hr class="mb-4">
+        <button class="btn btn-outline-success btn-lg btn-block my-button" [disabled]="!canClickButton()" type="submit">Dodaj ofertę</button>
+      </form>
+    </div>
+  </div>
+
+</div>

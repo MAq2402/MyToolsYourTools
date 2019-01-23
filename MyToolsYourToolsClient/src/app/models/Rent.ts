@@ -1,6 +1,6 @@
 
 export class Rent {
-    id: number;
-    offerId: number;
-    borrowerId: number;
+    id: string;
+    offerId: string;
+    borrowerId: string;
   }

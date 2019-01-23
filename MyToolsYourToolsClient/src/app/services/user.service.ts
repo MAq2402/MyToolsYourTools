@@ -8,8 +8,9 @@ import { Observable, of } from 'rxjs';
 export class UserService {
 
 users: User[] = [
-  {id: 1, name: 'Janusz', email: 'janusz@gmail.com'},
-  {id: 2, name: 'Ula', email: 'warun@zmitac.xd'}
+  {id: '1', userName: 'jankow', firstName: 'Janusz', lastName: 'Kowalski', phoneNumber: '1',  email: 'janusz@gmail.com', points: 0},
+  {id: '2', userName: 'slodkaUlcia123', firstName: 'Ula', lastName: 'WiadomoJaka',
+  phoneNumber: '666', email: 'warun@zmitac.xd', points: 100}
 ];
   constructor() { }
 
@@ -21,4 +22,7 @@ users: User[] = [
     this.users.push(user);
   }
 
+  getUserById(id: string): Observable<User> {
+    return of(this.users.find(x => x.id === id));
+  }
 }

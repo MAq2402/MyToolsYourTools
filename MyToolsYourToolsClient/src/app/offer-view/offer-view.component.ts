@@ -26,10 +26,11 @@ groups: Group[];
     this.groupService.getGroups().subscribe(o => this.groups = o);
     this.userService.getUsers().subscribe(o => this.users = o);
     this.route.paramMap.subscribe(params => {
-      const id = +params.get('id');
+      const id = params.get('id');
       this.getOffer(id);
     });
   }
+
 
   private getOffer(id) {
     for (const offer of this.offers) {
@@ -43,7 +44,15 @@ groups: Group[];
   private getUserName(userId) {
     for (const user of this.users) {
       if (user.id === userId) {
-        return user.name;
+        return user.userName;
+      }
+    }
+  }
+
+  private getUserSurname(userId) {
+    for (const user of this.users) {
+      if (user.id === userId) {
+        return user.firstName + ' ' +  user.lastName;
       }
     }
   }
