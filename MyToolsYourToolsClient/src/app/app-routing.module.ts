@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OfferViewComponent } from './offer-view/offer-view.component';
 import { OffersComponent } from './offers/offers.component';
-import { OffersCreatorComponent } from './offers-creator/offers-creator.component';
+import { OfferCreatorComponent } from './offer-creator/offer-creator.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -13,7 +13,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'offer-view/:id', component: OfferViewComponent, canActivate: [AuthGuard] },
-    { path: 'offer-creator', component: OffersCreatorComponent, canActivate: [AuthGuard] },
+    { path: 'offer-creator', component: OfferCreatorComponent, canActivate: [AuthGuard] },
     { path: 'user-profile/:userId', component: UserProfileComponent, canActivate: [AuthGuard]},
     { path: '**',  component: OffersComponent, redirectTo: '', pathMatch: 'full', canActivate: [AuthGuard] }
 ];
