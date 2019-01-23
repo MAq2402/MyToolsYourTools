@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col">
+        <h5>Grupy</h5>
+      </div>
+      <div clss="col-auto">
+        <a href="admin-panel" class="btn btn-primary btn-sm float-right">Utwórz</a>
+      </div>
+    </div>
+  </div>
+  <div class="card-body my-buttons-wrap">
+    <div class="row my-buttons-container">
+      <a id="myGroupsBtn" class="col btn btn-outline-primary my-button" role="button" (click)="toggleGroups(true)"
+        [ngClass]="{'my-button-active': isMyGroupsActive }">Moje</a>
+      <a id="allGroupsBtn" class="col btn btn-outline-primary my-button" role="button" (click)="toggleGroups(false)"
+        [ngClass]="{'my-button-active': !isMyGroupsActive }">Wszystkie</a>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <form class="form-inline">
+          <input (keyup)="onKey($event)" class="form-control my-input" type="search" placeholder="Wyszukaj" aria-label="Search">
+        </form>
+      </div>
+    </div>
+    <div class="list-group">
+      <div class="list-group-item list-group-item-action" *ngFor="let group of searchedGroups">
+        <div class="row">
+          <div class="col">
+            <span>{{group.name}}</span>
+          </div>
+          <div clss="col-auto">
+            <button href="admin-panel" class="btn btn-danger btn-sm float-right" [disabled]="checkIfCanJoinGroup(group)">
+              {{isMyGroupsActive ? 'Opuść' : 'Dołącz'}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

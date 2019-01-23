@@ -23,6 +23,8 @@ import { OfferService } from './services/offer.service';
 import { GroupService } from './services/group.service';
 import { UserService } from './services/user.service';
 import { RentService } from './services/rent.service';
+import { NotificationService } from './services/notification.service';
+import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 
@@ -43,6 +45,7 @@ import { LoginComponent } from './login/login.component';
     OfferCreatorComponent,
     ToolDetailsComponent,
     RegisterComponent,
+    GroupsComponent,
     OfferViewComponent,
     OfferCreatorComponent,
     LoginComponent
@@ -54,7 +57,7 @@ import { LoginComponent } from './login/login.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [OfferService, UserService, GroupService, RentService],
+  providers: [OfferService, UserService, GroupService, RentService, NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
