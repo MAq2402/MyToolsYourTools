@@ -13,9 +13,13 @@ namespace MyToolsYourToolsBackend.Domain.Entities
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
-        public ICollection<Offer> Offers { get; set; } = new List<Offer>();
-        public ICollection<Rent> Rents { get; set; } = new List<Rent>();
         public int Points { get; set; }
+        public ICollection<UserGroup> UserGroups { get;private set; } = new List<UserGroup>();
+        public ICollection<Offer> Offers { get;private set; } = new List<Offer>();
+        public ICollection<Rent> Rents { get;private set; } = new List<Rent>();
+        public ICollection<Notification> TargetedNotifications { get;private set; } = new List<Notification>();
+        public ICollection<Notification> SentNotifications { get;private set; } = new List<Notification>();
+        public ICollection<Opinion> GivenOpinions { get;private set; }
+        public ICollection<Opinion> ReceivedOpinions { get;private set; }
     }
 }
