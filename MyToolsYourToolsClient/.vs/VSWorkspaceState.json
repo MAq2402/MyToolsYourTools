@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\app"
   ],
-  "SelectedNode": "\\src",
+  "SelectedNode": "\\src\\app\\offer-creator",
   "PreviewInSolutionExplorer": false
 }

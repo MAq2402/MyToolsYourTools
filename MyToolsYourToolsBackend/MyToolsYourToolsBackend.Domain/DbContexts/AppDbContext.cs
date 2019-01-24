@@ -17,6 +17,8 @@ namespace MyToolsYourToolsBackend.Domain.DbContexts
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<Rent> Rents { get; set; }
         public DbSet<Offer> Offers { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Opinion> Opinions { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,6 +33,26 @@ namespace MyToolsYourToolsBackend.Domain.DbContexts
                 .HasOne(ug => ug.Group)
                 .WithMany(g => g.UserGroups)
                 .HasForeignKey(ug => ug.GroupId);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.TargetedNotifications)
+                .WithOne(n => n.TargetUser)
+                .HasForeignKey(n => n.TargetUserId);
+
+            modelBuilder.Entity<User>()
+              .HasMany(u => u.SentNotifications)
+              .WithOne(n => n.Owner)
+              .HasForeignKey(n => n.OwnerId);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.ReceivedOpinions)
+                .WithOne(o => o.RatedUser)
+                .HasForeignKey(o => o.RatedUserId);
+
+            modelBuilder.Entity<User>()
+              .HasMany(u => u.GivenOpinions)
+              .WithOne(o => o.RatingUser)
+              .HasForeignKey(o => o.RatingUserId);
         }
     }
 }
