@@ -23,7 +23,7 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             _dbContext.Users.FirstOrDefault(u => u.Id == userId).Offers.Add(offerToSave);
 
-            if(!(_dbContext.SaveChanges() > 1))
+            if(_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not add offer");
             }
