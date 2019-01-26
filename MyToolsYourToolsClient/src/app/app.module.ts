@@ -27,6 +27,7 @@ import { NotificationService } from './services/notification.service';
 import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { CreateGroupComponent } from './admin-panel/create-group/create-group.component';
 
 
 
@@ -48,7 +49,8 @@ import { LoginComponent } from './login/login.component';
     GroupsComponent,
     OfferViewComponent,
     OfferCreatorComponent,
-    LoginComponent
+    LoginComponent,
+    CreateGroupComponent
   ],
   imports: [
     BrowserModule,

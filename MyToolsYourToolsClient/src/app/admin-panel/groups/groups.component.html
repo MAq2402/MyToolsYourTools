@@ -5,7 +5,7 @@
         <h5>Grupy</h5>
       </div>
       <div clss="col-auto">
-        <a href="admin-panel" class="btn btn-primary btn-sm float-right">Utwórz</a>
+        <a class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#createGroupModal">Utwórz</a>
       </div>
     </div>
   </div>
@@ -38,3 +38,9 @@
     </div>
   </div>
 </div>
+
+<!-- Modal - create group -->
+<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+    <app-create-group></app-create-group>
+</div>
+

@@ -27,4 +27,10 @@ userGroups: UserGroup[] = [
     const indexesOfUserGroups = this.userGroups.filter(ug => ug.userId === currentUserId).map(ug => ug.groupId);
     return of(this.groups.filter(g => indexesOfUserGroups.includes(g.id)));
   }
+
+    /** POST: add a new group to the server */
+    addGroup (group: Group): Observable<Group> {
+      this.groups.push(group);
+      return of(group);
+    }
 }
