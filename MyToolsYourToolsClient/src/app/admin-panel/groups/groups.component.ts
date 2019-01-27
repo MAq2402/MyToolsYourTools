@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { Group } from '../../models/Group';
 import { GroupService } from '../../services/group.service';
 
@@ -15,20 +16,27 @@ export class GroupsComponent implements OnInit {
   isMyGroupsActive: boolean;
 
   currentUserId: string;
+
   allGroups: Group[];
   userGroups: Group[];
   activeGroups: Group[];
-  searchedGroups: Group[];
+  searchedGroups: Group[] = [];
 
   constructor(
     private groupService: GroupService
   ) { }
 
   ngOnInit() {
-    this.currentUserId = '1';
-    this.groupService.getGroups().subscribe(g => this.allGroups = g);
-    this.groupService.getUserGroups(this.currentUserId).subscribe(ug => this.userGroups = ug);
-    this.toggleGroups(true);
+    this.currentUserId = localStorage.getItem('auth_key');
+
+    this.groupService.getGroups().pipe(
+      map(g => this.allGroups = g)
+    ).subscribe();
+    this.groupService.getUserGroups(this.currentUserId).pipe(
+      map(ug => this.userGroups = ug),
+      tap(_ => this.toggleGroups(true))
+    ).subscribe();
+
   }
 
   toggleGroups(myGroupsActivated: boolean) {
@@ -42,8 +50,8 @@ export class GroupsComponent implements OnInit {
     this.searchedGroups = this.activeGroups;
   }
 
-  checkIfCanJoinGroup(group: Group) {
-    return this.userGroups.includes(group) && !this.isMyGroupsActive;
+  checkIfCanJoinGroup(groupId: string) {
+    return this.userGroups.map(g => g.id).includes(groupId) && !this.isMyGroupsActive;
   }
 
   onKey(event: any) {

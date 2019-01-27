@@ -32,7 +32,7 @@ export class AuthService {
       localStorage.setItem('auth_key', u.id);
       this.router.navigate(['']);
     },
-    (error:String)=>{this.error = error;}
+    (error: String) => { this.error = error; }
     );
 
   }

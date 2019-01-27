@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyToolsYourToolsBackend.API", "MyToolsYourToolsBackend.API\MyToolsYourToolsBackend.API.csproj", "{8F62FED8-248B-4FA9-BB47-1B0240BA3DB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyToolsYourToolsBackend.API", "MyToolsYourToolsBackend.API\MyToolsYourToolsBackend.API.csproj", "{8F62FED8-248B-4FA9-BB47-1B0240BA3DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyToolsYourToolsBackend.Application", "MyToolsYourToolsBackend.Application\MyToolsYourToolsBackend.Application.csproj", "{FBC28126-400D-4D6B-B2C7-4AF0B3609B87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyToolsYourToolsBackend.Application", "MyToolsYourToolsBackend.Application\MyToolsYourToolsBackend.Application.csproj", "{FBC28126-400D-4D6B-B2C7-4AF0B3609B87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyToolsYourToolsBackend.Domain", "MyToolsYourToolsBackend.Domain\MyToolsYourToolsBackend.Domain.csproj", "{758301D4-E677-49AF-94BA-5DB7B7FFED24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyToolsYourToolsBackend.Domain", "MyToolsYourToolsBackend.Domain\MyToolsYourToolsBackend.Domain.csproj", "{758301D4-E677-49AF-94BA-5DB7B7FFED24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
