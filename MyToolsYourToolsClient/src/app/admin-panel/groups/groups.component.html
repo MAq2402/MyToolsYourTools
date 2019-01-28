@@ -30,7 +30,7 @@
             <span>{{group.name}}</span>
           </div>
           <div clss="col-auto">
-            <button href="admin-panel" class="btn btn-danger btn-sm float-right" [disabled]="checkIfCanJoinGroup(group.id)">
+            <button (click)="isMyGroupsActive ? leaveGroup(group.id) : joinGroup(group.id)" class="btn btn-danger btn-sm float-right" [disabled]="checkIfCanJoinGroup(group.id)">
               {{isMyGroupsActive ? 'Opuść' : 'Dołącz'}}</button>
           </div>
         </div>
@@ -41,6 +41,6 @@
 
 <!-- Modal - create group -->
 <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
-    <app-create-group (added)="onCreateGroup($event)"></app-create-group>
+    <app-create-group (createdGroup)="onCreateGroup($event)"></app-create-group>
 </div>
 

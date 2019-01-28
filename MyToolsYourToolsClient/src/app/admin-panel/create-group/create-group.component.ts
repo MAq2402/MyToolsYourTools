@@ -12,25 +12,24 @@ declare var $: any;
 
 export class CreateGroupComponent implements OnInit {
 
-  @Output() added = new EventEmitter<boolean>();
+  @Output() createdGroup = new EventEmitter<Group>();
 
   group: Group = {id: '', name: ''};
 
   constructor(private groupService: GroupService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   addGroup() {
     this.groupService.addGroup(this.group).subscribe(
       result => {
         console.log('Dodano grupe');
         $('#createGroupModal').modal('hide');
-        this.added.emit(true);
+        this.createdGroup.emit(result);
       },
       error => {
         console.log(error);
-        this.added.emit(false);
+        this.createdGroup.emit(null);
       }
     );
   }

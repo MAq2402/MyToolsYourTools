@@ -43,6 +43,16 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             _dbContext.UserGroups.Remove(userGroupToRemove);
 
+            // check if it was last user in this group
+            var countOfRemainingGroupMembers = _dbContext.UserGroups.Where(ug => ug.GroupId == userGroup.GroupId).Count();
+
+            if(countOfRemainingGroupMembers == 1)
+            {
+                // delete empty group
+                var groupToRemove = _dbContext.Groups.Find(userGroup.GroupId);
+                _dbContext.Groups.Remove(groupToRemove);
+            }
+
             if( _dbContext.SaveChanges() == 0)
             {
                 return false;

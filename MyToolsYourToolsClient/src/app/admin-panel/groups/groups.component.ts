@@ -2,6 +2,8 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { Group } from '../../models/Group';
 import { GroupService } from '../../services/group.service';
+import { UserGroupService } from '../../services/user-group.service';
+import { UserGroup } from '../../models/UserGroup';
 
 @Component({
   selector: 'app-groups',
@@ -22,7 +24,8 @@ export class GroupsComponent implements OnInit {
   searchedGroups: Group[] = [];
 
   constructor(
-    private groupService: GroupService
+    private groupService: GroupService,
+    private userGroupService: UserGroupService
   ) { }
 
   ngOnInit() {
@@ -56,6 +59,26 @@ export class GroupsComponent implements OnInit {
     return this.userGroups.map(g => g.id).includes(groupId) && !this.isMyGroupsActive;
   }
 
+  joinGroup(groupId: string) {
+    this.userGroupService.joinGroup(new UserGroup(this.currentUserId, groupId))
+        .pipe(
+          tap(_ => {
+            this.initGroups(); // refresh async
+            this.toggleGroups(true); // toggle to my groups
+          }) )
+        .subscribe();
+  }
+
+  leaveGroup(groupId: string) {
+    this.userGroupService.leaveGroup(new UserGroup(this.currentUserId, groupId))
+        .pipe(
+          tap(_ => {
+            this.initGroups(); // refresh async
+            this.toggleGroups(true); // toggle to my groups
+          }) )
+        .subscribe();
+  }
+
   onKey(event: any) {
     const searchQuery = event.target.value;
     if (searchQuery) {
@@ -65,10 +88,10 @@ export class GroupsComponent implements OnInit {
     }
   }
 
-  onCreateGroup(added: boolean) {
-    if (added) {
-      console.log(added);
-      this.initGroups();
+  onCreateGroup(createdGroup: Group) {
+    if (createdGroup != null) {
+      // join newly created group
+      this.joinGroup(createdGroup.id);
     }
   }
 
