@@ -18,6 +18,7 @@ export class OffersComponent implements OnInit {
   currentSearch: String;
   login;
   currentGroupId: string;
+  currentUserId: string;
 
 
 
@@ -29,9 +30,10 @@ categories: Category;
   }
 
   ngOnInit() {
+    this.currentUserId = localStorage.getItem('auth_key');
     this.offerService.getOffers().subscribe(o => this.offers = o);
     this.offerService.getActiveOffers().subscribe(o => this.activeOffers = o);
-    this.groupService.getGroups().subscribe(o => this.groups = o);
+    this.groupService.getUserGroups(this.currentUserId).subscribe(o => this.groups = o);
     this.searchedOffers = this.activeOffers;
   }
   searchAndFilter(){
