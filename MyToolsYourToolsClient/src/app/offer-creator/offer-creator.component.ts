@@ -19,10 +19,13 @@ category: Category = Category.carriages;
 groups: Group[];
 group: Group;
 
+  currentUserId: string;
+
   constructor(private groupService: GroupService, private offerService: OfferService) { }
 
   ngOnInit() {
-    this.groupService.getGroups().subscribe(o => this.groups = o);
+    this.currentUserId = localStorage.getItem('auth_key');
+    this.groupService.getUserGroups(this.currentUserId).subscribe(o => this.groups = o);
     this.group = this.groups[0];
   }
 

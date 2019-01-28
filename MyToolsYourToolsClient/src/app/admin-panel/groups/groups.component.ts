@@ -1,7 +1,9 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-
+import { map, tap } from 'rxjs/operators';
 import { Group } from '../../models/Group';
 import { GroupService } from '../../services/group.service';
+import { UserGroupService } from '../../services/user-group.service';
+import { UserGroup } from '../../models/UserGroup';
 
 @Component({
   selector: 'app-groups',
@@ -15,20 +17,31 @@ export class GroupsComponent implements OnInit {
   isMyGroupsActive: boolean;
 
   currentUserId: string;
+
   allGroups: Group[];
   userGroups: Group[];
   activeGroups: Group[];
-  searchedGroups: Group[];
+  searchedGroups: Group[] = [];
 
   constructor(
-    private groupService: GroupService
+    private groupService: GroupService,
+    private userGroupService: UserGroupService
   ) { }
 
   ngOnInit() {
-    this.currentUserId = '1';
-    this.groupService.getGroups().subscribe(g => this.allGroups = g);
-    this.groupService.getUserGroups(this.currentUserId).subscribe(ug => this.userGroups = ug);
-    this.toggleGroups(true);
+    this.currentUserId = localStorage.getItem('auth_key');
+    this.isMyGroupsActive = true;
+    this.initGroups();
+  }
+
+  initGroups() {
+    this.groupService.getGroups().pipe(
+      map(g => this.allGroups = g)
+    ).subscribe();
+    this.groupService.getUserGroups(this.currentUserId).pipe(
+      map(ug => this.userGroups = ug),
+      tap(_ => this.toggleGroups(this.isMyGroupsActive)) // provides async refresh list of viewed groups
+    ).subscribe();
   }
 
   toggleGroups(myGroupsActivated: boolean) {
@@ -42,8 +55,28 @@ export class GroupsComponent implements OnInit {
     this.searchedGroups = this.activeGroups;
   }
 
-  checkIfCanJoinGroup(group: Group) {
-    return this.userGroups.includes(group) && !this.isMyGroupsActive;
+  checkIfCanJoinGroup(groupId: string) {
+    return this.userGroups.map(g => g.id).includes(groupId) && !this.isMyGroupsActive;
+  }
+
+  joinGroup(groupId: string) {
+    this.userGroupService.joinGroup(new UserGroup(this.currentUserId, groupId))
+        .pipe(
+          tap(_ => {
+            this.initGroups(); // refresh async
+            this.toggleGroups(true); // toggle to my groups
+          }) )
+        .subscribe();
+  }
+
+  leaveGroup(groupId: string) {
+    this.userGroupService.leaveGroup(new UserGroup(this.currentUserId, groupId))
+        .pipe(
+          tap(_ => {
+            this.initGroups(); // refresh async
+            this.toggleGroups(true); // toggle to my groups
+          }) )
+        .subscribe();
   }
 
   onKey(event: any) {
@@ -52,6 +85,13 @@ export class GroupsComponent implements OnInit {
       this.searchedGroups = this.activeGroups.filter(o => o.name.toLowerCase().includes(searchQuery.toLowerCase()));
     } else {
       this.searchedGroups = this.activeGroups;
+    }
+  }
+
+  onCreateGroup(createdGroup: Group) {
+    if (createdGroup != null) {
+      // join newly created group
+      this.joinGroup(createdGroup.id);
     }
   }
 

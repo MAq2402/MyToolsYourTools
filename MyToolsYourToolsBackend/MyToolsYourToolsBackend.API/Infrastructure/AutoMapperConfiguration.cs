@@ -19,6 +19,11 @@ namespace MyToolsYourToolsBackend.API.Infrastructure
 
                 cfg.CreateMap<Offer, OfferDto>();
                 cfg.CreateMap<OfferForCreationDto, Offer>();
+
+                cfg.CreateMap<Group, GroupDto>();
+                cfg.CreateMap<GroupForCreationDto, Group>();
+
+                cfg.CreateMap<UserGroupDto, UserGroup>();
             });
         }
     }

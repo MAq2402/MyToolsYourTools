@@ -1,0 +1,29 @@
+<!-- Modal - create group -->
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="createGroupModalLabel">Tworzenie grupy</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="addGroup()">
+        <label for="name">Nazwa grupy</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          required
+          [(ngModel)]="this.group.name"
+          name="name"
+          #name="ngModel"
+        />
+        <div class="col-sm-12 my-buttons-container">
+          <button type="button" class="btn btn-light float-right my-button-wrap" data-dismiss="modal">Anuluj</button>
+          <button type="submit" class="btn btn-success float-right my-button-wrap">Zapisz</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
