@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { GroupService } from '../../services/group.service';
 import { Group } from '../../models/Group';
 
@@ -12,6 +12,7 @@ declare var $: any;
 
 export class CreateGroupComponent implements OnInit {
 
+  @Output() added = new EventEmitter<boolean>();
 
   group: Group = {id: '', name: ''};
 
@@ -25,8 +26,12 @@ export class CreateGroupComponent implements OnInit {
       result => {
         console.log('Dodano grupe');
         $('#createGroupModal').modal('hide');
+        this.added.emit(true);
       },
-      error => console.log(error)
+      error => {
+        console.log(error);
+        this.added.emit(false);
+      }
     );
   }
 }

@@ -44,5 +44,6 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             return Mapper.Map<IEnumerable<GroupDto>>(groupsToReturn);
         }
+
     }
 }

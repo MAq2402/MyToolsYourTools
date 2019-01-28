@@ -1,5 +1,4 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Group } from '../../models/Group';
 import { GroupService } from '../../services/group.service';
@@ -28,15 +27,18 @@ export class GroupsComponent implements OnInit {
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('auth_key');
+    this.isMyGroupsActive = true;
+    this.initGroups();
+  }
 
+  initGroups() {
     this.groupService.getGroups().pipe(
       map(g => this.allGroups = g)
     ).subscribe();
     this.groupService.getUserGroups(this.currentUserId).pipe(
       map(ug => this.userGroups = ug),
-      tap(_ => this.toggleGroups(true))
+      tap(_ => this.toggleGroups(this.isMyGroupsActive)) // provides async refresh list of viewed groups
     ).subscribe();
-
   }
 
   toggleGroups(myGroupsActivated: boolean) {
@@ -60,6 +62,13 @@ export class GroupsComponent implements OnInit {
       this.searchedGroups = this.activeGroups.filter(o => o.name.toLowerCase().includes(searchQuery.toLowerCase()));
     } else {
       this.searchedGroups = this.activeGroups;
+    }
+  }
+
+  onCreateGroup(added: boolean) {
+    if (added) {
+      console.log(added);
+      this.initGroups();
     }
   }
 

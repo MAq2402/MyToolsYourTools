@@ -1,8 +1,9 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { Group } from '../models/Group';
-import { Observable, of } from 'rxjs';
 import { UserGroup } from '../models/UserGroup';
-import { HttpClient, HttpHeaders,  } from '@angular/common/http';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -35,14 +36,8 @@ userGroups: UserGroup[] = [
   }
 
   /** POST: add a new group to the server */
-  /*addGroup (group: Group): Observable<Group> {
-    this.groups.push(group);
-    return of(group);
-  }*/
-
-  /** POST: add a new group to the server */
-  // TODO: trzeba zmienić group na GroupForCreation
-  addGroup (group: {name: string}): Observable<Group> {
+  // Nie trzeba robić nowego modelu do tworzenia obiektow, angular jakoś sobie sam mądrzę id pomija
+  addGroup (group: Group): Observable<Group> {
     return this.http.post<Group>(this.baseUrl + 'groups', group, httpOptions);
   }
 }

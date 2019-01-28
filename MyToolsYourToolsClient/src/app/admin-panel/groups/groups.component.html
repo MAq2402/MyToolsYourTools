@@ -41,6 +41,6 @@
 
 <!-- Modal - create group -->
 <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
-    <app-create-group></app-create-group>
+    <app-create-group (added)="onCreateGroup($event)"></app-create-group>
 </div>
 

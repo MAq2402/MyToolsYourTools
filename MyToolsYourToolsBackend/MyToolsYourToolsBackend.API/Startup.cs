@@ -48,6 +48,7 @@ namespace MyToolsYourToolsBackend.API
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IOfferService, OfferService>();
             services.AddScoped<IGroupService, GroupService>();
+            services.AddScoped<IUserGroupService, UserGroupService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
