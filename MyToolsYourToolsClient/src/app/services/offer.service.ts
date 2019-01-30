@@ -3,7 +3,12 @@ import { Offer } from '../models/Offer';
 import { Observable, of} from 'rxjs';
 import { OfferStatus } from '../enums/OfferStatus';
 import { Category } from '../enums/Category';
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 @Injectable({
   providedIn: 'root',
 })
@@ -20,7 +25,9 @@ export class OfferService {
     imgSrc: 'https://cdn4.iconfinder.com/data/icons/basic-dashboard-1/512/Basic_Dashboard_UI_fix_option_machine_tools-512.png'}
   ];
 
-  constructor() { }
+  baseUrl = 'https://localhost:44341/api/';
+
+  constructor(private http: HttpClient) { }
 
   getActiveOffers(): Observable<Offer[]> {
     const activeOffers: Offer [] = [];
@@ -32,15 +39,8 @@ export class OfferService {
     return of(activeOffers);
   }
 
-  addOffer(offer: Offer) {
-    offer.id = '4';
-    if (offer.imgSrc === '') {
-      offer.imgSrc = 'https://cdn2.iconfinder.com/data/icons/ballicons-2-free/100/wrench-512.png';
-    }
-    offer.ownerId = '2';
-    offer.status = OfferStatus.active;
-    this.offers.push(offer);
-    // TODO: zapis do bazy
+  addOffer(offer: Offer, userId: string): Observable<Offer> {
+    return this.http.post<Offer>(this.baseUrl + userId + '/offers', offer, httpOptions);
   }
 
   getOffers(): Observable<Offer[]> {
