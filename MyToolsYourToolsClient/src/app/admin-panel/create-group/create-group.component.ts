@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { GroupService } from '../../services/group.service';
+import { AlertService } from '../../services/alert.service';
 import { Group } from '../../models/Group';
 
 declare var $: any;
@@ -16,19 +17,21 @@ export class CreateGroupComponent implements OnInit {
 
   group: Group = {id: '', name: ''};
 
-  constructor(private groupService: GroupService) { }
+  constructor(
+    private groupService: GroupService,
+    private alertService: AlertService) { }
 
   ngOnInit() {}
 
   addGroup() {
     this.groupService.addGroup(this.group).subscribe(
       result => {
-        console.log('Dodano grupe');
+        this.alertService.success('Grupa utworzona pomyślnie.');
         $('#createGroupModal').modal('hide');
         this.createdGroup.emit(result);
       },
       error => {
-        console.log(error);
+        this.alertService.error('Nie udało utworzyć się grupy.');
         this.createdGroup.emit(null);
       }
     );
