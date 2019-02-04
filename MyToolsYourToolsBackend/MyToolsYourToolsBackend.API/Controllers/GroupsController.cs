@@ -37,8 +37,12 @@ namespace MyToolsYourToolsBackend.API.Controllers
         [HttpPost("groups")]
         public IActionResult AddGroup([FromBody]GroupForCreationDto groupFromBody)
         {
-            var groupToReturn = _groupService.AddGroup(groupFromBody);
+            if (_groupService.checkIfNameIsUnique(groupFromBody))
+            {
+                return BadRequest("Grupa o podanej nazwie już istnieje. Podaj inną nazwę.");
+            }
 
+            var groupToReturn = _groupService.AddGroup(groupFromBody);
             return Created(nameof(GetGroups), groupToReturn);
         }
     }

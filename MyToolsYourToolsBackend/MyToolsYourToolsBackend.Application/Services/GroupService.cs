@@ -17,6 +17,12 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             _dbContext = dbContext;
         }
+
+        public bool checkIfNameIsUnique(GroupForCreationDto group)
+        {
+            return _dbContext.Groups.Any(g => g.Name == group.Name);
+        }
+
         public GroupDto AddGroup(GroupForCreationDto group)
         {
             var groupToSave = Mapper.Map<Group>(group);
