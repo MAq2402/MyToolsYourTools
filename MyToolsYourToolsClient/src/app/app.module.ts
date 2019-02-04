@@ -31,6 +31,7 @@ import { LoginComponent } from './login/login.component';
 import { CreateGroupComponent } from './admin-panel/create-group/create-group.component';
 import { AlertComponent } from './alert/alert.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { MyOffersComponent } from './admin-panel/my-offers/my-offers.component';
 
 
 
@@ -54,7 +55,8 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     OfferCreatorComponent,
     LoginComponent,
     CreateGroupComponent,
-    AlertComponent
+    AlertComponent,
+    MyOffersComponent
   ],
   imports: [
     BrowserModule,
