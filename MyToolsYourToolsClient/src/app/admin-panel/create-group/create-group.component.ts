@@ -31,7 +31,6 @@ export class CreateGroupComponent implements OnInit {
         this.createdGroup.emit(result);
       },
       error => {
-        console.log(error);
         this.alertService.error(error.error);
         this.createdGroup.emit(null);
       }

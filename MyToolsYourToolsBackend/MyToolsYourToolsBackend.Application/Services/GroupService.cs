@@ -18,7 +18,7 @@ namespace MyToolsYourToolsBackend.Application.Services
             _dbContext = dbContext;
         }
 
-        public bool checkIfNameIsUnique(GroupForCreationDto group)
+        public bool checkIfNameAlreadyExists(GroupForCreationDto group)
         {
             return _dbContext.Groups.Any(g => g.Name == group.Name);
         }

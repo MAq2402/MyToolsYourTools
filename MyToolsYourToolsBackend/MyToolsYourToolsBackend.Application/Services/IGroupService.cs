@@ -7,9 +7,9 @@ namespace MyToolsYourToolsBackend.Application.Services
 {
     public interface IGroupService
     {
-        bool checkIfNameIsUnique(GroupForCreationDto group);
+        bool checkIfNameAlreadyExists(GroupForCreationDto group);
         IEnumerable<GroupDto> GetUserGroups(Guid userId);
         IEnumerable<GroupDto> GetAllGroups();
-        GroupDto AddGroup(GroupForCreationDto offer);
+        GroupDto AddGroup(GroupForCreationDto group);
     }
 }

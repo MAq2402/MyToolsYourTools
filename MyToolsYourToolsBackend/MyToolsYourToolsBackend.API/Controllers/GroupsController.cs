@@ -37,7 +37,7 @@ namespace MyToolsYourToolsBackend.API.Controllers
         [HttpPost("groups")]
         public IActionResult AddGroup([FromBody]GroupForCreationDto groupFromBody)
         {
-            if (_groupService.checkIfNameIsUnique(groupFromBody))
+            if (_groupService.checkIfNameAlreadyExists(groupFromBody))
             {
                 return BadRequest("Grupa o podanej nazwie już istnieje. Podaj inną nazwę.");
             }
