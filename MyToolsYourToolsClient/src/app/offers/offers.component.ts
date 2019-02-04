@@ -38,32 +38,6 @@ export class OffersComponent implements OnInit {
     this.searchedOffers = this.activeOffers;
   }
   searchAndFilter() {
-    /*if (this.currentSearch && this.currentGroupId && this.currentCategory) {
-      this.searchedOffers = this.activeOffers
-        .filter(o => o.name.toLowerCase().includes(this.currentSearch.toLowerCase()));
-      this.searchedOffers = this.searchedOffers.filter(o => o.groupId === this.currentGroupId);
-      this.searchedOffers = this.searchedOffers.filter(o => o.category === this.currentCategory);
-    } else if (this.currentSearch && this.currentCategory) {
-      this.searchedOffers = this.activeOffers
-        .filter(o => o.name.toLowerCase().includes(this.currentSearch.toLowerCase()));
-      this.searchedOffers = this.searchedOffers.filter(o => o.category === this.currentCategory);
-    } else if (this.currentGroupId && this.currentSearch) {
-      this.searchedOffers = this.activeOffers
-        .filter(o => o.name.toLowerCase().includes(this.currentSearch.toLowerCase()));
-      this.searchedOffers = this.searchedOffers.filter(o => o.groupId === this.currentGroupId);
-    } else if (this.currentCategory && this.currentGroupId) {
-      this.searchedOffers = this.activeOffers.filter(o => o.category === this.currentCategory);
-      this.searchedOffers = this.searchedOffers.filter(o => o.groupId === this.currentGroupId);
-    } else if (this.currentSearch) {
-      this.searchedOffers = this.activeOffers
-        .filter(o => o.name.toLowerCase().includes(this.currentSearch.toLowerCase()));
-    } else if (this.currentGroupId) {
-      this.searchedOffers = this.activeOffers.filter(o => o.groupId === this.currentGroupId);
-    } else if (this.currentCategory) {
-      this.searchedOffers = this.activeOffers.filter(o => o.category === this.currentCategory);
-    } else {
-      this.searchedOffers = this.activeOffers;
-    }*/
     this.searchedOffers = this.activeOffers;
     if (this.currentSearch) {
       this.searchedOffers = this.searchedOffers.filter(o =>
@@ -88,7 +62,6 @@ export class OffersComponent implements OnInit {
   }
 
   onGroup(groupId: string) {
-    console.log(groupId);
     this.currentGroupId = groupId;
     this.searchAndFilter();
   }
