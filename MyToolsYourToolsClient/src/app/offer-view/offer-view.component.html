@@ -1,5 +1,5 @@
-<div class = "container my-offers">
-<div class="row">
+<div class="container my-offers">
+  <div class="row">
     <div class="col">
       <img class="my-image-size" src="{{offer.imgSrc}}">
     </div>
@@ -15,7 +15,30 @@
       <p class="top-buffer20">opis:</p>
       <p class="font-weight-light">{{offer.description}}</p>
       <hr class="mb-4">
-      <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0 my-button" (click)="sendRentRequest($event, offer.ownerId, offer.id)">Złóż prośbę o wypożyczenie</button>
+      <div *ngIf="!isMyOffer()" name="notMyOffer">
+        <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest($event, offer.ownerId, offer.id)">
+          Złóż prośbę o wypożyczenie
+        </button>
+      </div>
+      <div *ngIf="isMyOffer()" name="myOffer" class="row">
+        <div class="col">
+          <button class="btn btn-outline-success btn-lg" (click)="sendConfirmReturn($event, offer.ownerId, offer.id)"
+            [disabled]="!hasMyOfferBorrowedStatus()">
+            Potwierdź zwrot
+          </button>
+        </div>
+        <div class="col">
+          <button class="btn btn-lg" [ngClass]="{'btn-secondary': !hasMyOfferHiddenStatus(), 'btn-success': hasMyOfferHiddenStatus()}" type="button" (click)="changeOfferStatus()"
+          [disabled]="hasMyOfferBorrowedStatus()">
+              {{hasMyOfferHiddenStatus() ? 'Aktywuj ofertę' : 'Ukryj ofertę'}}
+          </button>
+        </div>
+        <div class="col">
+          <h6>Status oferty:</h6>
+          <h5 class="">{{offer.status}}</h5>
+        </div>
+      </div>
+
     </div>
-</div>
+  </div>
 </div>

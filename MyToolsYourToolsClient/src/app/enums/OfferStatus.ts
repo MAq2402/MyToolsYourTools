@@ -1,5 +1,5 @@
 export enum OfferStatus {
-  active,
-  borrowed,
-  hidden
+  active = 'Aktywna',
+  borrowed = 'Wypożyczona',
+  hidden = 'Ukryta'
 }
