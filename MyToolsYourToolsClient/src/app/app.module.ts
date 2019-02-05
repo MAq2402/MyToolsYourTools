@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -28,6 +29,8 @@ import { GroupsComponent } from './admin-panel/groups/groups.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { CreateGroupComponent } from './admin-panel/create-group/create-group.component';
+import { AlertComponent } from './alert/alert.component';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 
 
@@ -50,16 +53,19 @@ import { CreateGroupComponent } from './admin-panel/create-group/create-group.co
     OfferViewComponent,
     OfferCreatorComponent,
     LoginComponent,
-    CreateGroupComponent
+    CreateGroupComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbAlertModule
   ],
-  providers: [OfferService, UserService, GroupService, RentService, NotificationService],
+  providers: [OfferService, UserService, GroupService, RentService, NotificationService,
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
