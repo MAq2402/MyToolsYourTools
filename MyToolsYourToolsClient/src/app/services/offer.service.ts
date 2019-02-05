@@ -10,7 +10,7 @@ import { Category } from '../enums/Category';
 export class OfferService {
   offers: Offer[] = [
     {id: '1', name: 'Łopata', groupId: 'c787d0d4-6eba-49fb-9a5f-07278b2319f0', category: Category.manual_tools,
-     description: 'to urządzenie kopie dziury xd', ownerId: '1', status: OfferStatus.active,
+     description: 'to urządzenie kopie dziury xd', ownerId: 'f290baf8-bca5-4b21-94c2-4af3be12ddf3', status: OfferStatus.active,
      imgSrc: 'https://cdn4.iconfinder.com/data/icons/basic-dashboard-1/512/Basic_Dashboard_UI_fix_option_machine_tools-512.png'},
     {id: '2', name: 'Kosiarka', groupId: '2', category: Category.mowers,
     description: 'to urządzenie kosi', ownerId: '1', status: OfferStatus.borrowed,
@@ -19,7 +19,7 @@ export class OfferService {
     description: 'to urządzenie piłuje', ownerId: '2', status: OfferStatus.active,
     imgSrc: 'https://cdn4.iconfinder.com/data/icons/basic-dashboard-1/512/Basic_Dashboard_UI_fix_option_machine_tools-512.png'},
     {id: '4', name: 'Kosiarka 2', groupId: 'c787d0d4-6eba-49fb-9a5f-07278b2319f0', category: Category.mowers,
-    description: 'to urządzenie kosi', ownerId: '1', status: OfferStatus.active,
+    description: 'to urządzenie kosi', ownerId: 'f290baf8-bca5-4b21-94c2-4af3be12ddf3', status: OfferStatus.active,
     imgSrc: 'https://cdn2.iconfinder.com/data/icons/ballicons-2-free/100/wrench-512.png'}
   ];
 
@@ -48,6 +48,10 @@ export class OfferService {
 
   getOffers(): Observable<Offer[]> {
     return of(this.offers);
+  }
+
+  getUserOffers(userId: string) {
+    return of(this.offers.filter(o => o.ownerId === userId));
   }
 
 }

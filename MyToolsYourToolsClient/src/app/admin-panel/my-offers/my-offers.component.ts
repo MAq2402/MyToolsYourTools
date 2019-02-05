@@ -22,13 +22,12 @@ export class MyOffersComponent implements OnInit {
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('auth_key');
-    // this.offerService.getOffers().subscribe(o => (this.userOffers = o)); // ZMIENIĆ NA getUserOffers()
-    this.groupService.getUserGroups(this.currentUserId)
-      .subscribe(o => (this.groups = o));
     this.groupService.getGroups().pipe(
-        map(g => this.groups = g),
-        tap(_ => this.offerService.getOffers().subscribe(o => (this.userOffers = o)))
+        map(g => this.groups = g)
       ).subscribe();
+    this.offerService.getUserOffers(this.currentUserId).pipe(
+      map(o => this.userOffers = o)
+    ).subscribe();
 
   }
 

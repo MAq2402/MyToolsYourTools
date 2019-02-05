@@ -1,4 +1,4 @@
-<a [routerLink]="['offer-view', offer.id]" class="list-group-item list-group-item-action" *ngFor="let offer of offers">
+<a [routerLink]="['/offer-view/', offer.id]" class="list-group-item list-group-item-action" *ngFor="let offer of offers">
   <div class="row">
     <div class="col-sm-2">
       <img class="my-image-size" src="{{offer.imgSrc}}">
