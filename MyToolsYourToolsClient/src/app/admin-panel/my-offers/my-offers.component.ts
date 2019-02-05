@@ -28,7 +28,6 @@ export class MyOffersComponent implements OnInit {
     this.offerService.getUserOffers(this.currentUserId).pipe(
       map(o => this.userOffers = o)
     ).subscribe();
-
   }
 
 }
