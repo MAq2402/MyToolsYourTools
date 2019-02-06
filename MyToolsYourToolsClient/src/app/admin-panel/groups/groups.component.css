@@ -26,3 +26,22 @@
   width: 100%;
   margin-bottom: 8px;
 }
+
+.my-justify-content-end {
+  justify-content: end;
+  text-align: end;
+}
+
+.my-card-body-height {
+  min-height: 395px;
+}
+
+.my-card-footer-height {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 59px;
+}
+
+.my-nav-btn {
+  width: 50px;
+}

@@ -23,6 +23,13 @@ export class GroupsComponent implements OnInit {
   activeGroups: Group[];
   searchedGroups: Group[] = [];
 
+  // PAGINATION vars
+  fromIndex = 0;
+  stepIndex = 5;
+  groupsCount = 0;
+  nextButtonDisabled = false;
+  prevButtonDisabled = true;
+
   constructor(
     private groupService: GroupService,
     private userGroupService: UserGroupService
@@ -53,6 +60,7 @@ export class GroupsComponent implements OnInit {
       this.activeGroups = this.allGroups;
     }
     this.searchedGroups = this.activeGroups;
+    this.displayGroupsFromZeroIndex();
   }
 
   checkIfCanJoinGroup(groupId: string) {
@@ -86,6 +94,7 @@ export class GroupsComponent implements OnInit {
     } else {
       this.searchedGroups = this.activeGroups;
     }
+    this.displayGroupsFromZeroIndex();
   }
 
   onCreateGroup(createdGroup: Group) {
@@ -94,5 +103,52 @@ export class GroupsComponent implements OnInit {
       this.joinGroup(createdGroup.id);
     }
   }
+
+
+  // PAGINATION
+  displayGroupsFromZeroIndex() {
+    this.groupsCount = this.searchedGroups.length;
+    this.fromIndex = 0;
+    this.checkDisabledNavButtons(this.fromIndex);
+  }
+
+  nextGroups() {
+    const nextStep = this.fromIndex + this.stepIndex;
+    if (nextStep < this.groupsCount) {
+      this.fromIndex = nextStep;
+      this.checkDisabledNavButtons(this.fromIndex);
+    }
+  }
+
+  prevGroups() {
+    const backStep = this.fromIndex - this.stepIndex;
+    if (backStep >= 0) {
+      this.fromIndex = backStep;
+      this.checkDisabledNavButtons(this.fromIndex);
+    }
+  }
+
+  // TODO: zmienić na lepszą nazwę
+  // sprawdzić fixa jak jak rowne stepIndex
+  checkDisabledNavButtons(length: number) {
+    if (length + this.stepIndex >= this.groupsCount) {
+      this.nextButtonDisabled = true;
+    } else {
+      this.nextButtonDisabled = false;
+    }
+    if (length - this.stepIndex < 0) {
+      this.prevButtonDisabled = true;
+    } else {
+      this.prevButtonDisabled = false;
+    }
+  }
+
+  getSlicedGroups(): Group[] {
+    return this.searchedGroups.slice(this.fromIndex, this.fromIndex + this.stepIndex);
+  }
+
+  showNavButtons() {
+    return this.groupsCount > this.stepIndex;
+}
 
 }
