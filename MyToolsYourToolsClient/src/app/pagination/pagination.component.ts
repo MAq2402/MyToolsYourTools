@@ -1,23 +1,20 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.css']
 })
-export class PaginationComponent implements OnInit {
+export class PaginationComponent {
 
   @Input() private dataCount = 0;
-  @Input() private stepIndex = 5;
+  @Input() private itemsCountPerPage = 5;
 
   private fromIndex = 0;
-  private nextButtonDisabled = false;
-  private prevButtonDisabled = true;
+  protected nextButtonDisabled = false;
+  protected prevButtonDisabled = true;
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor() {}
 
   public refreshPagination(newCountOfDataToDisplay: number) {
     this.dataCount = newCountOfDataToDisplay;
@@ -26,11 +23,11 @@ export class PaginationComponent implements OnInit {
   }
 
   public getSlicedDataArray(dataArray: any[]): any[] {
-    return dataArray.slice(this.fromIndex, this.fromIndex + this.stepIndex);
+    return dataArray.slice(this.fromIndex, this.fromIndex + this.itemsCountPerPage);
   }
 
   private nextPage() {
-    const nextStep = this.fromIndex + this.stepIndex;
+    const nextStep = this.fromIndex + this.itemsCountPerPage;
     if (nextStep < this.dataCount) {
       this.fromIndex = nextStep;
       this.checkDisabledNavButtons(this.fromIndex);
@@ -38,7 +35,7 @@ export class PaginationComponent implements OnInit {
   }
 
   private prevPage() {
-    const backStep = this.fromIndex - this.stepIndex;
+    const backStep = this.fromIndex - this.itemsCountPerPage;
     if (backStep >= 0) {
       this.fromIndex = backStep;
       this.checkDisabledNavButtons(this.fromIndex);
@@ -46,12 +43,12 @@ export class PaginationComponent implements OnInit {
   }
 
   private checkDisabledNavButtons(length: number) {
-    if (length + this.stepIndex >= this.dataCount) {
+    if (length + this.itemsCountPerPage >= this.dataCount) {
       this.nextButtonDisabled = true;
     } else {
       this.nextButtonDisabled = false;
     }
-    if (length - this.stepIndex < 0) {
+    if (length - this.itemsCountPerPage < 0) {
       this.prevButtonDisabled = true;
     } else {
       this.prevButtonDisabled = false;
@@ -59,7 +56,7 @@ export class PaginationComponent implements OnInit {
   }
 
   private showNavButtons() {
-    return this.dataCount > this.stepIndex;
+    return this.dataCount > this.itemsCountPerPage;
   }
 
 }
