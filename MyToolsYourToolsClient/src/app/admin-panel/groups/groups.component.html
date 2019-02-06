@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="list-group">
-      <div class="list-group-item list-group-item-action" *ngFor="let group of getSlicedGroups()">
+      <div class="list-group-item list-group-item-action" *ngFor="let group of pagination?.getSlicedDataArray(this.searchedGroups)">
         <div class="row">
           <div class="col">
             <span>{{group.name}}</span>
@@ -38,14 +38,7 @@
     </div>
   </div>
   <div class="card-footer my-card-footer-height">
-    <div *ngIf="showNavButtons()" class="col my-justify-content-end">
-      <button type="button" class="btn btn-sm btn-secondary my-nav-btn" (click)="prevGroups()" [disabled]="prevButtonDisabled">
-        <i class="material-icons my-icons">chevron_left</i>
-      </button>
-      <button type="button" class="btn btn-sm btn-secondary my-nav-btn" (click)="nextGroups()" [disabled]="nextButtonDisabled">
-        <i class="material-icons my-icons">chevron_right</i>
-      </button>
-</div>
+      <app-pagination [dataCount]="searchedGroups?.length" [stepIndex]="5"></app-pagination>
   </div>
 </div>
 

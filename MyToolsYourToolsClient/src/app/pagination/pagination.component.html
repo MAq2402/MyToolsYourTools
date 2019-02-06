@@ -1,0 +1,8 @@
+<div *ngIf="showNavButtons()" class="col my-justify-content-end">
+  <button type="button" class="btn btn-sm btn-secondary my-nav-btn" (click)="prevPage()" [disabled]="prevButtonDisabled">
+    <i class="material-icons my-icons">chevron_left</i>
+  </button>
+  <button type="button" class="btn btn-sm btn-secondary my-nav-btn" (click)="nextPage()" [disabled]="nextButtonDisabled">
+    <i class="material-icons my-icons">chevron_right</i>
+  </button>
+</div>
