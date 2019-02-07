@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../models/User';
 import { UserService } from '../services/user.service';
@@ -11,12 +12,20 @@ import { UserService } from '../services/user.service';
 export class UserProfileComponent implements OnInit {
   user: User;
 
-  constructor(private route: ActivatedRoute, private userService: UserService) { }
+  constructor(
+    private route: ActivatedRoute,
+     private userService: UserService,
+     private location: Location
+     ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
     const userId = params.get('userId');
     this.userService.getUserById(userId).subscribe(u => this.user = u);
     });
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

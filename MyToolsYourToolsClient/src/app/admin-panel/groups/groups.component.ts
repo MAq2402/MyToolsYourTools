@@ -1,9 +1,10 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { Group } from '../../models/Group';
 import { GroupService } from '../../services/group.service';
 import { UserGroupService } from '../../services/user-group.service';
 import { UserGroup } from '../../models/UserGroup';
+import { PaginationComponent } from '../../pagination/pagination.component';
 
 @Component({
   selector: 'app-groups',
@@ -11,6 +12,8 @@ import { UserGroup } from '../../models/UserGroup';
   styleUrls: ['./groups.component.css']
 })
 export class GroupsComponent implements OnInit {
+
+  @ViewChild(PaginationComponent) pagination: PaginationComponent;
 
   searchQueryEmitter = new EventEmitter<string>();
 
@@ -53,6 +56,7 @@ export class GroupsComponent implements OnInit {
       this.activeGroups = this.allGroups;
     }
     this.searchedGroups = this.activeGroups;
+    this.pagination.refreshPagination(this.searchedGroups.length);
   }
 
   checkIfCanJoinGroup(groupId: string) {
@@ -86,6 +90,7 @@ export class GroupsComponent implements OnInit {
     } else {
       this.searchedGroups = this.activeGroups;
     }
+    this.pagination.refreshPagination(this.searchedGroups.length);
   }
 
   onCreateGroup(createdGroup: Group) {
@@ -94,5 +99,4 @@ export class GroupsComponent implements OnInit {
       this.joinGroup(createdGroup.id);
     }
   }
-
 }
