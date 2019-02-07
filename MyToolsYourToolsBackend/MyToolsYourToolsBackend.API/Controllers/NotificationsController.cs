@@ -47,8 +47,8 @@ namespace MyToolsYourToolsBackend.API.Controllers
             return Ok(offerToReturn);
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteNotification(Guid notificationId){
-           if( _notificationService.DeleteNotification(notificationId)) return Ok();
+        public IActionResult DeleteNotification(Guid id){
+           if( _notificationService.DeleteNotification(id)) return Ok();
            else return NotFound();
         }
     } 
