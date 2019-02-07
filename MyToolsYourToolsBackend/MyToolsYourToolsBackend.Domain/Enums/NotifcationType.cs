@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MyToolsYourToolsBackend.Domain.Enums
 {
-    public enum NotifcationType
+    public enum NotificationType
     {
         RentRequest,
         Opinion
