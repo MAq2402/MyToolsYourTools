@@ -9,7 +9,7 @@ import { PaginationComponent } from '../../pagination/pagination.component';
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.css']
+  styleUrls: ['./groups.component.css', '../admin-panel.component.css']
 })
 export class GroupsComponent implements OnInit {
 
