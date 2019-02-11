@@ -7,8 +7,7 @@ namespace MyToolsYourToolsBackend.Domain.Enums
     public enum OfferStatus
     {
         Active,
-        Inactive,
         Rented,
-
+        Hidden
     }
 }

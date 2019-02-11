@@ -7,10 +7,10 @@ namespace MyToolsYourToolsBackend.Application.Dtos
 {
     public class OfferForCreationDto
     { 
-        public OfferStatus Status { get; set; }
         public string Tool { get; set; }
-        public ToolCategory ToolCategory { get; set; }
+        public int ToolCategoryEnumerationNumber { get; set; }
         public string Description { get; set; }
-        public string Picture { get; set; }
+        public string ImageSource { get; set; }
+        public string GroupId { get; set; }
     }
 }

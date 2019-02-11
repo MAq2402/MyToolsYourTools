@@ -3,8 +3,7 @@ import { OfferService } from "../services/offer.service";
 import { Offer } from "../models/offer";
 import { Group } from "../models/Group";
 import { GroupService } from "../services/group.service";
-import { CurrencyIndex } from "@angular/common/src/i18n/locale_data";
-import { Category } from "../enums/Category";
+import { ToolCategory } from '../enums/tool-category';
 
 @Component({
   selector: "app-offers",
@@ -19,10 +18,10 @@ export class OffersComponent implements OnInit {
   currentGroupId: string;
   currentUserId: string;
 
-  currentCategory: Category;
+  currentCategory: ToolCategory;
   offers: Offer[];
   groups: Group[];
-  categories: Category;
+  categories: ToolCategory;
   constructor(
     private offerService: OfferService,
     private groupService: GroupService
@@ -41,14 +40,14 @@ export class OffersComponent implements OnInit {
     this.searchedOffers = this.activeOffers;
     if (this.currentSearch) {
       this.searchedOffers = this.searchedOffers.filter(o =>
-          o.name.toLowerCase().includes(this.currentSearch.toLowerCase())
+          o.tool.toLowerCase().includes(this.currentSearch.toLowerCase())
         );
     }
     if (this.currentGroupId) {
       this.searchedOffers = this.searchedOffers.filter(o => o.groupId === this.currentGroupId);
     }
     if (this.currentCategory) {
-      this.searchedOffers = this.searchedOffers.filter(o => o.category === this.currentCategory);
+      this.searchedOffers = this.searchedOffers.filter(o => o.toolCategory === this.currentCategory);
     }
   }
 
@@ -66,7 +65,7 @@ export class OffersComponent implements OnInit {
     this.searchAndFilter();
   }
 
-  onCategorySelected(category: Category) {
+  onCategorySelected(category: ToolCategory) {
     this.currentCategory = category;
     this.searchAndFilter();
   }

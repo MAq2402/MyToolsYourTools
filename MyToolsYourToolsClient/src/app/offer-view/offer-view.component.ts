@@ -77,7 +77,7 @@ export class OfferViewComponent implements OnInit {
   }
 
   private hasMyOfferBorrowedStatus() {
-    return this.offer.status === OfferStatus.borrowed;
+    return this.offer.status === OfferStatus.rented;
   }
 
   private hasMyOfferHiddenStatus() {
