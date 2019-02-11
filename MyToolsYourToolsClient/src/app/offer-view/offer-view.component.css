@@ -14,7 +14,7 @@
   margin-top: 10px;
 }
 
-.my-image {
+.offer-image {
   max-height: 80%;
   max-width: 80%;
   margin: auto;
@@ -23,7 +23,7 @@
   position: absolute;
 }
 
-.header {
+.offer-header {
   text-align: center;
   font-size: 30px;
   font-weight: bold;
