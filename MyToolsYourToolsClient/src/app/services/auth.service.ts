@@ -16,7 +16,7 @@ const httpOptions = {
 export class AuthService {
   currentUser: User;
   error: String;
-  baseUrl = 'https://localhost:44341/api/';
+  baseUrl = 'https://localhost:5001/api/';
   constructor(private http: HttpClient, public router: Router) {}
 
   register(credentials: RegisterCredentials): Subscription {
