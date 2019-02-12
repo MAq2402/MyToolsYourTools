@@ -1,8 +1,38 @@
-.my-offers{
-    margin-top:50px;
-    margin-left:100px;
-    margin-right:100px;
+.my-offers {
+  font-size: 16px;
+  margin: auto;
+  margin-top: 100px;
 }
 
-.top-buffer40 { margin-top:40px; }
-.top-buffer20 { margin-top:20px; }
+.top-buffer40 {
+  margin-top: 40px;
+}
+.top-buffer20 {
+  margin-top: 20px;
+}
+.top-buffer10 {
+  margin-top: 10px;
+}
+
+.offer-image {
+  max-height: 80%;
+  max-width: 80%;
+  margin: auto;
+  margin-left: 65%;
+  margin-top: -2%;
+  position: absolute;
+}
+
+.offer-header {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.offer-description {
+  size: auto;
+  border: 1px solid black;
+  padding: 10px 10px 10px 10px;
+  width: 75%;
+  font-size: 14px;
+}
