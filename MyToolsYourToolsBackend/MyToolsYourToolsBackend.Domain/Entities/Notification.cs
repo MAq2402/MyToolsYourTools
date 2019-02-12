@@ -14,6 +14,6 @@ namespace MyToolsYourToolsBackend.Domain.Entities
         public User TargetUser { get; set; }
         public Guid OfferId { get; set; }
         public Offer Offer { get; set; }
-        public NotifcationType Type { get; set; }
+        public NotificationType Type { get; set; }
     }
 }
