@@ -27,22 +27,22 @@ export class NotificationsComponent implements OnInit {
         this.opinions = n.filter(not => not.type === NotificationType.opinion);
       });    
   }
-  onRequestNotificationApproved(event: any){
+  onRequestNotificationApproved(requestId: any){
     
-    this.rentRequests = this.rentRequests.filter(n => n.id !== event.currentTarget.id);
-    this.notificationService.deleteNotification(event.currentTarget.id).subscribe();
+    this.rentRequests = this.rentRequests.filter(n => n.id !== requestId);
+    this.notificationService.deleteNotification(requestId).subscribe();
 
   }
-  onRequestNotificationRejected(event: any){
+  onRequestNotificationRejected(requestId: any){
     
-    this.rentRequests = this.rentRequests.filter(n => n.id !== event.currentTarget.id);
-    this.notificationService.deleteNotification(event.currentTarget.id).subscribe();
+    this.rentRequests = this.rentRequests.filter(n => n.id !== requestId);
+    this.notificationService.deleteNotification(requestId).subscribe();
 
   }
-  onOpinionSent(event: any){
+  onOpinionSent(requestId: any){
     
-    this.opinions = this.opinions.filter(n => n.id !== event.currentTarget.id);
-    this.notificationService.deleteNotification(event.currentTarget.id).subscribe();
+    this.opinions = this.opinions.filter(n => n.id !== requestId);
+    this.notificationService.deleteNotification(requestId).subscribe();
 
   }
 
