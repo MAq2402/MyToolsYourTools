@@ -4,6 +4,7 @@ import { Offer } from "../models/offer";
 import { Group } from "../models/Group";
 import { GroupService } from "../services/group.service";
 import { ToolCategory } from '../enums/tool-category';
+import { OfferStatus } from '../enums/OfferStatus';
 
 @Component({
   selector: "app-offers",
@@ -30,11 +31,13 @@ export class OffersComponent implements OnInit {
   ngOnInit() {
     this.currentUserId = localStorage.getItem('auth_key');
     this.offerService.getOffers().subscribe(o => (this.offers = o));
-    this.offerService.getActiveOffers().subscribe(o => (this.activeOffers = o));
+    this.offerService.getActiveOffers().subscribe(o => {
+      this.activeOffers = o;
+      this.searchedOffers = this.activeOffers;
+    });
     this.groupService
       .getUserGroups(this.currentUserId)
       .subscribe(o => (this.groups = o));
-    this.searchedOffers = this.activeOffers;
   }
   searchAndFilter() {
     this.searchedOffers = this.activeOffers;
@@ -47,7 +50,7 @@ export class OffersComponent implements OnInit {
       this.searchedOffers = this.searchedOffers.filter(o => o.groupId === this.currentGroupId);
     }
     if (this.currentCategory) {
-      this.searchedOffers = this.searchedOffers.filter(o => o.toolCategory === this.currentCategory);
+      this.searchedOffers = this.searchedOffers.filter(o => Object.values(ToolCategory)[o.toolCategory] === this.currentCategory);
     }
   }
 

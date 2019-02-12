@@ -23,6 +23,12 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
             offer.Status = OfferStatus.Active;
+
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new Exception("Could not activate offer");
+            }
+
             return Mapper.Map<OfferDto>(offer);
         }
 
@@ -77,6 +83,12 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
             offer.Status = OfferStatus.Hidden;
+
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new Exception("Could not hide offer");
+            }
+
             return Mapper.Map<OfferDto>(offer);
         }
     }

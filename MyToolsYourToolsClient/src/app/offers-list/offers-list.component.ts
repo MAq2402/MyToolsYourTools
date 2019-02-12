@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Offer } from '../models/offer';
 import { OfferService } from '../services/offer.service';
 import { Group } from '../models/Group';
+import { ToolCategory } from '../enums/tool-category';
 
 
 @Component({
@@ -19,12 +20,15 @@ export class OffersListComponent implements OnInit {
 
   }
 
-  private searchGroupName(groupId) {
+  searchGroupName(groupId) {
     for (const g of this.groups) {
       if (g.id === groupId) {
         return g.name;
       }
     }
     }
+  getToolCategoryName(number: number): string {
+    return Object.values(ToolCategory)[number];
+  }
 
 }

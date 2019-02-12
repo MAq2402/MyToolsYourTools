@@ -63,5 +63,16 @@ namespace MyToolsYourToolsBackend.API.Controllers
             var offer = _offerService.ActivateOffer(id);
             return Ok(offer);
         }
+
+        [HttpPut("offers/{id}/hide")]
+        public IActionResult HideOffer(Guid id)
+        {
+            if (!_offerService.CheckIfOfferExists(id))
+            {
+                return NotFound();
+            }
+            var offer = _offerService.HideOffer(id);
+            return Ok(offer);
+        }
     }
 }
