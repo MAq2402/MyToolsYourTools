@@ -2,37 +2,28 @@ import { Injectable } from '@angular/core';
 import { Notification } from '../models/Notification';
 import { NotificationType } from '../enums/NotificationType';
 import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
+  baseUrl = 'https://localhost:44341/api/';
 
-
-  notifications: Notification[] = [
-    {id: '1', ownerId: '1', targetNotificationUserId: '2', targetNotificationUserName: 'Staszek',
-     offerId: '1000', offerName: 'Kosiarka ogrodowa - NOWA', type: NotificationType.rentRequest},
-    {id: '2', ownerId: '1', targetNotificationUserId: '3', targetNotificationUserName: 'Leszek',
-     offerId: '1024', offerName: 'Łopatka', type: NotificationType.rentRequest},
-    {id: '3', ownerId: '1', targetNotificationUserId: '2', targetNotificationUserName: 'Staszek',
-     offerId: '1003', offerName: 'Stare grabie', type: NotificationType.opinion},
-     {id: '4', ownerId: '1', targetNotificationUserId: '2', targetNotificationUserName: 'Staszek',
-     offerId: '1000', offerName: 'Kosiarka ogrodowa - NOWA', type: NotificationType.rentRequest},
-    {id: '5', ownerId: '1', targetNotificationUserId: '3', targetNotificationUserName: 'Leszek',
-     offerId: '1024', offerName: 'Łopatka', type: NotificationType.rentRequest},
-    {id: '6', ownerId: '1', targetNotificationUserId: '2', targetNotificationUserName: 'Staszek',
-     offerId: '1003', offerName: 'Stare grabie', type: NotificationType.opinion},
-     {id: '7', ownerId: '1', targetNotificationUserId: '2', targetNotificationUserName: 'Staszek',
-     offerId: '1000', offerName: 'Kosiarka ogrodowa - NOWA', type: NotificationType.rentRequest},
-    {id: '8', ownerId: '1', targetNotificationUserId: '3', targetNotificationUserName: 'Leszek',
-     offerId: '1024', offerName: 'Łopatka', type: NotificationType.rentRequest},
-    {id: '9', ownerId: '1', targetNotificationUserId: '2', targetNotificationUserName: 'Staszek',
-     offerId: '1003', offerName: 'Stare grabie', type: NotificationType.opinion}
-];
-    constructor() { }
+  constructor(private http: HttpClient) { }
 
   getUserNotifications(userId: string): Observable<Notification[]> {
-    return of(this.notifications);
+   return this.http.get<Notification[]>(this.baseUrl + 'notifications/' + userId, httpOptions);
+  }
+  addNotification(notification: Notification) :Observable<Notification>{
+    return this.http.post<Notification>(this.baseUrl+'notifications/',notification,httpOptions);
+  }
+  deleteNotification(notificationId: string): Observable<{}> {
+    console.log(this.baseUrl+'notifications/'+notificationId);
+    return this.http.delete(this.baseUrl+'notifications/'+notificationId,httpOptions);
   }
 }
