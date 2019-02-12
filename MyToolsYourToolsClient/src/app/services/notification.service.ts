@@ -12,9 +12,9 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class NotificationService {
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = 'https://localhost:44341/api/';
 
-  
+
     constructor(private http: HttpClient) { }
 
   getUserNotifications(userId: string): Observable<Notification[]> {
