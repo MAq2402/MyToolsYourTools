@@ -26,6 +26,11 @@ namespace MyToolsYourToolsBackend.API.Infrastructure
                 cfg.CreateMap<UserGroupDto, UserGroup>();
                 cfg.CreateMap<NotificationForCreationDto,Notification>();
                 cfg.CreateMap<NotificationForCreationDto,NotificationDto>();
+                cfg.CreateMap<Notification,NotificationDto>()
+                .ForMember(dest=>dest.TargetNotificationUserName,
+                opt=>opt.MapFrom(src=>src.TargetUser.UserName))
+                .ForMember(dest=>dest.OfferName,
+                opt=>opt.MapFrom(src=>src.Offer.Description));
                 
 
             });

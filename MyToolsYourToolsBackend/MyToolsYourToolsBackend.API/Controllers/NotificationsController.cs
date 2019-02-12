@@ -38,7 +38,7 @@ namespace MyToolsYourToolsBackend.API.Controllers
 
 
         
-        [HttpPost("add")]
+        [HttpPost()]
         public IActionResult AddNotification([FromBody]NotificationForCreationDto notificationFromBody)
         {
             

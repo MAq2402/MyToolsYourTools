@@ -23,8 +23,10 @@ export class NotificationsComponent implements OnInit {
     let allUserNotifications: Notification[];
     this.notificationService.getUserNotifications(this.currentUserId)
       .subscribe(n => allUserNotifications = n);
+      console.log(this.notificationService.getUserNotifications(this.currentUserId));
     this.rentRequests = allUserNotifications.filter(n => n.type === NotificationType.rentRequest);
     this.opinions = allUserNotifications.filter(n => n.type === NotificationType.opinion);
+    
   }
   onRequestNotificationApproved(event: any){
     
