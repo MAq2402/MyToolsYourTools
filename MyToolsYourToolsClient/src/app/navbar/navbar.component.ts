@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { GroupService } from '../services/group.service';
+import { AlertService } from '../services/alert.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +12,12 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private groupService: GroupService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit() {
   }
@@ -19,9 +27,19 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
-
   goToOfferCreator() {
-    this.router.navigate(['offer-creator']);
+    // check if user has already groups
+    const currentUserId = localStorage.getItem('auth_key');
+    this.groupService.getUserGroups(currentUserId).pipe(
+      tap(g => {
+        if (g.length > 0) {
+          this.router.navigate(['offer-creator']);
+        } else {
+          this.alertService.warining('Aby utworzyć ofertę, musisz być w conajmniej 1 grupie. ' +
+            'Dołącz do dowolnej grupy w panelu administratora.');
+        }
+      })
+    ).subscribe();
   }
 
 }

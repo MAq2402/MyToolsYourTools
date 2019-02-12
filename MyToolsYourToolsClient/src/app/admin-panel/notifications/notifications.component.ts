@@ -10,21 +10,34 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class NotificationsComponent implements OnInit {
 
-  currentUserId = '1';
+  currentUserId: string;
 
   rentRequests: Notification[];
   opinions: Notification[];
 
   constructor(
-    private notificationService: NotificationService // nie lepiej zawrzeć to w UserService?
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit() {
-    let allUserNotifications: Notification[];
+    this.currentUserId = localStorage.getItem('auth_key');
     this.notificationService.getUserNotifications(this.currentUserId)
-      .subscribe(n => allUserNotifications = n);
-    this.rentRequests = allUserNotifications.filter(n => n.type === NotificationType.rentRequest);
-    this.opinions = allUserNotifications.filter(n => n.type === NotificationType.opinion);
+      .subscribe(n => {
+        this.rentRequests = n.filter(not => not.type === NotificationType.rentRequest);
+        this.opinions = n.filter(not => not.type === NotificationType.opinion);
+      });
+  }
+  onRequestNotificationApproved(requestId: any){
+    this.rentRequests = this.rentRequests.filter(n => n.id !== requestId);
+    this.notificationService.deleteNotification(requestId).subscribe();
+  }
+  onRequestNotificationRejected(requestId: any){
+    this.rentRequests = this.rentRequests.filter(n => n.id !== requestId);
+    this.notificationService.deleteNotification(requestId).subscribe();
+  }
+  onOpinionSent(requestId: any){
+    this.opinions = this.opinions.filter(n => n.id !== requestId);
+    this.notificationService.deleteNotification(requestId).subscribe();
   }
 
 }
