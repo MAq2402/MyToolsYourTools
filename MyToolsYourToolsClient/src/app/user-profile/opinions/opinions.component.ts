@@ -3,6 +3,7 @@ import { User } from '../../models/User';
 import { OpinionService } from '../../services/opinion.service';
 import { Opinion } from '../../models/Opinion';
 import { UserService } from '../../services/user.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-opinions',
@@ -18,11 +19,14 @@ export class OpinionsComponent implements OnInit {
   constructor(private opinionService: OpinionService, private userService: UserService) { }
 
   ngOnInit() {
-  this.opinionService.getOpinions().subscribe(o => this.opinions = o);
-  this.userService.getUsers().subscribe(u => this.users = u);
-  this.opinions = this.opinions.filter( o => o.ratedUserId === this.user.id);
+    this.userService.getUsers().subscribe(u => this.users = u);
+    let allOpinions: Opinion[];
+    this.opinionService.getOpinions()
+      .pipe(
+        tap(allOpinions => this.opinions = allOpinions.filter( o => o.ratedUserId === this.user.id))
+      )
+      .subscribe();
   }
-
 
   private searchRatingUserName(ratingUserId: string) {
 

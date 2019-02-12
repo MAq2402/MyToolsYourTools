@@ -17,10 +17,12 @@ namespace MyToolsYourToolsBackend.API.Controllers
     {
 
         private IOpinionService _opinionService;
+        private IUserService _userService;
 
-        public OpinionsController(IOpinionService opinionService)
+        public OpinionsController(IOpinionService opinionService, IUserService userService)
         {
             _opinionService = opinionService;
+            _userService = userService;
         }
 
         [HttpGet("opinions")]
@@ -32,6 +34,11 @@ namespace MyToolsYourToolsBackend.API.Controllers
         [HttpPost("{ratedUserId}/{ratingUserId}/opinions")]
         public IActionResult AddOpinion([FromBody]OpinionForCreationDto opinionFromBody, Guid ratedUserId, Guid ratingUserId)
         {
+            if (!_userService.CheckIfUserExists(ratedUserId))
+            {
+                return NotFound();
+            }
+
             var opinionToReturn = _opinionService.AddOpinion(opinionFromBody, ratedUserId, ratingUserId);
 
             return Created(nameof(GetOpinions), opinionToReturn);

@@ -21,10 +21,10 @@ namespace MyToolsYourToolsBackend.Application.Services
         public OpinionDto AddOpinion(OpinionForCreationDto opinion, Guid ratedUserId, Guid ratingUserId)
         {
             var opinionToSave = Mapper.Map<Opinion>(opinion);
-
             
             _dbContext.Users.FirstOrDefault(u => u.Id == ratingUserId ).GivenOpinions.Add(opinionToSave);
             _dbContext.Users.FirstOrDefault(u => u.Id == ratedUserId).ReceivedOpinions.Add(opinionToSave);
+            _dbContext.Opinions.Add(opinionToSave);
 
             if (_dbContext.SaveChanges() == 0)
             {
