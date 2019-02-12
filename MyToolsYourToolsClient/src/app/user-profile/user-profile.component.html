@@ -1,17 +1,17 @@
 <div class="container">
-  <div class="row">  
+  <div class="row">
     <div class="col-sm">
         <app-data [user]="user"></app-data>
     </div>
-   
+
     <div class="col-sm">
       <app-opinions [user]="user"></app-opinions>
     </div>
   </div>
-  
+
   <div class = "row">
-    <button [routerLink]="['offer-view', offerId]" type="button" class="btn btn-outline-success">
+    <button (click)="goBack()" type="button" class="btn btn-outline-success">
       Wróć do oferty
-    </button>     
+    </button>
   </div>
 </div>

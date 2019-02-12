@@ -14,8 +14,7 @@ const httpOptions = {
 export class NotificationService {
   baseUrl = 'https://localhost:44341/api/';
 
-
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   getUserNotifications(userId: string): Observable<Notification[]> {
    return this.http.get<Notification[]>(this.baseUrl + 'notifications/' + userId, httpOptions);
