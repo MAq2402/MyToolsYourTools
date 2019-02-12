@@ -29,11 +29,9 @@ namespace MyToolsYourToolsBackend.API.Controllers
         [HttpGet("{userId}")]
         public IActionResult GetUserNotifications(Guid userId)
         {
-            if(_notificationService.userHasNotifications(userId))
-            {
+           
             return Ok(_notificationService.GetNotificationsForUser(userId));
-            }
-            else return NotFound("no notifications");
+           
         }
 
 

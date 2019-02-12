@@ -14,23 +14,17 @@ const httpOptions = {
 export class NotificationService {
   baseUrl = 'https://localhost:5001/api/';
 
-  notifications: Notification[] = [
-    {id: '1', ownerId: '1', targetNotificationUserId: '2', targetNotificationUserName: 'Staszek',
-     offerId: '1000', offerName: 'Kosiarka ogrodowa - NOWA', type: NotificationType.rentRequest},
-    {id: '2', ownerId: '1', targetNotificationUserId: '3', targetNotificationUserName: 'Leszek',
-     offerId: '1024', offerName: 'Łopatka', type: NotificationType.rentRequest},
-    {id: '3', ownerId: '1', targetNotificationUserId: '2', targetNotificationUserName: 'Staszek',
-     offerId: '1003', offerName: 'Stare grabie', type: NotificationType.opinion}
-  ];
+  
     constructor(private http: HttpClient) { }
 
   getUserNotifications(userId: string): Observable<Notification[]> {
    return this.http.get<Notification[]>(this.baseUrl + 'notifications/' + userId, httpOptions);
   }
   addNotification(notification: Notification) :Observable<Notification>{
-    return this.http.post<Notification>(this.baseUrl+'add',notification,httpOptions);
+    return this.http.post<Notification>(this.baseUrl+'notifications/',notification,httpOptions);
   }
-  deleteNotification(notificationId: string){
-    //this.http.delete(this.baseUrl+notificationId);
+  deleteNotification(notificationId: string): Observable<{}> {
+    console.log(this.baseUrl+'notifications/'+notificationId);
+    return this.http.delete(this.baseUrl+'notifications/'+notificationId,httpOptions);
   }
 }
