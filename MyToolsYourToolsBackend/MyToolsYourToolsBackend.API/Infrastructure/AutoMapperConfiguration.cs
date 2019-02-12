@@ -33,7 +33,6 @@ namespace MyToolsYourToolsBackend.API.Infrastructure
                 opt=>opt.MapFrom(src=>src.Offer.Description));
               
  
-                cfg.CreateMap<Rent, RentDto>();
                 cfg.CreateMap<RentForCreationDto, Rent>();
             });
         }

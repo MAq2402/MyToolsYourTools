@@ -9,8 +9,6 @@ namespace MyToolsYourToolsBackend.Application.Services
     public interface IUserService
     {
         IEnumerable<UserDto> GetUsers();
-
         bool CheckIfUserExists(Guid userId);
-        bool CheckIfHasEnoughPoints(Guid userId, int sumToSubtract);
     }
 }

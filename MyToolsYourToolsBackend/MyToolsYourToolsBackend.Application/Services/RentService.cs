@@ -12,44 +12,67 @@ namespace MyToolsYourToolsBackend.Application.Services
     public class RentService : IRentService
     {
         private AppDbContext _dbContext;
+        private INotificationService _notificationService;
 
-        public RentService(AppDbContext dbContext)
+        public RentService(AppDbContext dbContext, INotificationService notificationService)
         {
             _dbContext = dbContext;
+            _notificationService = notificationService;
         }
-        public RentDto AddRent(RentForCreationDto rent, Guid userId, int pointsCost)
+
+        public bool CheckIfUserHasEnoughPoints(Guid userId, int sumToSubstract)
+        {
+            return _dbContext.Users.FirstOrDefault(u => u.Id == userId).Points >= sumToSubstract;
+        }
+
+        public Rent AddRent(RentForCreationDto rent, int pointsCost)
         {
             var rentToSave = Mapper.Map<Rent>(rent);
 
-            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
-            user.Rents.Add(rentToSave);
-            user.Offers.FirstOrDefault(o => o.Id == rent.OfferId).Status = Domain.Enums.OfferStatus.Rented;
-            user.Points -= pointsCost;
+            var borrower = _dbContext.Users.FirstOrDefault(u => u.Id == rent.BorrowerId);
+            borrower.Rents.Add(rentToSave);
+            borrower.Points -= pointsCost;
+            _dbContext.Offers.FirstOrDefault(o => o.Id == rent.OfferId).Status = Domain.Enums.OfferStatus.Rented;
 
+            // delete all rentRequests of this offer
+            // TODO zmienić na froncie żeby już nie usuwał
+            var rentRequestsToRemove = _dbContext.Notifications.Where(n => n.OfferId == rent.OfferId && n.Type == Domain.Enums.NotificationType.RentRequest);
+            _dbContext.RemoveRange(rentRequestsToRemove);
+            
             if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not add rent");
             }
 
-            return Mapper.Map<RentDto>(rentToSave);
+            return rentToSave;
 
         }
 
-        public bool DeleteRent(RentDto rent)
+        public void DeleteRent(Guid offerId, int pointsReward)
         {
-            var rentToDelete = Mapper.Map<Rent>(rent);
-            // TODO dodać powiadomienie przez notification.service?
-            // var notificationToSend = new NotificationForCreationDto();
+            var rentToDelete = _dbContext.Rents.FirstOrDefault(r => r.OfferId == offerId);
             
             _dbContext.Rents.Remove(rentToDelete);
+            _dbContext.Offers.FirstOrDefault(o => o.Id == rentToDelete.OfferId).Status = Domain.Enums.OfferStatus.Active;
+            _dbContext.Users.FirstOrDefault(u => u.Id == rentToDelete.BorrowerId).Points += pointsReward;
+
+            // send notification of return confirmation to borrower
+            var notificationToSend = new NotificationForCreationDto()
+            {
+                OwnerId = rentToDelete.BorrowerId,
+                TargetUserId = rentToDelete.Offer.OwnerId,
+                OfferId = offerId,
+                Type = Domain.Enums.NotificationType.Opinion
+            };
 
             if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not delete rent");
             }
 
-            return true;
+            _notificationService.AddNotification(notificationToSend);
 
         }
+
     }
 }
