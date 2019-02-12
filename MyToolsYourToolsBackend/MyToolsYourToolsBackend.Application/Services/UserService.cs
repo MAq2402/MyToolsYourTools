@@ -27,5 +27,10 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             return Mapper.Map<IEnumerable<UserDto>>(_dbContext.Users);
         }
+
+        public bool CheckIfHasEnoughPoint(Guid userId, int sumToSubstract)
+        {
+            return _dbContext.Users.FirstOrDefault(u => u.Id == userId).Points >= sumToSubstract;
+        }
     }
 }

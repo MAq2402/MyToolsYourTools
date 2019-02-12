@@ -11,5 +11,6 @@ namespace MyToolsYourToolsBackend.Application.Services
         IEnumerable<OfferDto> GetAllOffers();
         OfferDto AddOffer(OfferForCreationDto offer, Guid userId);
         OfferDto GetOffer(Guid id);
+        bool CheckIfOfferIsActive(Guid offerId);
     }
 }

@@ -11,5 +11,6 @@ namespace MyToolsYourToolsBackend.Application.Services
         IEnumerable<UserDto> GetUsers();
 
         bool CheckIfUserExists(Guid userId);
+        bool CheckIfHasEnoughPoints(Guid userId, int sumToSubtract);
     }
 }

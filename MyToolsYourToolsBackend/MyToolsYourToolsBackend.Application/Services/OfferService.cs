@@ -50,5 +50,10 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             return Mapper.Map<IEnumerable<OfferDto>>(offersFromRepo);
         }
+
+        public bool CheckIfOfferIsActive(Guid offerId)
+        {
+            return _dbContext.Offers.FirstOrDefault(o => o.Id == offerId).Status == Domain.Enums.OfferStatus.Active; 
+        }
     }
 }
