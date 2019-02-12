@@ -24,6 +24,9 @@ namespace MyToolsYourToolsBackend.API.Infrastructure
                 cfg.CreateMap<GroupForCreationDto, Group>();
 
                 cfg.CreateMap<UserGroupDto, UserGroup>();
+
+                cfg.CreateMap<OpinionForCreationDto, Opinion>();
+                cfg.CreateMap<Opinion, OpinionDto>();
             });
         }
     }
