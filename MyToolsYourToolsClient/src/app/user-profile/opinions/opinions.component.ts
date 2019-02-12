@@ -20,12 +20,7 @@ export class OpinionsComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getUsers().subscribe(u => this.users = u);
-    let allOpinions: Opinion[];
-    this.opinionService.getOpinions()
-      .pipe(
-        tap(allOpinions => this.opinions = allOpinions.filter( o => o.ratedUserId === this.user.id))
-      )
-      .subscribe();
+    this.opinionService.getUserReceivedOpinions(this.user.id).subscribe(o => this.opinions = o);
   }
 
   private searchRatingUserName(ratingUserId: string) {

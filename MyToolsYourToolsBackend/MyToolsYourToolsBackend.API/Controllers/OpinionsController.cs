@@ -44,5 +44,14 @@ namespace MyToolsYourToolsBackend.API.Controllers
             return Created(nameof(GetOpinions), opinionToReturn);
         }
 
+        [HttpGet("{userId}/opinions")]
+        public IActionResult GetUserReceivedOpinions(Guid userId)
+        {
+            if (!_userService.CheckIfUserExists(userId))
+            {
+                return NotFound();
+            }
+            return Ok(_opinionService.GetUserReceivedOpinions(userId));
+        }
     }
 }

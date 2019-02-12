@@ -9,5 +9,7 @@ namespace MyToolsYourToolsBackend.Application.Services
     {
         IEnumerable<OpinionDto> GetAllOpinions();
         OpinionDto AddOpinion(OpinionForCreationDto opinion, Guid ratedUserId, Guid ratingUserId);
+
+        IEnumerable<OpinionDto> GetUserReceivedOpinions(Guid userId);
     }
 }

@@ -26,4 +26,7 @@ export class OpinionService {
             opinion, httpOptions);
   }
 
+  getUserReceivedOpinions(userId: string): Observable<Opinion[]> {
+    return this.http.get<Opinion[]>(this.baseUrl + userId + '/opinions');
+  }
 }

@@ -38,5 +38,13 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             return Mapper.Map<IEnumerable<OpinionDto>>(_dbContext.Opinions);
         }
+
+        public IEnumerable<OpinionDto> GetUserReceivedOpinions(Guid userId)
+        {
+            
+            var opinionsToReturn = _dbContext.Opinions.Where(o => o.RatedUserId == userId);
+
+            return Mapper.Map<IEnumerable<OpinionDto>>(opinionsToReturn);
+        }
     }
 }
