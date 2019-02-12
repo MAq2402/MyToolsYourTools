@@ -25,10 +25,6 @@ export class NotificationsComponent implements OnInit {
       .subscribe(n => {
         this.rentRequests = n.filter(not => not.type === NotificationType.rentRequest);
         this.opinions = n.filter(not => not.type === NotificationType.opinion);
-        console.log('rentRequests:');
-        this.rentRequests.forEach(rr => console.log(rr));
-        console.log('opinions:');
-        this.opinions.forEach(o => console.log(o));
       });
   }
   onRequestNotificationApproved(requestId: any){
