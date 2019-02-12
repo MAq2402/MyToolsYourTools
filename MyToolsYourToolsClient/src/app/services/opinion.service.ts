@@ -1,31 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Opinion } from '../models/Opinion';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class OpinionService {
 
-  opinions: Opinion[] = [
-    {id: '1', message: 'Transakcja przebiegła pomyślnie', ratedUserId: '1', ratingUserId: '2'},
-    {id: '2', message: 'Nie polecam współpracy z tym użytkownikiem', ratedUserId: '2', ratingUserId: '1'},
-    {id: '3', message: 'Polecam ', ratedUserId: '1', ratingUserId: '2'},
-    {id: '4', message: 'Super ', ratedUserId: '1', ratingUserId: '2'},
-    {id: '5', message: 'Janusz pełną parą ', ratedUserId: '1', ratingUserId: '2'},
-    {id: '6', message: 'Janusz pełną parą ', ratedUserId: '1', ratingUserId: '2'},
-    {id: '7', message: 'Janusz pełną parą ', ratedUserId: '1', ratingUserId: '2'},
-    {id: '8', message: 'Janusz pełną parą ', ratedUserId: '1', ratingUserId: '2'}
-  ];
+  baseUrl = 'https://localhost:44341/api/';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getOpinions(): Observable<Opinion[]> {
-    return of(this.opinions);
+    return this.http.get<Opinion[]>(this.baseUrl + 'opinions');
   }
 
-  addOpinion(opinion: Opinion) {
-    this.opinions.push(opinion);
+  addOpinion(opinion: Opinion): Observable<Opinion> {
+    return this.http.post<Opinion>(this.baseUrl + opinion.ratedUserId + '/' + opinion.ratingUserId + '/opinions',
+            opinion, httpOptions);
   }
 
+  getUserReceivedOpinions(userId: string): Observable<Opinion[]> {
+    return this.http.get<Opinion[]>(this.baseUrl + userId + '/opinions');
+  }
 }
