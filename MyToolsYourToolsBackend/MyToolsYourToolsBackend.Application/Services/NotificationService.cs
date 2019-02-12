@@ -21,12 +21,11 @@ namespace MyToolsYourToolsBackend.Application.Services
 
         public bool userHasNotifications(Guid userId)
         {
-            return _dbContext.Notifications.Any(n => n.TargetUserId == userId);
+            return _dbContext.Notifications.Any(n => n.OwnerId == userId);
         }
         public IEnumerable<NotificationDto> GetNotificationsForUser(Guid userId)
         {
-            var userNotificationIds = _dbContext.Notifications.Where(n => n.TargetUserId == userId).Select(n => n.Id);
-            var notificationsToReturn = _dbContext.Notifications.Where(n => userNotificationIds.Contains(n.Id));
+            var notificationsToReturn = _dbContext.Notifications.Where(n => n.OwnerId == userId);
             
             return Mapper.Map<IEnumerable<NotificationDto>>(notificationsToReturn);
            

@@ -13,7 +13,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class GroupService {
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = 'https://localhost:44341/api/';
 
 groups: Group[] = [
   {id: '1', name: 'Januszery'},

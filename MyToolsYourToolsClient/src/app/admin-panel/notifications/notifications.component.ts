@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Notification } from '../../models/Notification';
 import { NotificationType } from '../../enums/NotificationType';
 import { NotificationService } from '../../services/notification.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notifications',
@@ -10,7 +11,7 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class NotificationsComponent implements OnInit {
 
-  currentUserId = '87e48e98-e923-49be-a134-caff0c7fae0a';
+  currentUserId: string;
 
   rentRequests: Notification[];
   opinions: Notification[];
@@ -20,28 +21,35 @@ export class NotificationsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.currentUserId = localStorage.getItem('auth_key');
     let allUserNotifications: Notification[];
     this.notificationService.getUserNotifications(this.currentUserId)
-      .subscribe(n => allUserNotifications = n);
+      .pipe(
+        tap(allUserNotifications => {
+          this.rentRequests = allUserNotifications.filter(n => n.type === NotificationType.rentRequest);
+          this.opinions = allUserNotifications.filter(n => n.type === NotificationType.opinion);
+        })
+      )
+      .subscribe();
       console.log(this.notificationService.getUserNotifications(this.currentUserId));
-    this.rentRequests = allUserNotifications.filter(n => n.type === NotificationType.rentRequest);
-    this.opinions = allUserNotifications.filter(n => n.type === NotificationType.opinion);
-    
+    /*this.rentRequests = allUserNotifications.filter(n => n.type === NotificationType.rentRequest);
+    this.opinions = allUserNotifications.filter(n => n.type === NotificationType.opinion);*/
+
   }
   onRequestNotificationApproved(event: any){
-    
+
     this.rentRequests = this.rentRequests.filter(n => n.id !== event.currentTarget.id);
     this.notificationService.deleteNotification(event.currentTarget.id);
 
   }
   onRequestNotificationRejected(event: any){
-    
+
     this.rentRequests = this.rentRequests.filter(n => n.id !== event.currentTarget.id);
     this.notificationService.deleteNotification(event.currentTarget.id);
 
   }
   onOpinionSent(event: any){
-    
+
     this.opinions = this.opinions.filter(n => n.id !== event.currentTarget.id);
     this.notificationService.deleteNotification(event.currentTarget.id);
 

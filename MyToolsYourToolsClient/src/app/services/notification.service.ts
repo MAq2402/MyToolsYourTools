@@ -12,7 +12,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class NotificationService {
-  baseUrl = 'https://localhost:5001/api/notifications/';
+  baseUrl = 'https://localhost:44341/api/';
 
   notifications: Notification[] = [
     {id: '1', ownerId: '1', targetNotificationUserId: '2', targetNotificationUserName: 'Staszek',
@@ -25,9 +25,7 @@ export class NotificationService {
     constructor(private http: HttpClient) { }
 
   getUserNotifications(userId: string): Observable<Notification[]> {
-   return this.http.get<Notification[]>('https://localhost:5001/api/notifications/87e48e98-e923-49be-a134-caff0c7fae0a');
-   
-   //return of(this.notifications);
+   return this.http.get<Notification[]>(this.baseUrl + 'Notifications/' + userId, httpOptions);
   }
   addNotification(notification: Notification) :Observable<Notification>{
     return this.http.post<Notification>(this.baseUrl+'add',notification,httpOptions);
