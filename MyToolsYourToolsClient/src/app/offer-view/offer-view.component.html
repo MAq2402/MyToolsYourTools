@@ -1,44 +1,62 @@
-<div class="container">
-    <span class="offer-header">{{ offer.name }}</span>
-    <img class="offer-image" src="{{ offer.imgSrc }}" />
-
-    <p class="top-buffer20"></p>
-    <span>Wystawił: </span>
-    <a [routerLink]="['/user-profile', offer.ownerId]" class="badge badge-success top-buffer40">
+<div class="container my-offers">
+  <div class="row">
+    <div class="col">
+      <div>
+        <span class="offer-header">{{ offer.name }}</span>
+        <img class="offer-image" src="{{ offer.imgSrc }}" />
+      </div>
+      <span>Wystawił: </span>
+      <a
+        [routerLink]="['/user-profile', offer.ownerId]"
+        class="badge badge-success top-buffer40"
+      >
         {{ getUserName(offer.ownerId) }} {{ getUserSurname(offer.ownerId) }}
-    </a>
-    <p class="top-buffer20"></p>
-    <span>Udostępnione w grupie:</span>
-    <a>{{ getGroupName(offer.groupId) }}</a>
-    <div class="top-buffer20">Opis przedmiotu:</div>
-    <div class="offer-description top-buffer10">
+      </a>
+      <p class="top-buffer20"></p>
+      <span>Udostępnione w grupie:</span>
+      <a>{{ getGroupName(offer.groupId) }}</a>
+      <div class="top-buffer20">Opis przedmiotu:</div>
+      <div class="offer-description top-buffer10">
         {{ offer.description }}
-    </div>
-    <hr class="mb-4" />
-    <div *ngIf="!isMyOffer()" name="notMyOffer">
-        <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0"
-            (click)="sendRentRequest($event, offer.ownerId, offer.id)">
-            Złóż prośbę o wypożyczenie
+      </div>
+      <hr class="mb-4" />
+      <div *ngIf="!isMyOffer()" name="notMyOffer">
+        <button
+          class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0"
+          (click)="sendRentRequest($event, offer.ownerId, offer.id)"
+        >
+          Złóż prośbę o wypożyczenie
         </button>
+      </div>
+      <div *ngIf="isMyOffer()" name="myOffer" class="row">
+        <div class="col">
+          <button
+            class="btn btn-outline-success btn-lg"
+            (click)="sendConfirmReturn($event, offer.ownerId, offer.id)"
+            [disabled]="!hasMyOfferBorrowedStatus()"
+          >
+            Potwierdź zwrot
+          </button>
+        </div>
+        <div class="col">
+          <button
+            class="btn btn-lg"
+            [ngClass]="{
+              'btn-secondary': !hasMyOfferHiddenStatus(),
+              'btn-success': hasMyOfferHiddenStatus()
+            }"
+            type="button"
+            (click)="changeOfferStatus()"
+            [disabled]="hasMyOfferBorrowedStatus()"
+          >
+            {{ hasMyOfferHiddenStatus() ? "Aktywuj ofertę" : "Ukryj ofertę" }}
+          </button>
+        </div>
+        <div class="col">
+          <h6>Status oferty:</h6>
+          <h5 class="">{{ offer.status }}</h5>
+        </div>
+      </div>
     </div>
-    <div *ngIf="isMyOffer()" name="myOffer" class="row">
-        <div class="col">
-            <button class="btn btn-outline-success btn-lg" (click)="sendConfirmReturn($event, offer.ownerId, offer.id)"
-                [disabled]="!hasMyOfferBorrowedStatus()">
-                Potwierdź zwrot
-            </button>
-        </div>
-        <div class="col">
-            <button class="btn btn-lg" [ngClass]="{
-                'btn-secondary': !hasMyOfferHiddenStatus(),
-                'btn-success': hasMyOfferHiddenStatus()
-                }" type="button" (click)="changeOfferStatus()" [disabled]="hasMyOfferBorrowedStatus()">
-                {{ hasMyOfferHiddenStatus() ? "Aktywuj ofertę" : "Ukryj ofertę" }}
-            </button>
-        </div>
-        <div class="col">
-            <h6>Status oferty:</h6>
-            <h5 class="">{{ offer.status }}</h5>
-        </div>
-    </div>
+  </div>
 </div>
