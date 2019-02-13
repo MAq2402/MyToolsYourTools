@@ -21,15 +21,6 @@
               <option *ngFor="let category of getCategoriesNames()" [value]="category">{{category}}</option>
             </select>
           </div>
-
-          <div class="col-md-6 mb-4">
-            <label>Zdjęcie przedmiotu <span class="text-muted">(Opcjonalne)</span></label>
-            <input name="imageSource" type="text" class="form-control" placeholder="Zdjęcie" [(ngModel)]="model.imageSource"
-              #name="ngModel">
-          </div>
-        </div>
-
-        <div class="row">
           <div class="col-md-6 mb-4">
             <label>Grupa, w której przedmiot zostanie udostępniony</label>
             <select class="form-control" id="group" [(ngModel)]="model.groupId" name="group" #group="ngModel">
