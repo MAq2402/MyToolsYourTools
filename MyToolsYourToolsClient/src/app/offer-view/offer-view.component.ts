@@ -140,6 +140,7 @@ export class OfferViewComponent implements OnInit {
         };
         this.notificationService.addNotification(notificationToSend).subscribe();
         this.alertService.success('Pomyślnie zmieniono status oferty');
+        this.offer.status = OfferStatus.active;
       },
       error => {
         this.alertService.error(error.error);
