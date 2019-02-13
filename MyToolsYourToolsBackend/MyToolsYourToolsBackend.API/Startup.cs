@@ -50,6 +50,7 @@ namespace MyToolsYourToolsBackend.API
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IUserGroupService, UserGroupService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IRentService, RentService>();
             services.AddScoped<IOpinionService, OpinionService>();
         }
 

@@ -91,5 +91,9 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             return Mapper.Map<OfferDto>(offer);
         }
+        public bool CheckIfOfferIsActive(Guid offerId)
+        {
+            return _dbContext.Offers.FirstOrDefault(o => o.Id == offerId).Status == Domain.Enums.OfferStatus.Active; 
+        }
     }
 }
