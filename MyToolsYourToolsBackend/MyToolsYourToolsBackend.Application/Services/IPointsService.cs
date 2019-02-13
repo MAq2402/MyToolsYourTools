@@ -8,6 +8,6 @@ namespace MyToolsYourToolsBackend.Application.Services
 {
     public interface IPointsService
     {
-        void ModifyPoints(User user, IPointsModificationStrategy strategy); 
+        void ModifyPoints(User user, IPointsModificationStrategy strategy);
     }
 }

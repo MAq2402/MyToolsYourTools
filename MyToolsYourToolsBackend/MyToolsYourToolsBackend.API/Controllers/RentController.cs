@@ -33,14 +33,12 @@ namespace MyToolsYourToolsBackend.API.Controllers
                 return NotFound();
             }
 
-            int pointsRentCost = 100;
-
-            if(!_rentService.CheckIfUserHasEnoughPoints(rentFromBody.BorrowerId, pointsRentCost))
+            if(!_rentService.CheckIfUserHasEnoughPoints(rentFromBody.BorrowerId))
             {
                 return BadRequest("Niewystarczająca ilość punktów na zrealizowanie wypożyczenia.");
             }
 
-            _rentService.AddRent(rentFromBody, pointsRentCost);
+            _rentService.AddRent(rentFromBody);
 
             return NoContent();
         }
@@ -48,8 +46,7 @@ namespace MyToolsYourToolsBackend.API.Controllers
         [HttpDelete("rents/{offerId}")]
         public IActionResult DeleteRent(Guid offerId)
         {
-            int pointsReturnReward = 100;
-            _rentService.DeleteRent(offerId, pointsReturnReward);
+            _rentService.DeleteRent(offerId);
             return NoContent();
         }
     }

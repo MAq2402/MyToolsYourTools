@@ -23,12 +23,13 @@ namespace MyToolsYourToolsBackend.Application.Services
             _pointsService = pointsService;
         }
 
-        public bool CheckIfUserHasEnoughPoints(Guid userId, int sumToSubstract)
+        public bool CheckIfUserHasEnoughPoints(Guid userId)
         {
-            return _dbContext.Users.FirstOrDefault(u => u.Id == userId).Points >= sumToSubstract;
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+            return new PointsModificationToolBorrowingStrategy().Modify(user.Points) > 0;
         }
 
-        public Rent AddRent(RentForCreationDto rent, int pointsCost)
+        public Rent AddRent(RentForCreationDto rent)
         {
             var rentToSave = Mapper.Map<Rent>(rent);
 
