@@ -1,13 +1,17 @@
-<a [routerLink]="['/offer-view/', offer.id]" class="list-group-item list-group-item-action" *ngFor="let offer of offers">
-  <div class="row">
-    <div class="col-sm-2">
-      <img class="my-image-size" (error)="offer.imageSource = 'https://cdn4.iconfinder.com/data/icons/basic-dashboard-1/512/Basic_Dashboard_UI_fix_option_machine_tools-512.png'" [src]="offer.imageSource">
+<a [routerLink]="['/offer-view/', offer.id]" class="list-group-item list-group-item-action"
+    *ngFor="let offer of offers">
+    <div class="row">
+        <div class="col-sm-2">
+            <img class="offer-image"
+                (error)="offer.imageSource = 'https://cdn4.iconfinder.com/data/icons/basic-dashboard-1/512/Basic_Dashboard_UI_fix_option_machine_tools-512.png'"
+                [src]="offer.imageSource">
+        </div>
+        <div class="col-sm-4">
+            <span class="offer-name">{{offer.tool}}</span>
+        </div>
+        <div class="col-sm-6">
+            <span class="offer-info">{{getToolCategoryName(offer.toolCategory)}} ,
+                {{searchGroupName(offer.groupId)}}</span>
+        </div>
     </div>
-    <div class="col-sm-4">
-      <h3>{{offer.tool}}</h3>
-    </div>
-    <div class="col-sm-6">
-      <p>{{getToolCategoryName(offer.toolCategory)}} , {{searchGroupName(offer.groupId)}}</p>
-    </div>
-  </div>
 </a>
