@@ -24,19 +24,26 @@ namespace MyToolsYourToolsBackend.API.Controllers
             _offerService = offerService;
             _userService = userService;
         }
-       [HttpGet("offers")]
-       public IActionResult GetOffers()
-       {
-            return Ok(_offerService.GetAllOffers());
-       }
+        [HttpGet("offers")]
+        public IActionResult GetOffers(bool onlyActive = false)
+        {
+            return Ok(_offerService.GetAllOffers(onlyActive));
+        }
 
-        [HttpGet("{userId}/offers")]
+        [HttpGet("{userId}/offers-for-user-groups")]
+        public IActionResult GetOffersForUserGroups(Guid userId)
+        {
+            return Ok(_offerService.GetOffersForUserGroups(userId));
+        }
+
+
+    [HttpGet("{userId}/offers")]
         public IActionResult GetUserOffers(Guid userId)
         {
             return Ok(_offerService.GetUserOffers(userId));
         }
 
-        [HttpGet("offers/{id}",Name = nameof(GetOffer))]
+        [HttpGet("offers/{id}", Name = nameof(GetOffer))]
         public IActionResult GetOffer(Guid id)
         {
             return Ok(_offerService.GetOffer(id));
@@ -51,6 +58,28 @@ namespace MyToolsYourToolsBackend.API.Controllers
             var offerToReturn = _offerService.AddOffer(offerFromBody, userId);
 
             return CreatedAtRoute(nameof(GetOffer), new { id = offerToReturn.Id }, offerToReturn);
+        }
+
+        [HttpPut("offers/{id}/activate")]
+        public IActionResult ActivateOffer(Guid id)
+        {
+            if (!_offerService.CheckIfOfferExists(id))
+            {
+                return NotFound();
+            }
+            var offer = _offerService.ActivateOffer(id);
+            return Ok(offer);
+        }
+
+        [HttpPut("offers/{id}/hide")]
+        public IActionResult HideOffer(Guid id)
+        {
+            if (!_offerService.CheckIfOfferExists(id))
+            {
+                return NotFound();
+            }
+            var offer = _offerService.HideOffer(id);
+            return Ok(offer);
         }
     }
 }

@@ -6,8 +6,10 @@ namespace MyToolsYourToolsBackend.Domain.Enums
 {
     public enum ToolCategory
     {
-        A,
-        B,
-        C
+        Mower,
+        Barrow,
+        GardenAccessory,
+        Shovel,
+        Rake
     }
 }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MyToolsYourToolsBackend.Application.Dtos;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
+using MyToolsYourToolsBackend.Domain.Enums;
 
 namespace MyToolsYourToolsBackend.Application.Services
 {
@@ -17,6 +19,20 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             _dbContext = dbContext;
         }
+
+        public OfferDto ActivateOffer(Guid id)
+        {
+            var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
+            offer.Status = OfferStatus.Active;
+
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new Exception("Could not activate offer");
+            }
+
+            return Mapper.Map<OfferDto>(offer);
+        }
+
         public OfferDto AddOffer(OfferForCreationDto offer, Guid userId)
         {
             var offerToSave = Mapper.Map<Offer>(offer);
@@ -32,9 +48,27 @@ namespace MyToolsYourToolsBackend.Application.Services
 
         }
 
-        public IEnumerable<OfferDto> GetAllOffers()
+        public bool CheckIfOfferExists(Guid id)
         {
-            return Mapper.Map<IEnumerable<OfferDto>>(_dbContext.Offers);
+            return _dbContext.Offers.Any(o => o.Id == id);
+        }
+
+        public bool CheckIfOfferIsActive(Guid id)
+        {
+            return _dbContext.Offers.FirstOrDefault(o => o.Id == id).Status == OfferStatus.Active;
+        }
+
+        public IEnumerable<OfferDto> GetAllOffers(bool onlyActive)
+        {
+            if (onlyActive)
+            {
+                return Mapper.Map<IEnumerable<OfferDto>>(_dbContext.Offers.Where(o => o.Status == OfferStatus.Active));
+            }
+            else
+            {
+                return Mapper.Map<IEnumerable<OfferDto>>(_dbContext.Offers);
+            }
+            
         }
 
         public OfferDto GetOffer(Guid id)
@@ -44,11 +78,35 @@ namespace MyToolsYourToolsBackend.Application.Services
             return Mapper.Map<OfferDto>(offerFromRepo);
         }
 
+        public IEnumerable<OfferDto> GetOffersForUserGroups(Guid userId)
+        {
+            var user = _dbContext.Users.Include(u => u.UserGroups).FirstOrDefault(u => u.Id == userId);
+            var offers = _dbContext.Offers.Where(o => o.Status == OfferStatus.Active)
+                                          .Where(o => o.OwnerId != userId)
+                                          .Where(o => user.UserGroups.Select(ug => ug.GroupId)
+                                                                     .Contains(o.GroupId));
+
+            return Mapper.Map<IEnumerable<OfferDto>>(offers);
+        }
+
         public IEnumerable<OfferDto> GetUserOffers(Guid userId)
         {
             var offersFromRepo = _dbContext.Offers.Where(o => o.OwnerId == userId);
 
             return Mapper.Map<IEnumerable<OfferDto>>(offersFromRepo);
+        }
+
+        public OfferDto HideOffer(Guid id)
+        {
+            var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
+            offer.Status = OfferStatus.Hidden;
+
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new Exception("Could not hide offer");
+            }
+
+            return Mapper.Map<OfferDto>(offer);
         }
     }
 }

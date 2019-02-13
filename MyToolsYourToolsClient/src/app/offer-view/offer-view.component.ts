@@ -77,24 +77,24 @@ export class OfferViewComponent implements OnInit {
   }
 
   private hasMyOfferBorrowedStatus() {
-    return this.offer.status === OfferStatus.borrowed;
+
+    return Object.values(OfferStatus)[this.offer.status] === OfferStatus.rented;
   }
 
   private hasMyOfferHiddenStatus() {
-    return this.offer.status === OfferStatus.hidden;
+    return Object.values(OfferStatus)[this.offer.status] === OfferStatus.hidden;
   }
 
   private changeOfferStatus() {
-    // TODO: na backendzie funckja zmieniająca status oferty badź dwie ukrywająca i aktywująca
-    if (this.offer.status === OfferStatus.hidden) {
-      this.offerService.activeOffer(this.offer.id).pipe(
-        tap(_ => this.offer.status = OfferStatus.active) // albo pobranie na nowo oferty
-      ).subscribe();
+    if (Object.values(OfferStatus)[this.offer.status] === OfferStatus.hidden) {
+      this.offerService.activateOffer(this.offer.id).subscribe(res => this.offer = res);
     } else {
-      this.offerService.hideOffer(this.offer.id).pipe(
-      tap(_ => this.offer.status = OfferStatus.hidden)
-      ).subscribe();
+      this.offerService.hideOffer(this.offer.id).subscribe(res => this.offer = res);
     }
+  }
+
+  getOfferStatusName(number: number) {
+    return Object.values(OfferStatus)[number];
   }
 
   sendRentRequest(event, userId, offerId) {

@@ -15,12 +15,11 @@
 }
 
 .offer-image {
-  max-height: 80%;
-  max-width: 80%;
+  max-height: 25%;
+  max-width: 25%;
   margin: auto;
-  margin-left: 65%;
-  margin-top: -2%;
-  position: absolute;
+  margin-top: 1%;
+  float: right;
 }
 
 .offer-header {
@@ -35,4 +34,9 @@
   padding: 10px 10px 10px 10px;
   width: 75%;
   font-size: 14px;
+}
+
+.offer-group {
+    font-weight: bold;
+    font-style: italic;
 }

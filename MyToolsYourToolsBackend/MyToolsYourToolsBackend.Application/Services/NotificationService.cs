@@ -7,6 +7,7 @@ using MyToolsYourToolsBackend.Application.Dtos;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
 using MyToolsYourToolsBackend.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyToolsYourToolsBackend.Application.Services
 {
@@ -23,9 +24,10 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             return _dbContext.Notifications.Any(n => n.OwnerId == userId);
         }
+
         public IEnumerable<NotificationDto> GetNotificationsForUser(Guid userId)
         {
-            var notificationsToReturn = _dbContext.Notifications.Where(n => n.OwnerId == userId);
+            var notificationsToReturn = _dbContext.Notifications.Where(n => n.OwnerId == userId).Include(n =>  n.Offer ).Include(n=> n.TargetUser);
             
             return Mapper.Map<IEnumerable<NotificationDto>>(notificationsToReturn);
            
@@ -37,11 +39,10 @@ namespace MyToolsYourToolsBackend.Application.Services
             _dbContext.Notifications.Add(newNotification);
             if(_dbContext.SaveChanges() == 0)
             {
-                throw new Exception("Could not add otification");
+                throw new Exception("Could not add notification");
             }
 
             return Mapper.Map<NotificationDto>(newNotification);
-
 
         }
 
@@ -61,6 +62,27 @@ namespace MyToolsYourToolsBackend.Application.Services
             return true;
             }
             else return false;
+        }
+
+        public NotificationDto SendNotificationFromServer(Guid toUserId, Guid fromUserId, Guid offerId, NotificationType type)
+        {
+            var notificationToSend = new NotificationForCreationDto()
+            {
+                OwnerId = toUserId,
+                TargetUserId = fromUserId,
+                OfferId = offerId,
+                Type = type
+            };
+
+            return AddNotification(notificationToSend);
+
+        }
+
+        public bool CheckIfUserAlreadySendRentRequest(Guid userId, Guid offerId)
+        {
+            return _dbContext.Notifications.Any(n => n.TargetUserId == userId
+                                                && n.OfferId == offerId
+                                                && n.Type == NotificationType.RentRequest);
         }
     }
 }

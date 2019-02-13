@@ -27,5 +27,12 @@ namespace MyToolsYourToolsBackend.API.Controllers
         {
             return Ok(_userService.GetUsers());
         }
+        [Route("{userId}")]
+        [HttpGet]
+        public IActionResult GetUserById(Guid userId)
+        {
+            return Ok(_userService.GetUserById(userId));
+
+        }
     }
 }

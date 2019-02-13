@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyToolsYourToolsBackend.Application.Dtos;
 using MyToolsYourToolsBackend.Domain.Entities;
+using MyToolsYourToolsBackend.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,8 @@ namespace MyToolsYourToolsBackend.API.Infrastructure
                 cfg.CreateMap<User, UserDto>();
 
                 cfg.CreateMap<Offer, OfferDto>();
-                cfg.CreateMap<OfferForCreationDto, Offer>();
+                cfg.CreateMap<OfferForCreationDto, Offer>()
+                .ForMember(dest => dest.ToolCategory, opt => opt.MapFrom(src => (ToolCategory)src.ToolCategoryEnumerationNumber));
 
                 cfg.CreateMap<Group, GroupDto>();
                 cfg.CreateMap<GroupForCreationDto, Group>();
@@ -30,8 +32,12 @@ namespace MyToolsYourToolsBackend.API.Infrastructure
                 .ForMember(dest=>dest.TargetNotificationUserName,
                 opt=>opt.MapFrom(src=>src.TargetUser.UserName))
                 .ForMember(dest=>dest.OfferName,
-                opt=>opt.MapFrom(src=>src.Offer.Description));
-                
+                opt=>opt.MapFrom(src=>src.Offer.Tool));
+              
+                cfg.CreateMap<RentForCreationDto, Rent>();
+   
+                cfg.CreateMap<OpinionForCreationDto, Opinion>();
+                cfg.CreateMap<Opinion, OpinionDto>();
 
             });
         }

@@ -8,6 +8,7 @@ namespace MyToolsYourToolsBackend.Domain.Entities
     public class Group : Enitity
     {
         public string Name { get; set; }
-        public IEnumerable<UserGroup> UserGroups { get; set; }
+        public ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
+        public ICollection<Offer> Offers { get; set; } = new List<Offer>();
     }
 }
