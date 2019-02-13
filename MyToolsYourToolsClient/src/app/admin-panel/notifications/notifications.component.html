@@ -13,9 +13,9 @@
           <div class="row">
             <div class="col">
               <span>Użytkownik
-                <a href="admin-panel">{{request.targetNotificationUserName}}</a>
+                <a [routerLink]="['/user-profile', request.targetUserId]">{{request.targetNotificationUserName}}</a>
                 prosi o udostępnienie przedmiotu oferty:
-                <a href="admin-panel">{{request.offerName}}</a>
+                <a  [routerLink]="['/offer-view', request.offerId]">{{request.offerName}}</a>
               </span>
             </div>
             <div clss="col-auto">
@@ -34,9 +34,9 @@
           <div class="row">
             <div class="col">
               <span>Wystaw opinię użytkownikowi
-                <a href="admin-panel">{{opinion.targetNotificationUserName}}</a>
+                <a [routerLink]="['/user-profile', opinion.targetUserId]">{{opinion.targetNotificationUserName}}</a>
                 za przedmiot oferty:
-                <a href="admin-panel">{{opinion.offerName}}</a>
+                <a [routerLink]="['/offer-view', opinion.offerId]">{{opinion.offerName}}</a>
               </span>
             </div>
             <div clss="col-auto">
