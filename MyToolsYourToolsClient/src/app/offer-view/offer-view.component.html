@@ -1,6 +1,6 @@
 <div class="container">
-    <span class="offer-header">{{ offer.name }}</span>
-    <img class="offer-image" src="{{ offer.imgSrc }}" />
+    <span class="offer-header">{{ offer.tool }}</span>
+    <img class="offer-image" src="{{ offer.imageSource }}" />
 
     <p class="top-buffer20"></p>
     <span>Wystawił: </span>
@@ -37,8 +37,8 @@
             </button>
         </div>
         <div class="col">
-            <h6>Status oferty:</h6>
-            <h5 class="">{{ offer.status }}</h5>
+          <h6>Status oferty:</h6>
+          <h5>{{getOfferStatusName(offer.status)}}</h5>
         </div>
     </div>
 </div>

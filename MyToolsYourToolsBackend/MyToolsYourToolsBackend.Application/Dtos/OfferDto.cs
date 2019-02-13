@@ -9,10 +9,11 @@ namespace MyToolsYourToolsBackend.Application.Dtos
     {
         public Guid Id { get; set; }
         public Guid OwnerId { get; set; }
+        public Guid GroupId { get; set; }
         public OfferStatus Status { get; set; }
         public string Tool { get; set; }
         public ToolCategory ToolCategory { get; set; }
         public string Description { get; set; }
-        public string Picture { get; set; }
+        public string ImageSource { get; set; }
     }
 }
