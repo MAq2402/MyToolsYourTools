@@ -38,16 +38,6 @@ namespace MyToolsYourToolsBackend.API.Controllers
 
             int pointsRentCost = 100;
 
-            if(!_rentService.CheckIfUserHasEnoughPoints(rentFromBody.BorrowerId, pointsRentCost))
-            {
-                return BadRequest("Niewystarczająca ilość punktów na zrealizowanie wypożyczenia.");
-            }
-
-            if (!_offerService.CheckIfOfferIsActive(rentFromBody.OfferId))
-            {
-                return BadRequest("Oferta nieaktywna.");
-            }
-
             _rentService.AddRent(rentFromBody, pointsRentCost);
 
             return NoContent();

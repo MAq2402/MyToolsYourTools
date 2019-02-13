@@ -20,12 +20,14 @@ namespace MyToolsYourToolsBackend.API.Controllers
         private INotificationService _notificationService;
         private IUserService _userService;
         private IOfferService _offerService;
+        private IRentService _rentService;
 
-        public NotificationsController(INotificationService notificationService, IUserService userService, IOfferService offerService)
+        public NotificationsController(INotificationService notificationService, IUserService userService, IOfferService offerService, IRentService rentService)
         {
             _notificationService = notificationService;
             _userService = userService;
             _offerService = offerService;
+            _rentService = rentService;
         }
        
 
@@ -52,6 +54,8 @@ namespace MyToolsYourToolsBackend.API.Controllers
 
             if(notificationFromBody.Type == NotificationType.RentRequest)
             {
+                var pointsRentCost = 100;
+
                 if (!_offerService.CheckIfOfferIsActive(notificationFromBody.OfferId))
                 {
                     return BadRequest("Oferta nieaktywna.");
@@ -60,6 +64,10 @@ namespace MyToolsYourToolsBackend.API.Controllers
                     notificationFromBody.TargetUserId, notificationFromBody.OfferId))
                 {
                     return BadRequest("Proœba o wypo¿yczenie dla tej oferty ju¿ zosta³a przes³ana.");
+                }
+                else if (!_rentService.CheckIfUserHasEnoughPoints(notificationFromBody.TargetUserId, pointsRentCost))
+                {
+                    return BadRequest("Niewystarczaj¹ca iloœæ punktów na zrealizowanie wypo¿yczenia.");
                 }
             }
             
