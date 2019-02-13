@@ -23,10 +23,10 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentUser = this.authService.currentUser;
+    this.authService.getCurrentUser().subscribe(u => this.currentUser = u);
   }
   logout() {
-    this.authService.currentUser = null;
+    this.authService.setCurrentUserToNull();
     localStorage.removeItem('auth_key');
     this.router.navigate(['login']);
   }
