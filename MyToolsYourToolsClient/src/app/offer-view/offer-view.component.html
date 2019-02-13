@@ -1,5 +1,5 @@
 <div class="container">
-  
+
   <span class="offer-header">{{ offer.tool }}</span>
   <img class="offer-image" src="{{ offer.imageSource }}" />
 
@@ -17,13 +17,13 @@
   </div>
   <hr class="mb-4" />
   <div *ngIf="!isMyOffer()" name="notMyOffer">
-    <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest($event, offer.ownerId, offer.id)">
+    <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()">
       Złóż prośbę o wypożyczenie
     </button>
   </div>
   <div *ngIf="isMyOffer()" name="myOffer" class="row">
     <div class="col">
-      <button class="btn btn-outline-success btn-lg" (click)="sendConfirmReturn($event, offer.ownerId, offer.id)"
+      <button class="btn btn-outline-success btn-lg" (click)="sendConfirmReturn()"
         [disabled]="!hasMyOfferBorrowedStatus()">
         Potwierdź zwrot
       </button>
