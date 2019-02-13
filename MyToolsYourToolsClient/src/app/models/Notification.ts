@@ -3,7 +3,7 @@ import { NotificationType } from '../enums/NotificationType';
 export class Notification {
   id: string;
   ownerId: string;
-  targetNotificationUserId: string;
+  targetUserId: string;
   targetNotificationUserName: string;
   offerId: string;
   offerName: string;
