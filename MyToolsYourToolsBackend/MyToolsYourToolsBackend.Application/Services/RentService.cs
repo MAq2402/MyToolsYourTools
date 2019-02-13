@@ -26,7 +26,7 @@ namespace MyToolsYourToolsBackend.Application.Services
             return _dbContext.Users.FirstOrDefault(u => u.Id == userId).Points >= sumToSubstract;
         }
 
-        public Rent AddRent(RentForCreationDto rent, int pointsCost)
+        public Rent AddRent(RentDto rent, int pointsCost)
         {
             var rentToSave = Mapper.Map<Rent>(rent);
             var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == rent.OfferId);
@@ -52,7 +52,7 @@ namespace MyToolsYourToolsBackend.Application.Services
 
         }
 
-        public void DeleteRent(Guid offerId, int pointsReward)
+        public RentDto DeleteRent(Guid offerId, int pointsReward)
         {
             var rentToDelete = _dbContext.Rents.FirstOrDefault(r => r.OfferId == offerId);
             var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == offerId);
@@ -69,6 +69,8 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             _notificationService.SendNotificationFromServer(borrower.Id,
                 offer.OwnerId, offerId, NotificationType.Opinion);
+
+            return Mapper.Map<RentDto>(rentToDelete);
 
         }
 

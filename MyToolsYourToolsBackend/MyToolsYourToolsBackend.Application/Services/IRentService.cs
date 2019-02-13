@@ -9,7 +9,7 @@ namespace MyToolsYourToolsBackend.Application.Services
     public interface IRentService
     {
         bool CheckIfUserHasEnoughPoints(Guid userId, int sumToSubtract);
-        Rent AddRent(RentForCreationDto rent, int pointsCost);
-        void DeleteRent(Guid offerId, int pointsReward);
+        Rent AddRent(RentDto rent, int pointsCost);
+        RentDto DeleteRent(Guid offerId, int pointsReward);
     }
 }
