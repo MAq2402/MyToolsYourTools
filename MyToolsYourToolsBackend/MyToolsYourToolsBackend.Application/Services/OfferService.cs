@@ -52,6 +52,11 @@ namespace MyToolsYourToolsBackend.Application.Services
             return _dbContext.Offers.Any(o => o.Id == id);
         }
 
+        public bool CheckIfOfferIsActive(Guid id)
+        {
+            return _dbContext.Offers.FirstOrDefault(o => o.Id == id).Status == OfferStatus.Active;
+        }
+
         public IEnumerable<OfferDto> GetAllOffers(bool onlyActive)
         {
             if (onlyActive)

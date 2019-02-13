@@ -14,6 +14,6 @@ namespace MyToolsYourToolsBackend.Application.Services
         bool CheckIfOfferExists(Guid id);
         OfferDto ActivateOffer(Guid id);
         OfferDto HideOffer(Guid id);
-        bool CheckIfOfferIsActive(Guid offerId);
+        bool CheckIfOfferIsActive(Guid id);
     }
 }
