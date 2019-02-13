@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AutoMapper;
 using MyToolsYourToolsBackend.Application.Dtos;
+using MyToolsYourToolsBackend.Application.Strategies.Points;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
 
@@ -12,24 +13,38 @@ namespace MyToolsYourToolsBackend.Application.Services
     public class OfferService : IOfferService
     {
         private AppDbContext _dbContext;
+        private IPointsService _pointsService;
 
-        public OfferService(AppDbContext dbContext)
+        public OfferService(AppDbContext dbContext, IPointsService pointsService)
         {
             _dbContext = dbContext;
+            _pointsService = pointsService;
         }
         public OfferDto AddOffer(OfferForCreationDto offer, Guid userId)
         {
             var offerToSave = Mapper.Map<Offer>(offer);
 
-            _dbContext.Users.FirstOrDefault(u => u.Id == userId).Offers.Add(offerToSave);
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
 
-            if(_dbContext.SaveChanges() == 0)
+            user.Offers.Add(offerToSave);
+
+            if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not add offer");
             }
 
-            return Mapper.Map<OfferDto>(offerToSave);
+            ModifyPoints(user);
 
+            return Mapper.Map<OfferDto>(offerToSave);
+        }
+
+        private void ModifyPoints(User user)
+        {
+            _pointsService.ModifyPoints(user, new PointsModificationOfferCreationStrategy());
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new Exception("Could not assign points");
+            }
         }
 
         public IEnumerable<OfferDto> GetAllOffers()

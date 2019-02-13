@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { GroupService } from '../services/group.service';
 import { AlertService } from '../services/alert.service';
 import { tap } from 'rxjs/operators';
+import { User } from '../models/User';
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +12,8 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+
+  currentUser: User;
 
   constructor(
     private authService: AuthService,
@@ -20,6 +23,7 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.currentUser = this.authService.currentUser;
   }
   logout() {
     this.authService.currentUser = null;
