@@ -15,9 +15,9 @@
 }
 
 .offer-image {
-  max-height: 25%;
-  max-width: 25%;
-  margin: auto;
+  height: 23%;
+  width: 23%;
+  /* margin: auto; */
   margin-top: 1%;
   float: right;
 }
