@@ -87,7 +87,7 @@ export class OfferViewComponent implements OnInit {
 
   private changeOfferStatus() {
     if (Object.values(OfferStatus)[this.offer.status] === OfferStatus.hidden) {
-      this.offerService.activeOffer(this.offer.id).subscribe(res => this.offer = res);
+      this.offerService.activateOffer(this.offer.id).subscribe(res => this.offer = res);
     } else {
       this.offerService.hideOffer(this.offer.id).subscribe(res => this.offer = res);
     }

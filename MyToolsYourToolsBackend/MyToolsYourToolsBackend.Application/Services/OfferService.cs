@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MyToolsYourToolsBackend.Application.Dtos;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
@@ -75,6 +76,17 @@ namespace MyToolsYourToolsBackend.Application.Services
             var offerFromRepo = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
 
             return Mapper.Map<OfferDto>(offerFromRepo);
+        }
+
+        public IEnumerable<OfferDto> GetOffersForUserGroups(Guid userId)
+        {
+            var user = _dbContext.Users.Include(u => u.UserGroups).FirstOrDefault(u => u.Id == userId);
+            var offers = _dbContext.Offers.Where(o => o.Status == OfferStatus.Active)
+                                          .Where(o => o.OwnerId != userId)
+                                          .Where(o => user.UserGroups.Select(ug => ug.GroupId)
+                                                                     .Contains(o.GroupId));
+
+            return Mapper.Map<IEnumerable<OfferDto>>(offers);
         }
 
         public IEnumerable<OfferDto> GetUserOffers(Guid userId)
