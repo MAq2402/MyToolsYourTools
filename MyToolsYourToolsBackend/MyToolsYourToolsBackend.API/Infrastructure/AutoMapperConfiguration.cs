@@ -35,6 +35,9 @@ namespace MyToolsYourToolsBackend.API.Infrastructure
                 opt=>opt.MapFrom(src=>src.Offer.Description));
                 
 
+
+                cfg.CreateMap<OpinionForCreationDto, Opinion>();
+                cfg.CreateMap<Opinion, OpinionDto>();
             });
         }
     }
