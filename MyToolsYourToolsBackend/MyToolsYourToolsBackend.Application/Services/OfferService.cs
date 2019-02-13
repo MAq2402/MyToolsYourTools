@@ -43,25 +43,15 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             user.Offers.Add(offerToSave);
 
+            _pointsService.ModifyPoints(user, new PointsModificationOfferCreationStrategy());
+
             if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not add offer");
             }
 
-            ModifyPoints(user);
-
             return Mapper.Map<OfferDto>(offerToSave);
         }
-
-        private void ModifyPoints(User user)
-        {
-            _pointsService.ModifyPoints(user, new PointsModificationOfferCreationStrategy());
-            if (_dbContext.SaveChanges() == 0)
-            {
-                throw new Exception("Could not assign points");
-            }
-        }
-
         public bool CheckIfOfferExists(Guid id)
         {
             return _dbContext.Offers.Any(o => o.Id == id);

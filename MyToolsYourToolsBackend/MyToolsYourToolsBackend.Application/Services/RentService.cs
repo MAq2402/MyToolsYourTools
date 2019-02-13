@@ -35,10 +35,9 @@ namespace MyToolsYourToolsBackend.Application.Services
             var rentToSave = Mapper.Map<Rent>(rent);
             var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == rent.OfferId);
             var borrower = _dbContext.Users.FirstOrDefault(u => u.Id == rent.BorrowerId);
+            var rentingUser = _dbContext.Users.FirstOrDefault(r => r.Id == offer.OwnerId);
 
             borrower.Rents.Add(rentToSave);
-            
-            var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == rent.OfferId);
             offer.Status = Domain.Enums.OfferStatus.Rented;
 
             // delete all remaining rentRequests of this offer
@@ -48,20 +47,18 @@ namespace MyToolsYourToolsBackend.Application.Services
                         && n.TargetUserId != borrower.Id);
             _dbContext.RemoveRange(rentRequestsToRemove);
 
+            _pointsService.ModifyPoints(rentingUser, new PointsModificationToolRentingStrategy());
+
+            _pointsService.ModifyPoints(borrower, new PointsModificationToolBorrowingStrategy());
+
             if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not add rent");
-            }
-
-            var rentingUser = _dbContext.Users.FirstOrDefault(r => r.Id == offer.OwnerId);
-
-            ModifyPoints(rentingUser, new PointsModificationToolRentingStrategy(), false);
-            ModifyPoints(borrower, new PointsModificationToolBorrowingStrategy(), true);
-            
+            }            
             return rentToSave;
         }
 
-        public void DeleteRent(Guid offerId, int pointsReward)
+        public void DeleteRent(Guid offerId)
         {
             var rentToDelete = _dbContext.Rents.FirstOrDefault(r => r.OfferId == offerId);
 
@@ -70,31 +67,16 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             _dbContext.Rents.Remove(rentToDelete);            
             offer.Status = OfferStatus.Active;
-            borrower.Points += pointsReward;
+
+            _pointsService.ModifyPoints(borrower, new PointsModificationToolGiveBackStrategy());
 
             if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not delete rent");
             }
-
-            ModifyPoints(borrower, new PointsModificationToolGiveBackStrategy(), true);
             
             _notificationService.SendNotificationFromServer(borrower.Id,
                 offer.OwnerId, offerId, NotificationType.Opinion);
         }
-
-        private void ModifyPoints(User user, IPointsModificationStrategy pointsModificationStrategy,bool save)
-        {
-            _pointsService.ModifyPoints(user, pointsModificationStrategy);
-
-            if (save)
-            {
-                if (_dbContext.SaveChanges() == 0)
-                {
-                    throw new Exception("Could not modify points");
-                }
-            }   
-        }
-
     }
 }

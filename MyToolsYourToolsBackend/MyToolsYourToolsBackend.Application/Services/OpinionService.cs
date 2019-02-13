@@ -31,25 +31,15 @@ namespace MyToolsYourToolsBackend.Application.Services
             _dbContext.Users.FirstOrDefault(u => u.Id == ratedUserId).ReceivedOpinions.Add(opinionToSave);
             _dbContext.Opinions.Add(opinionToSave);
 
+            _pointsService.ModifyPoints(ratingUser, new PointsModificationOpinionAdditionStartegy());
+
             if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not add opinion");
             }
 
-            ModifyPoints(ratingUser);
-
             return Mapper.Map<OpinionDto>(opinionToSave);
         }
-
-        private void ModifyPoints(User ratingUser)
-        {
-            _pointsService.ModifyPoints(ratingUser, new PointsModificationOpinionAdditionStartegy());
-            if (_dbContext.SaveChanges() == 0)
-            {
-                throw new Exception("Could not modify points");
-            }
-        }
-
         public IEnumerable<OpinionDto> GetAllOpinions()
         {
             return Mapper.Map<IEnumerable<OpinionDto>>(_dbContext.Opinions);
