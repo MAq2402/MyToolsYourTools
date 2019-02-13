@@ -19,7 +19,7 @@ namespace MyToolsYourToolsBackend.Domain.Entities
         public ICollection<Rent> Rents { get;private set; } = new List<Rent>();
         public ICollection<Notification> TargetedNotifications { get;private set; } = new List<Notification>();
         public ICollection<Notification> SentNotifications { get;private set; } = new List<Notification>();
-        public ICollection<Opinion> GivenOpinions { get;private set; }
-        public ICollection<Opinion> ReceivedOpinions { get;private set; }
+        public ICollection<Opinion> GivenOpinions { get; private set; } = new List<Opinion>();
+        public ICollection<Opinion> ReceivedOpinions { get; private set; } = new List<Opinion>();
     }
 }

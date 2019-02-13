@@ -1,15 +1,10 @@
-<div class="container my-offers">
-  <div class="row">
-    <div class="col">
-      <div>
-        <span class="offer-header">{{ offer.name }}</span>
-        <img class="offer-image" (error)="offer.imageSource = 'https://cdn4.iconfinder.com/data/icons/basic-dashboard-1/512/Basic_Dashboard_UI_fix_option_machine_tools-512.png'" [src]="offer.imageSource" />
-      </div>
-      <span>Wystawił: </span>
-      <a
-        [routerLink]="['/user-profile', offer.ownerId]"
-        class="badge badge-success top-buffer40"
-      >
+<div class="container">
+    <span class="offer-header">{{ offer.tool }}</span>
+    <img class="offer-image" src="{{ offer.imageSource }}" />
+
+    <p class="top-buffer20"></p>
+    <span>Wystawił: </span>
+    <a [routerLink]="['/user-profile', offer.ownerId]" class="badge badge-success top-buffer40">
         {{ getUserName(offer.ownerId) }} {{ getUserSurname(offer.ownerId) }}
       </a>
       <p class="top-buffer20"></p>
