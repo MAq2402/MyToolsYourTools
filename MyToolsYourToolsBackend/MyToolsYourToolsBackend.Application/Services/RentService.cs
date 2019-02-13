@@ -6,6 +6,7 @@ using AutoMapper;
 using MyToolsYourToolsBackend.Application.Dtos;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
+using MyToolsYourToolsBackend.Domain.Enums;
 
 namespace MyToolsYourToolsBackend.Application.Services
 {
@@ -28,15 +29,18 @@ namespace MyToolsYourToolsBackend.Application.Services
         public Rent AddRent(RentForCreationDto rent, int pointsCost)
         {
             var rentToSave = Mapper.Map<Rent>(rent);
-
+            var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == rent.OfferId);
             var borrower = _dbContext.Users.FirstOrDefault(u => u.Id == rent.BorrowerId);
+
             borrower.Rents.Add(rentToSave);
             borrower.Points -= pointsCost;
-            _dbContext.Offers.FirstOrDefault(o => o.Id == rent.OfferId).Status = Domain.Enums.OfferStatus.Rented;
+            offer.Status = OfferStatus.Rented;
 
-            // delete all rentRequests of this offer
-            // TODO zmienić na froncie żeby już nie usuwał
-            var rentRequestsToRemove = _dbContext.Notifications.Where(n => n.OfferId == rent.OfferId && n.Type == Domain.Enums.NotificationType.RentRequest);
+            // delete all remaining rentRequests of this offer
+            var rentRequestsToRemove = _dbContext.Notifications
+                .Where(n => n.OfferId == rent.OfferId
+                        && n.Type == NotificationType.RentRequest
+                        && n.TargetUserId != borrower.Id);
             _dbContext.RemoveRange(rentRequestsToRemove);
             
             if (_dbContext.SaveChanges() == 0)
@@ -51,26 +55,20 @@ namespace MyToolsYourToolsBackend.Application.Services
         public void DeleteRent(Guid offerId, int pointsReward)
         {
             var rentToDelete = _dbContext.Rents.FirstOrDefault(r => r.OfferId == offerId);
-            
-            _dbContext.Rents.Remove(rentToDelete);
-            _dbContext.Offers.FirstOrDefault(o => o.Id == rentToDelete.OfferId).Status = Domain.Enums.OfferStatus.Active;
-            _dbContext.Users.FirstOrDefault(u => u.Id == rentToDelete.BorrowerId).Points += pointsReward;
+            var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == offerId);
+            var borrower = _dbContext.Users.FirstOrDefault(u => u.Id == rentToDelete.BorrowerId);
 
-            // send notification of return confirmation to borrower
-            var notificationToSend = new NotificationForCreationDto()
-            {
-                OwnerId = rentToDelete.BorrowerId,
-                TargetUserId = rentToDelete.Offer.OwnerId,
-                OfferId = offerId,
-                Type = Domain.Enums.NotificationType.Opinion
-            };
+            _dbContext.Rents.Remove(rentToDelete);            
+            offer.Status = OfferStatus.Active;
+            borrower.Points += pointsReward;
 
             if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not delete rent");
             }
 
-            _notificationService.AddNotification(notificationToSend);
+            _notificationService.SendNotificationFromServer(borrower.Id,
+                offer.OwnerId, offerId, NotificationType.Opinion);
 
         }
 
