@@ -18,17 +18,20 @@ namespace MyToolsYourToolsBackend.API.Controllers
     {
         private IRentService _rentService;
         private IUserService _userService;
+        private IOfferService _offerService;
 
-        public RentsController(IRentService rentService, IUserService userService)
+        public RentsController(IRentService rentService, IUserService userService, IOfferService offerService)
         {
             _rentService = rentService;
             _userService = userService;
+            _offerService = offerService;
         }
 
         [HttpPost("rents")]
         public IActionResult AddRent([FromBody]RentForCreationDto rentFromBody)
         {
-            if (!_userService.CheckIfUserExists(rentFromBody.BorrowerId))
+            if (!_userService.CheckIfUserExists(rentFromBody.BorrowerId)
+                || !_offerService.CheckIfOfferExists(rentFromBody.OfferId))
             {
                 return NotFound();
             }
@@ -37,16 +40,27 @@ namespace MyToolsYourToolsBackend.API.Controllers
             {
                 return BadRequest("Niewystarczająca ilość punktów na zrealizowanie wypożyczenia.");
             }
+           
+            if (!_offerService.CheckIfOfferIsActive(rentFromBody.OfferId))
+            {
+                return BadRequest("Oferta nieaktywna.");
+            }
 
-            _rentService.AddRent(rentFromBody);
-
+             _rentService.AddRent(rentFromBody);
+             
             return NoContent();
         }
 
         [HttpDelete("rents/{offerId}")]
         public IActionResult DeleteRent(Guid offerId)
         {
+            if(!_offerService.CheckIfOfferExists(offerId))
+            {
+                return NotFound();
+            }
+
             _rentService.DeleteRent(offerId);
+
             return NoContent();
         }
     }

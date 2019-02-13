@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Group } from '../models/Group';
-import { Category } from '../enums/Category';
+import { ToolCategory } from '../enums/tool-category';
 
 @Component({
   selector: 'app-offers-bar',
@@ -14,13 +14,13 @@ export class OffersBarComponent implements OnInit {
   @Output() selectedGroupEmmitter = new EventEmitter<string>();
 
   @Output() selectedCategoryEmmitter = new EventEmitter<string>();
-  categories = Category;
+  categories = ToolCategory;
   categoryNames = [];
   selectedCategory: String = 'Wszystkie';
   selectedGroup: String = 'Wszystkie';
 
   constructor() {
-    this.categoryNames = Object.keys(Category);
+    this.categoryNames = Object.keys(ToolCategory);
   }
 
   ngOnInit() {}
@@ -41,7 +41,7 @@ export class OffersBarComponent implements OnInit {
       this.selectedGroup = 'Wszystkie';
     }
   }
-  onCategorySelect(category: Category) {
+  onCategorySelect(category: ToolCategory) {
     this.selectedCategoryEmmitter.emit(category);
 
     if (category) {

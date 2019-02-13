@@ -7,6 +7,7 @@ using MyToolsYourToolsBackend.Application.Dtos;
 using MyToolsYourToolsBackend.Application.Strategies.Points;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
+using MyToolsYourToolsBackend.Domain.Enums;
 
 namespace MyToolsYourToolsBackend.Application.Services
 {
@@ -20,6 +21,20 @@ namespace MyToolsYourToolsBackend.Application.Services
             _dbContext = dbContext;
             _pointsService = pointsService;
         }
+
+        public OfferDto ActivateOffer(Guid id)
+        {
+            var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
+            offer.Status = OfferStatus.Active;
+
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new Exception("Could not activate offer");
+            }
+
+            return Mapper.Map<OfferDto>(offer);
+        }
+
         public OfferDto AddOffer(OfferForCreationDto offer, Guid userId)
         {
             var offerToSave = Mapper.Map<Offer>(offer);
@@ -47,9 +62,27 @@ namespace MyToolsYourToolsBackend.Application.Services
             }
         }
 
-        public IEnumerable<OfferDto> GetAllOffers()
+        public bool CheckIfOfferExists(Guid id)
         {
-            return Mapper.Map<IEnumerable<OfferDto>>(_dbContext.Offers);
+            return _dbContext.Offers.Any(o => o.Id == id);
+        }
+
+        public bool CheckIfOfferIsActive(Guid id)
+        {
+            return _dbContext.Offers.FirstOrDefault(o => o.Id == id).Status == OfferStatus.Active;
+        }
+
+        public IEnumerable<OfferDto> GetAllOffers(bool onlyActive)
+        {
+            if (onlyActive)
+            {
+                return Mapper.Map<IEnumerable<OfferDto>>(_dbContext.Offers.Where(o => o.Status == OfferStatus.Active));
+            }
+            else
+            {
+                return Mapper.Map<IEnumerable<OfferDto>>(_dbContext.Offers);
+            }
+            
         }
 
         public OfferDto GetOffer(Guid id)
@@ -66,9 +99,17 @@ namespace MyToolsYourToolsBackend.Application.Services
             return Mapper.Map<IEnumerable<OfferDto>>(offersFromRepo);
         }
 
-        public bool CheckIfOfferIsActive(Guid offerId)
+        public OfferDto HideOffer(Guid id)
         {
-            return _dbContext.Offers.FirstOrDefault(o => o.Id == offerId).Status == Domain.Enums.OfferStatus.Active; 
+            var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
+            offer.Status = OfferStatus.Hidden;
+
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new Exception("Could not hide offer");
+            }
+
+            return Mapper.Map<OfferDto>(offer);
         }
     }
 }
