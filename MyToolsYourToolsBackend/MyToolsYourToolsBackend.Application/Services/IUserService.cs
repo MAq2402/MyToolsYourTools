@@ -10,5 +10,6 @@ namespace MyToolsYourToolsBackend.Application.Services
     {
         IEnumerable<UserDto> GetUsers();
         bool CheckIfUserExists(Guid userId);
+        UserDto GetUserById(Guid userId);
     }
 }
