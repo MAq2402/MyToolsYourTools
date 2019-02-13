@@ -74,7 +74,7 @@ namespace MyToolsYourToolsBackend.API.Controllers
            else return NotFound();
         }
 
-        [HttpGet("{userId}/{offerId}/checkIfCanSend")]
+        [HttpGet("{userId}/{offerId}/check-if-can-send-rent-request")]
         public IActionResult UserCanSendRentRequest(Guid userId, Guid offerId)
         {
             if(!_userService.CheckIfUserExists(userId)
