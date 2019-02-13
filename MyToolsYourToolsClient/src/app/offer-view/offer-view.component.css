@@ -18,7 +18,7 @@
     font-size: 16px;
     margin: auto;
     margin-top: 3%;
-    border: 5px double darkgreen;
+    border: 5px double#5cb85c;
     white-space: nowrap;
     padding: 20px 20px 20px 20px;
 }
