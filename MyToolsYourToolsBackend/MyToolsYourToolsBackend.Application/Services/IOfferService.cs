@@ -15,5 +15,6 @@ namespace MyToolsYourToolsBackend.Application.Services
         OfferDto ActivateOffer(Guid id);
         OfferDto HideOffer(Guid id);
         bool CheckIfOfferIsActive(Guid id);
+        IEnumerable<OfferDto> GetOffersForUserGroups(Guid userId);
     }
 }

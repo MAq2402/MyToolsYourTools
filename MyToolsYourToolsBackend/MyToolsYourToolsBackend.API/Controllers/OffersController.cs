@@ -30,7 +30,14 @@ namespace MyToolsYourToolsBackend.API.Controllers
             return Ok(_offerService.GetAllOffers(onlyActive));
         }
 
-        [HttpGet("{userId}/offers")]
+        [HttpGet("{userId}/offers-for-user-groups")]
+        public IActionResult GetOffersForUserGroups(Guid userId)
+        {
+            return Ok(_offerService.GetOffersForUserGroups(userId));
+        }
+
+
+    [HttpGet("{userId}/offers")]
         public IActionResult GetUserOffers(Guid userId)
         {
             return Ok(_offerService.GetUserOffers(userId));
