@@ -27,5 +27,12 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             return Mapper.Map<IEnumerable<UserDto>>(_dbContext.Users);
         }
+
+        UserDto IUserService.GetUserById(Guid userId)
+        {
+            return Mapper.Map<UserDto>(_dbContext.Users.FirstOrDefault(u => u.Id == userId));
+        }
+
+       
     }
 }

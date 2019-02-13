@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/User';
 import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
 
-users: User[] = [
-  {id: 'f290baf8-bca5-4b21-94c2-4af3be12ddf3', userName: 'jankow', firstName: 'Janusz',
-   lastName: 'Kowalski', phoneNumber: '1',  email: 'janusz@gmail.com', points: 0},
-  {id: '2', userName: 'slodkaUlcia123', firstName: 'Ula', lastName: 'WiadomoJaka',
-  phoneNumber: '666', email: 'warun@zmitac.xd', points: 100}
-];
-  constructor() { }
+  baseUrl = 'https://localhost:44341/api/';
+
+  constructor(private http:HttpClient) { }
 
   getUsers(): Observable<User[]> {
-    return of(this.users);
-  }
-
-  addUser(user: User) {
-    this.users.push(user);
+    return this.http.get<User[]>(this.baseUrl + 'Users' , httpOptions);
   }
 
   getUserById(id: string): Observable<User> {
-    return of(this.users.find(x => x.id === id));
+    return this.http.get<User>(this.baseUrl+ 'Users/' + id, httpOptions);
   }
 }
