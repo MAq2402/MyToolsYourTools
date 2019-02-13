@@ -32,7 +32,7 @@ namespace MyToolsYourToolsBackend.API.Infrastructure
                 .ForMember(dest=>dest.TargetNotificationUserName,
                 opt=>opt.MapFrom(src=>src.TargetUser.UserName))
                 .ForMember(dest=>dest.OfferName,
-                opt=>opt.MapFrom(src=>src.Offer.Description));
+                opt=>opt.MapFrom(src=>src.Offer.Tool));
               
                 cfg.CreateMap<RentForCreationDto, Rent>();
    

@@ -40,15 +40,16 @@
               </span>
             </div>
             <div clss="col-auto">
-              <form>
+              <form >
                 <div class="form-group">
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+                  <textarea class="form-control" name="o-{{opinion.id}}" [(ngModel)]="inputText[opinion.id]" id="exampleFormControlTextarea1" rows="1"></textarea>
                 </div>
               </form>
             </div>
             <div clss="col-auto">
-              <button class="btn btn-success btn-sm float-right my-send-button" (click)="onOpinionSent(opinion.id)" > Wyślij</button>
+              <button  class="btn btn-success btn-sm float-right my-send-button" (click)="onOpinionSent(opinion.id)">Wyślij</button> 
             </div>
+         
           </div>
         </div>
       </div>

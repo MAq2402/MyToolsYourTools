@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Notification } from '../../models/Notification';
 import { NotificationType } from '../../enums/NotificationType';
 import { NotificationService } from '../../services/notification.service';
+import { Opinion } from '../../models/Opinion';
+import { OpinionService } from '../../services/opinion.service';
+
 
 @Component({
   selector: 'app-notifications',
@@ -10,13 +13,20 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class NotificationsComponent implements OnInit {
 
+ 
+  inputText = {};
+
+
+
   currentUserId: string;
 
   rentRequests: Notification[];
   opinions: Notification[];
 
   constructor(
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private opinionService:  OpinionService
+
   ) { }
 
   ngOnInit() {
@@ -36,6 +46,17 @@ export class NotificationsComponent implements OnInit {
     this.notificationService.deleteNotification(requestId).subscribe();
   }
   onOpinionSent(requestId: any){
+    console.log(this.inputText[requestId]);
+    let currentRequest: Notification = this.opinions.find(r=>r.id===requestId);
+    let tmpOpinion: Opinion = {
+      id: null,
+      message: this.inputText[requestId],
+      ratedUserId: currentRequest.targetUserId,
+      ratingUserId: currentRequest.ownerId
+  } 
+  
+  
+    this.opinionService.addOpinion(tmpOpinion).subscribe();
     this.opinions = this.opinions.filter(n => n.id !== requestId);
     this.notificationService.deleteNotification(requestId).subscribe();
   }
