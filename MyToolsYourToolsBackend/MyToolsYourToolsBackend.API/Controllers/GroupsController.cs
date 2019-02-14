@@ -45,5 +45,6 @@ namespace MyToolsYourToolsBackend.API.Controllers
             var groupToReturn = _groupService.AddGroup(groupFromBody);
             return Created(nameof(GetGroups), groupToReturn);
         }
+
     }
 }

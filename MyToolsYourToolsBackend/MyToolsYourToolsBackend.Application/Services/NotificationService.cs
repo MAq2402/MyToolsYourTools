@@ -7,6 +7,7 @@ using MyToolsYourToolsBackend.Application.Dtos;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
 using MyToolsYourToolsBackend.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyToolsYourToolsBackend.Application.Services
 {
@@ -26,7 +27,7 @@ namespace MyToolsYourToolsBackend.Application.Services
 
         public IEnumerable<NotificationDto> GetNotificationsForUser(Guid userId)
         {
-            var notificationsToReturn = _dbContext.Notifications.Where(n => n.OwnerId == userId);
+            var notificationsToReturn = _dbContext.Notifications.Where(n => n.OwnerId == userId).Include(n =>  n.Offer ).Include(n=> n.TargetUser);
             
             return Mapper.Map<IEnumerable<NotificationDto>>(notificationsToReturn);
            
