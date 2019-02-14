@@ -41,27 +41,26 @@ namespace MyToolsYourToolsBackend.Application.Services
             offer.Status = OfferStatus.Rented;
 
             // delete all remaining rentRequests of this offer
-            var rentRequestsToRemove = _dbContext.Notifications
+            IList<Notification> rentRequestsToRemove = _dbContext.Notifications
                 .Where(n => n.OfferId == rent.OfferId
                         && n.Type == NotificationType.RentRequest
-                        && n.TargetUserId != borrower.Id);
-
-            foreach(var rentRequest in rentRequestsToRemove)
-            {
-                // need notificationService to return deposit
-                _notificationService.DeleteNotification(rentRequest.Id);
-            }
-            
-            
+                        && n.TargetUserId != borrower.Id).ToList<Notification>();
 
             _pointsService.ModifyPoints(rentingUser, new PointsModificationToolRentingStrategy());
-
             _pointsService.ModifyPoints(borrower, new PointsModificationToolBorrowingStrategy());
+
 
             if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not add rent");
-            }            
+            }
+
+            foreach (var rentRequest in rentRequestsToRemove)
+            {
+                // need notificationService to return deposit
+                _notificationService.DeleteNotification(rentRequest.Id);
+            }
+
             return rentToSave;
         }
 

@@ -59,9 +59,7 @@ namespace MyToolsYourToolsBackend.API.Controllers
                 return NotFound();
             }
 
-            _rentService.DeleteRent(offerId);
-
-            return NoContent();
+            return Ok(_rentService.DeleteRent(offerId));
         }
     }
 }

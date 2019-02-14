@@ -35,6 +35,10 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('auth_key');
+    this.getUserNotifications();
+  }
+
+  getUserNotifications() {
     this.notificationService.getUserNotifications(this.currentUserId)
       .subscribe(n => {
         this.rentRequests = n.filter(not => not.type === NotificationType.rentRequest);
@@ -61,12 +65,13 @@ export class NotificationsComponent implements OnInit {
   }
 
   deleteNotification(notification: Notification) {
-    if (notification.type === NotificationType.rentRequest) {
+    /*if (notification.type === NotificationType.rentRequest) {
       this.rentRequests = this.rentRequests.filter(n => n.id !== notification.id);
     } else if (notification.type === NotificationType.opinion) {
       this.opinions = this.opinions.filter(n => n.id !== notification.id);
-    }
-    this.notificationService.deleteNotification(notification.id).subscribe();
+    }*/
+    this.notificationService.deleteNotification(notification.id)
+    .subscribe(_ => this.getUserNotifications());
   }
 
   onOpinionSent(requestId: any){
