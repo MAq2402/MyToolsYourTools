@@ -82,20 +82,6 @@ namespace MyToolsYourToolsBackend.Application.Services
             }
         }
 
-        public NotificationDto SendNotificationFromServer(Guid toUserId, Guid fromUserId, Guid offerId, NotificationType type)
-        {
-            var notificationToSend = new NotificationForCreationDto()
-            {
-                OwnerId = toUserId,
-                TargetUserId = fromUserId,
-                OfferId = offerId,
-                Type = type
-            };
-
-            return AddNotification(notificationToSend);
-
-        }
-
         public bool CheckIfUserAlreadySendRentRequest(Guid userId, Guid offerId)
         {
             return _dbContext.Notifications.Any(n => n.TargetUserId == userId

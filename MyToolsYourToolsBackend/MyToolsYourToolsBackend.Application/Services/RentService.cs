@@ -80,12 +80,8 @@ namespace MyToolsYourToolsBackend.Application.Services
             {
                 throw new Exception("Could not delete rent");
             }
-            
-            _notificationService.SendNotificationFromServer(borrower.Id,
-                offer.OwnerId, offerId, NotificationType.Opinion);
 
             return Mapper.Map<RentDto>(rentToDelete);
-
         }
     }
 }
