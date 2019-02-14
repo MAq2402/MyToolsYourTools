@@ -113,7 +113,7 @@ export class OfferViewComponent implements OnInit {
   deleteOffer() {
     this.offerService.deleteOffer(this.offer.id).subscribe(res => {
       this.router.navigate(['admin-panel']);
-      this.alertService.success('Pomyślnie usunięto grupę');
+      this.alertService.success('Pomyślnie usunięto ofertę');
     },
     err => {
       this.alertService.error(err.error);
