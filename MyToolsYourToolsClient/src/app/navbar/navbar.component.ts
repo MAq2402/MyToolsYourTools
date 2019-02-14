@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { GroupService } from '../services/group.service';
 import { AlertService } from '../services/alert.service';
 import { tap } from 'rxjs/operators';
 import { User } from '../models/User';
+import { UserService } from '../services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -19,11 +21,15 @@ export class NavbarComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private groupService: GroupService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(u => this.currentUser = u);
+    this.userService.userUpdateAnnounced$.subscribe(x => {
+      this.authService.getCurrentUser().subscribe(u => this.currentUser = u);
+    });
   }
   logout() {
     this.authService.setCurrentUserToNull();
