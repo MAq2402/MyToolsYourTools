@@ -145,7 +145,7 @@ export class OfferViewComponent implements OnInit {
         };
         this.notificationService.addNotification(notificationToSend).subscribe();
         this.alertService.success('Potwierdzono zwrot przedmiotu oferty');
-        this.offer.status = OfferStatus.active;
+        this.getOffer(result.offerId); // refresh offer view
       },
       error => {
         this.alertService.error(error.error);
