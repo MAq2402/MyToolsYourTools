@@ -52,6 +52,7 @@ namespace MyToolsYourToolsBackend.API
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IRentService, RentService>();
             services.AddScoped<IOpinionService, OpinionService>();
+            services.AddTransient<IPointsService, PointsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
