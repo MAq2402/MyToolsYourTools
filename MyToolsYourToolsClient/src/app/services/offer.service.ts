@@ -14,16 +14,13 @@ export class OfferService {
   private baseUrl = 'https://localhost:44341/api/';
   constructor(private http: HttpClient) { }
 
-  getActiveOffers(): Observable<Offer[]> {
-    return this.http.get<Offer[]>(this.baseUrl + 'offers?onlyActive=true');
-  }
 
   addOffer(offer: Offer, userId: string): Observable<Offer> {
     return this.http.post<Offer>(this.baseUrl + userId + '/offers', offer, httpOptions);
   }
 
-  getOffers(): Observable<Offer[]> {
-    return this.http.get<Offer[]>(this.baseUrl + 'offers');
+  getOffersForUserGroups(userId: string): Observable<Offer[]> {
+    return this.http.get<Offer[]>(this.baseUrl + userId + '/offers-for-user-groups');
   }
 
   getUserOffers(userId: string):  Observable<Offer[]> {
@@ -38,7 +35,7 @@ export class OfferService {
     return this.http.put<Offer>(this.baseUrl + 'offers/' + offerId + '/hide', {}, httpOptions);
   }
 
-  activeOffer(offerId: string): Observable<Offer>  {
+  activateOffer(offerId: string): Observable<Offer>  {
     return this.http.put<Offer>(this.baseUrl + 'offers/' + offerId + '/activate', {}, httpOptions);
   }
 
