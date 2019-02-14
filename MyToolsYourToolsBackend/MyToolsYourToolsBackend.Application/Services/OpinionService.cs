@@ -31,7 +31,7 @@ namespace MyToolsYourToolsBackend.Application.Services
             _dbContext.Users.FirstOrDefault(u => u.Id == ratedUserId).ReceivedOpinions.Add(opinionToSave);
             _dbContext.Opinions.Add(opinionToSave);
 
-            _pointsService.ModifyPoints(ratingUser, new PointsModificationOpinionAdditionStartegy());
+            _pointsService.ModifyPoints(ratingUser, new PointsModificationOpinionAdditionStrategy());
 
             if (_dbContext.SaveChanges() == 0)
             {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MyToolsYourToolsBackend.Application.Strategies.Points
 {
-    public class PointsModificationOpinionAdditionStartegy : IPointsModificationStrategy
+    public class PointsModificationOpinionAdditionStrategy : IPointsModificationStrategy
     {
         public int Modify(int points)
         {
