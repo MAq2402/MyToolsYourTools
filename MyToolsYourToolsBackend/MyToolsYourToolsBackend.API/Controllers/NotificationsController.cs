@@ -20,12 +20,14 @@ namespace MyToolsYourToolsBackend.API.Controllers
         private INotificationService _notificationService;
         private IUserService _userService;
         private IOfferService _offerService;
+        private IRentService _rentService;
 
-        public NotificationsController(INotificationService notificationService, IUserService userService, IOfferService offerService)
+        public NotificationsController(INotificationService notificationService, IUserService userService, IOfferService offerService, IRentService rentService)
         {
             _notificationService = notificationService;
             _userService = userService;
             _offerService = offerService;
+            _rentService = rentService;
         }
        
 
@@ -61,6 +63,10 @@ namespace MyToolsYourToolsBackend.API.Controllers
                 {
                     return BadRequest("Proœba o wypo¿yczenie dla tej oferty ju¿ zosta³a przes³ana.");
                 }
+                else if (!_rentService.CheckIfUserHasEnoughPoints(notificationFromBody.TargetUserId))
+                {
+                    return BadRequest("Niewystarczaj¹ca iloœæ punktów na zrealizowanie wypo¿yczenia.");
+                }
             }
             
             var offerToReturn = _notificationService.AddNotification(notificationFromBody);
@@ -70,11 +76,18 @@ namespace MyToolsYourToolsBackend.API.Controllers
 
         [HttpDelete("{id}")]
         public IActionResult DeleteNotification(Guid id){
-           if( _notificationService.DeleteNotification(id)) return Ok();
-           else return NotFound();
+
+            if (_notificationService.DeleteNotification(id))
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-        [HttpGet("{userId}/{offerId}/checkIfCanSend")]
+        [HttpGet("{userId}/{offerId}/check-if-can-send-rent-request")]
         public IActionResult UserCanSendRentRequest(Guid userId, Guid offerId)
         {
             if(!_userService.CheckIfUserExists(userId)

@@ -30,7 +30,7 @@ namespace MyToolsYourToolsBackend.Application.Services
             return new PointsModificationToolBorrowingStrategy().Modify(user.Points) > 0;
         }
 
-        public Rent AddRent(RentForCreationDto rent)
+        public Rent AddRent(RentDto rent)
         {
             var rentToSave = Mapper.Map<Rent>(rent);
             var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == rent.OfferId);
@@ -38,14 +38,21 @@ namespace MyToolsYourToolsBackend.Application.Services
             var rentingUser = _dbContext.Users.FirstOrDefault(r => r.Id == offer.OwnerId);
 
             borrower.Rents.Add(rentToSave);
-            offer.Status = Domain.Enums.OfferStatus.Rented;
+            offer.Status = OfferStatus.Rented;
 
             // delete all remaining rentRequests of this offer
             var rentRequestsToRemove = _dbContext.Notifications
                 .Where(n => n.OfferId == rent.OfferId
                         && n.Type == NotificationType.RentRequest
                         && n.TargetUserId != borrower.Id);
-            _dbContext.RemoveRange(rentRequestsToRemove);
+
+            foreach(var rentRequest in rentRequestsToRemove)
+            {
+                // need notificationService to return deposit
+                _notificationService.DeleteNotification(rentRequest.Id);
+            }
+            
+            
 
             _pointsService.ModifyPoints(rentingUser, new PointsModificationToolRentingStrategy());
 
@@ -58,7 +65,7 @@ namespace MyToolsYourToolsBackend.Application.Services
             return rentToSave;
         }
 
-        public void DeleteRent(Guid offerId)
+        public RentDto DeleteRent(Guid offerId)
         {
             var rentToDelete = _dbContext.Rents.FirstOrDefault(r => r.OfferId == offerId);
 
@@ -77,6 +84,9 @@ namespace MyToolsYourToolsBackend.Application.Services
             
             _notificationService.SendNotificationFromServer(borrower.Id,
                 offer.OwnerId, offerId, NotificationType.Opinion);
+
+            return Mapper.Map<RentDto>(rentToDelete);
+
         }
     }
 }

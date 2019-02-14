@@ -28,7 +28,7 @@ namespace MyToolsYourToolsBackend.API.Controllers
         }
 
         [HttpPost("rents")]
-        public IActionResult AddRent([FromBody]RentForCreationDto rentFromBody)
+        public IActionResult AddRent([FromBody]RentDto rentFromBody)
         {
             if (!_userService.CheckIfUserExists(rentFromBody.BorrowerId)
                 || !_offerService.CheckIfOfferExists(rentFromBody.OfferId))

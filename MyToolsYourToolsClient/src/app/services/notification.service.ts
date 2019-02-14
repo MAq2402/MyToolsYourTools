@@ -3,6 +3,7 @@ import { Notification } from '../models/Notification';
 import { NotificationType } from '../enums/NotificationType';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NotificationForCreation } from '../models/NotificationForCreation';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,11 +20,10 @@ export class NotificationService {
   getUserNotifications(userId: string): Observable<Notification[]> {
    return this.http.get<Notification[]>(this.baseUrl + 'notifications/' + userId, httpOptions);
   }
-  addNotification(notification: Notification) :Observable<Notification>{
-    return this.http.post<Notification>(this.baseUrl+'notifications/',notification,httpOptions);
+  addNotification(notification: NotificationForCreation) :Observable<NotificationForCreation>{
+    return this.http.post<NotificationForCreation>(this.baseUrl+'notifications/',notification,httpOptions);
   }
   deleteNotification(notificationId: string): Observable<{}> {
-    console.log(this.baseUrl+'notifications/'+notificationId);
     return this.http.delete(this.baseUrl+'notifications/'+notificationId,httpOptions);
   }
 }
