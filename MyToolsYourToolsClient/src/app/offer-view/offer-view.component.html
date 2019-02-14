@@ -30,6 +30,11 @@
             </button>
         </div>
         <div class="col">
+          <button class="btn btn-lg btn-danger" (click)="deleteOffer()">
+              Usuń ofertę
+          </button>
+      </div>
+        <div class="col">
             <button class="btn btn-lg" [ngClass]="{
               'btn-secondary': !hasMyOfferHiddenStatus(),
               'btn-success': hasMyOfferHiddenStatus()

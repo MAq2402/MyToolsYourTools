@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Offer } from '../models/Offer';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OfferService } from '../services/offer.service';
 import { Group } from '../models/Group';
 import { User } from '../models/User';
@@ -8,6 +8,7 @@ import { UserService } from '../services/user.service';
 import { GroupService } from '../services/group.service';
 import { map, tap } from 'rxjs/operators';
 import { OfferStatus } from '../enums/OfferStatus';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-offer-view',
@@ -23,8 +24,12 @@ export class OfferViewComponent implements OnInit {
   users: User[];
   groups: Group[];
 
-  constructor(private route: ActivatedRoute, private offerService: OfferService, private userService: UserService,
-     private groupService: GroupService) { }
+  constructor(private route: ActivatedRoute,
+    private offerService: OfferService,
+    private userService: UserService,
+    private router: Router,
+    private alertService: AlertService,
+    private groupService: GroupService) { }
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('auth_key');
@@ -103,6 +108,16 @@ export class OfferViewComponent implements OnInit {
 
   sendConfirmReturn(event, userId, offerId) {
     // TODO: wysłanie potwierdzenia zwrotu
+  }
+
+  deleteOffer() {
+    this.offerService.deleteOffer(this.offer.id).subscribe(res => {
+      this.router.navigate(['admin-panel']);
+      this.alertService.success('Pomyślnie usunięto grupę');
+    },
+    err => {
+      this.alertService.error(err.error);
+    });
   }
 
 }

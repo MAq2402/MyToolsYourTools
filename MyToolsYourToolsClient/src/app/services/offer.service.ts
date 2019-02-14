@@ -38,5 +38,8 @@ export class OfferService {
   activateOffer(offerId: string): Observable<Offer>  {
     return this.http.put<Offer>(this.baseUrl + 'offers/' + offerId + '/activate', {}, httpOptions);
   }
+  deleteOffer(offerId: string): Observable<Offer> {
+    return this.http.delete<Offer>(this.baseUrl + 'offers/' + offerId);
+  }
 
 }
