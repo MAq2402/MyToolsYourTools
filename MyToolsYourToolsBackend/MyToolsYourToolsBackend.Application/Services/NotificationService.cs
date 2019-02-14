@@ -14,10 +14,12 @@ namespace MyToolsYourToolsBackend.Application.Services
     public class NotificationService : INotificationService
     {
         private AppDbContext _dbContext;
+        private IPointsService _pointsService;
 
-        public NotificationService(AppDbContext dbContext)
+        public NotificationService(AppDbContext dbContext, IPointsService pointsService)
         {
             _dbContext = dbContext;
+            _pointsService = pointsService;
         }
 
         public bool userHasNotifications(Guid userId)
