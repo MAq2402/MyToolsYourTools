@@ -17,7 +17,8 @@
   </div>
   <hr class="mb-4" />
   <div *ngIf="!isMyOffer()" name="notMyOffer">
-    <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()">
+    <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()"
+      [disabled]="alreadySendRentRequest"> <!-- Dodać wycofainie prośby o wypożyczenie -->
       Złóż prośbę o wypożyczenie
     </button>
   </div>

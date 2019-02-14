@@ -8,6 +8,7 @@ using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
 using MyToolsYourToolsBackend.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using MyToolsYourToolsBackend.Application.Strategies.Points;
 
 namespace MyToolsYourToolsBackend.Application.Services
 {
@@ -40,12 +41,10 @@ namespace MyToolsYourToolsBackend.Application.Services
             var newNotification = Mapper.Map<Notification>(notification);
             _dbContext.Notifications.Add(newNotification);
 
-            // get deposit if rent request
             if (newNotification.Type == NotificationType.RentRequest)
             {
-                var pointsRentCost = 100;
                 var borrower = _dbContext.Users.FirstOrDefault(u => u.Id == notification.TargetUserId);
-                borrower.Points -= pointsRentCost;
+                _pointsService.ModifyPoints(borrower, new PointsModificationGetDepositStrategy());
             }
 
             if (_dbContext.SaveChanges() == 0)
@@ -62,16 +61,14 @@ namespace MyToolsYourToolsBackend.Application.Services
             var notificationToDelete = _dbContext.Notifications.FirstOrDefault(n => n.Id==notificationId);
             if (notificationToDelete != null)
             {
-                _dbContext.Notifications.Remove(notificationToDelete);
-
-                // return deposit if rent request
                 if (notificationToDelete.Type == NotificationType.RentRequest)
                 {
-                    var pointsRentCost = 100;
                     var borrower = _dbContext.Users.FirstOrDefault(u =>
                                                 u.Id == notificationToDelete.TargetUserId);
-                    borrower.Points += pointsRentCost;
+                    _pointsService.ModifyPoints(borrower, new PointsModificationReturnDepositStrategy());
                 }
+
+                _dbContext.Notifications.Remove(notificationToDelete);
 
                 if (_dbContext.SaveChanges() == 0)
                 {

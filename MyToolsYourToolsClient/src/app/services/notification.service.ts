@@ -26,4 +26,8 @@ export class NotificationService {
   deleteNotification(notificationId: string): Observable<{}> {
     return this.http.delete(this.baseUrl+'notifications/'+notificationId,httpOptions);
   }
+  checkIfUserCanSendRentRequest(userId: string, offerId: string): Observable<boolean> {
+    return this.http.get<boolean>(this.baseUrl + 'notifications/' + userId +
+      '/' +  offerId + '/check-if-can-send-rent-request', httpOptions);
+   }
 }

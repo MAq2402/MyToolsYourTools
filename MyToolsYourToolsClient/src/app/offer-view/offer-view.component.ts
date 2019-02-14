@@ -28,6 +28,8 @@ export class OfferViewComponent implements OnInit {
   users: User[];
   groups: Group[];
 
+  alreadySendRentRequest: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private offerService: OfferService,
@@ -54,6 +56,8 @@ export class OfferViewComponent implements OnInit {
     this.offerService.getOffer(id).pipe(
       map(o => this.offer = o),
       tap(_ => {
+        this.notificationService.checkIfUserCanSendRentRequest(this.currentUserId, this.offer.id)
+        .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
       /* tutaj trzeba pobrać nazwę użytkownika i grupy,
        najlepiej przypisane do zmiennych bindowanych w komponencie */
       })
@@ -119,6 +123,7 @@ export class OfferViewComponent implements OnInit {
     this.notificationService.addNotification(notificationToSend).subscribe(
       result => {
         this.alertService.success('Wysłano prośbę o wypożyczenie.');
+        this.alreadySendRentRequest = true;
         // TODO zablokowanie wysłania kolejnej prośby
       },
       error => {
@@ -139,7 +144,7 @@ export class OfferViewComponent implements OnInit {
           type: NotificationType.opinion
         };
         this.notificationService.addNotification(notificationToSend).subscribe();
-        this.alertService.success('Pomyślnie zmieniono status oferty');
+        this.alertService.success('Potwierdzono zwrot przedmiotu oferty');
         this.offer.status = OfferStatus.active;
       },
       error => {
