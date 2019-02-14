@@ -14,10 +14,12 @@ namespace MyToolsYourToolsBackend.Application.Services
     public class NotificationService : INotificationService
     {
         private AppDbContext _dbContext;
+        private IRentService _rentService;
 
-        public NotificationService(AppDbContext dbContext)
+        public NotificationService(AppDbContext dbContext, IRentService rentService)
         {
             _dbContext = dbContext;
+            _rentService = rentService;
         }
 
         public bool userHasNotifications(Guid userId)
@@ -37,7 +39,16 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             var newNotification = Mapper.Map<Notification>(notification);
             _dbContext.Notifications.Add(newNotification);
-            if(_dbContext.SaveChanges() == 0)
+
+            // get deposit if rent request
+            if (newNotification.Type == NotificationType.RentRequest)
+            {
+                var pointsRentCost = 100;
+                var borrower = _dbContext.Users.FirstOrDefault(u => u.Id == notification.TargetUserId);
+                borrower.Points -= pointsRentCost;
+            }
+
+            if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not add notification");
             }
@@ -47,21 +58,31 @@ namespace MyToolsYourToolsBackend.Application.Services
         }
 
         public bool DeleteNotification(Guid notificationId)
-        {
-            
+        {  
             var notificationToDelete = _dbContext.Notifications.FirstOrDefault(n => n.Id==notificationId);
-            if(notificationToDelete!=null)
+            if (notificationToDelete != null)
             {
-            _dbContext.Notifications.Remove(notificationToDelete);
-            
-            if(_dbContext.SaveChanges() == 0)
+                _dbContext.Notifications.Remove(notificationToDelete);
+
+                // return deposit if rent request
+                if (notificationToDelete.Type == NotificationType.RentRequest)
+                {
+                    var pointsRentCost = 100;
+                    var borrower = _dbContext.Users.FirstOrDefault(u =>
+                                                u.Id == notificationToDelete.TargetUserId);
+                    borrower.Points += pointsRentCost;
+                }
+
+                if (_dbContext.SaveChanges() == 0)
+                {
+                    throw new Exception("Could not delete");
+                }
+                return true;
+            }
+            else
             {
-                throw new Exception("Could not delete");
-               
+                return false;
             }
-            return true;
-            }
-            else return false;
         }
 
         public NotificationDto SendNotificationFromServer(Guid toUserId, Guid fromUserId, Guid offerId, NotificationType type)

@@ -21,9 +21,9 @@ namespace MyToolsYourToolsBackend.Application.Services
             _notificationService = notificationService;
         }
 
-        public bool CheckIfUserHasEnoughPoints(Guid userId, int sumToSubstract)
+        public bool CheckIfUserHasEnoughPoints(Guid userId, int sumToSubtract)
         {
-            return _dbContext.Users.FirstOrDefault(u => u.Id == userId).Points >= sumToSubstract;
+            return _dbContext.Users.FirstOrDefault(u => u.Id == userId).Points >= sumToSubtract;
         }
 
         public Rent AddRent(RentDto rent, int pointsCost)
@@ -41,7 +41,12 @@ namespace MyToolsYourToolsBackend.Application.Services
                 .Where(n => n.OfferId == rent.OfferId
                         && n.Type == NotificationType.RentRequest
                         && n.TargetUserId != borrower.Id);
-            _dbContext.RemoveRange(rentRequestsToRemove);
+
+            foreach(var rentRequest in rentRequestsToRemove)
+            {
+                // need notificationService to return deposit
+                _notificationService.DeleteNotification(rentRequest.Id);
+            }
             
             if (_dbContext.SaveChanges() == 0)
             {

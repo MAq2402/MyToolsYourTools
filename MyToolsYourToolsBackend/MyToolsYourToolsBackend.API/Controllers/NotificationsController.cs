@@ -78,8 +78,15 @@ namespace MyToolsYourToolsBackend.API.Controllers
 
         [HttpDelete("{id}")]
         public IActionResult DeleteNotification(Guid id){
-           if( _notificationService.DeleteNotification(id)) return Ok();
-           else return NotFound();
+
+            if (_notificationService.DeleteNotification(id))
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("{userId}/{offerId}/check-if-can-send-rent-request")]
