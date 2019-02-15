@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Opinion } from '../../models/Opinion';
 import { OpinionService } from '../../services/opinion.service';
 import { AlertService } from '../../services/alert.service';
+import { User } from '../../models/User';
+
+declare var $: any;
 
 @Component({
   selector: 'app-leave-feedback',
@@ -9,6 +12,10 @@ import { AlertService } from '../../services/alert.service';
   styleUrls: ['./leave-feedback.component.css']
 })
 export class LeaveFeedbackComponent implements OnInit {
+
+  @Output() sentOpinion = new EventEmitter<Opinion>();
+  @Input() borrower: User;
+  @Input() currentUserId: string;
 
   opinion: Opinion = {id: '', message: '', ratedUserId: '', ratingUserId: ''};
 
@@ -18,8 +25,20 @@ export class LeaveFeedbackComponent implements OnInit {
   ngOnInit() {
   }
 
-  sendOpinion(){
-
+  leaveFeedback(){
+    this.opinion.ratedUserId = this.borrower.id;
+    this.opinion.ratingUserId = this.currentUserId;
+    this.opinionService.addOpinion(this.opinion).subscribe(
+      result => {
+        this.alertService.success('Twoja opinia została wysłana');
+        $('#leaveFeedbackModal').modal('hide');
+        this.sentOpinion.emit(result);
+      },
+      error => {
+        this.alertService.error(error.error);
+        this.sentOpinion.emit(null);
+      }
+    );
     
   }
 

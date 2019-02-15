@@ -23,6 +23,13 @@ namespace MyToolsYourToolsBackend.Application.Services
             return _dbContext.Users.Any(u => u.Id == userId);
         }
 
+        public UserDto GetOfferBorrower(Guid offerId)
+        {
+            var rentFromRepo = _dbContext.Rents.FirstOrDefault(r => r.OfferId == offerId);
+            var borrowerToReturn = _dbContext.Users.FirstOrDefault(u => u.Id == rentFromRepo.BorrowerId);
+            return Mapper.Map<UserDto>(borrowerToReturn);
+        }
+
         public IEnumerable<UserDto> GetUsers()
         {
             return Mapper.Map<IEnumerable<UserDto>>(_dbContext.Users);

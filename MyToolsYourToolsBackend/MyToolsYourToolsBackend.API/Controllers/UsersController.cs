@@ -10,7 +10,7 @@ using MyToolsYourToolsBackend.Application.Services;
 
 namespace MyToolsYourToolsBackend.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     [EnableCors("MyToolsYourTools")]
     public class UsersController : ControllerBase
@@ -22,17 +22,23 @@ namespace MyToolsYourToolsBackend.API.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet("Users")]
         public IActionResult GetUsers()
         {
             return Ok(_userService.GetUsers());
         }
-        [Route("{userId}")]
+        [Route("Users/{userId}")]
         [HttpGet]
         public IActionResult GetUserById(Guid userId)
         {
             return Ok(_userService.GetUserById(userId));
 
+        }
+
+        [HttpGet("{offerId}/Users")]
+        public IActionResult GetOfferBorrower(Guid offerId)
+        {
+            return Ok(_userService.GetOfferBorrower(offerId));
         }
     }
 }

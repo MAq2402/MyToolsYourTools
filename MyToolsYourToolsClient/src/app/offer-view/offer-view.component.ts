@@ -13,6 +13,7 @@ import { NotificationService } from '../services/notification.service';
 import { NotificationForCreation } from '../models/NotificationForCreation';
 import { NotificationType } from '../enums/NotificationType';
 import { RentService } from '../services/rent.service';
+import { Opinion } from '../models/Opinion';
 
 @Component({
   selector: 'app-offer-view',
@@ -154,4 +155,17 @@ export class OfferViewComponent implements OnInit {
     )
   }
 
+
+  onOpinionSent(sentOpinion: Opinion){
+    if (sentOpinion != null) {
+     
+      this.sendConfirmReturn();
+    }
+  }
+
+    private getOfferBorrower(){
+      return this.userService.getOfferBorrower(this.offer.id).subscribe();
+    }
+      
+  
 }

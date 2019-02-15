@@ -1,5 +1,5 @@
 <!-- Modal - leave feedback -->
-<div id="leaveFeadbackModal" class="modal-dialog" role="dialog" >
+<div class="modal-dialog" role="document" >
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title" id="leaveFeedbackModalLabel">Wystaw opinię</h5>
@@ -8,8 +8,8 @@
       </button>
     </div>
     <div class="modal-body">
-      <form (ngSubmit)="sendOpinion()">
-        <label for="message"> </label>
+      <form (ngSubmit)="leaveFeedback()">
+        <label for="message">Jak oceniasz współpracę z użytkownikiem {{borrower.firstName}}? </label>
         <input
           type="text"
           class="form-control"

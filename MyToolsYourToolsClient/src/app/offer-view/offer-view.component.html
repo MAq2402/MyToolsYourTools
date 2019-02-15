@@ -24,10 +24,10 @@
   </div>
   <div *ngIf="isMyOffer()" name="myOffer" class="row">
     <div class="col">
-      <button class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#leaveFeadbackModal"
-        [disabled]="!hasMyOfferBorrowedStatus()" type="button">
+      <button class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#leaveFeedbackModal"
+        [disabled]="!hasMyOfferBorrowedStatus()" >
         Potwierdź zwrot
-      </button>
+    </button>
     </div>
     <div class="col">
       <button class="btn btn-lg" [ngClass]="{
@@ -43,3 +43,10 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="leaveFeedbackModal" tabindex="-1" role="dialog" aria-labelledby="leaveFeedbackModalLabel" aria-hidden="true">
+  <app-leave-feedback [borrower]="getOfferBorrower()" [currentUserId]="currentUserId" (sentOpinion)="onOpinionSent($event)">
+
+  </app-leave-feedback>
+</div>  
