@@ -39,11 +39,7 @@ export class AuthService {
     },
 
     error=>this.alertService.error(error.error));
-
-    
-  
-  
-
+  }
 
   getCurrentUser(): Observable<User> {
     if(this.currentUser) {
