@@ -37,7 +37,7 @@ export class OfferViewComponent implements OnInit {
     private groupService: GroupService,
     private alertService: AlertService,
     private notificationService: NotificationService,
-      private rentService: RentService,
+    private rentService: RentService,
     private router: Router
   ) { }
 
@@ -93,12 +93,12 @@ export class OfferViewComponent implements OnInit {
     return this.offer.ownerId === this.currentUserId;
   }
 
-  private hasMyOfferBorrowedStatus() {
+  private hasOfferBorrowedStatus() {
 
     return Object.values(OfferStatus)[this.offer.status] === OfferStatus.rented;
   }
 
-  private hasMyOfferHiddenStatus() {
+  private hasOfferHiddenStatus() {
     return Object.values(OfferStatus)[this.offer.status] === OfferStatus.hidden;
   }
 
@@ -125,7 +125,6 @@ export class OfferViewComponent implements OnInit {
       result => {
         this.alertService.success('Wysłano prośbę o wypożyczenie.');
         this.alreadySendRentRequest = true;
-        // TODO zablokowanie wysłania kolejnej prośby
       },
       error => {
         this.alertService.error(error.error);

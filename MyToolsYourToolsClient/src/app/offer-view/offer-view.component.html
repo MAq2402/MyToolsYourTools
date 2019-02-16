@@ -17,15 +17,23 @@
   </div>
   <hr class="mb-4" />
   <div *ngIf="!isMyOffer()" name="notMyOffer">
-    <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()"
-      [disabled]="alreadySendRentRequest"> <!-- Dodać wycofainie prośby o wypożyczenie -->
-      {{ alreadySendRentRequest ? "Prośba o wypożyczenie została wysłana" : "Złóż prośbę o wypożyczenie" }}
-    </button>
+    <div *ngIf="!hasOfferBorrowedStatus()" name="notBorrowedByMe">
+      <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()"
+        [disabled]="alreadySendRentRequest"> <!-- Dodać wycofainie prośby o wypożyczenie -->
+        {{ alreadySendRentRequest ? "Prośba o wypożyczenie została wysłana" : "Złóż prośbę o wypożyczenie" }}
+      </button>
+    </div>
+    <div *ngIf="hasOfferBorrowedStatus()" name="borrowedByMe">
+        <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()"
+          [disabled]="true"> <!-- Dodać wycofainie prośby o wypożyczenie -->
+          {{ "Oferta aktualnie wypożyczona" }}
+        </button>
+      </div>
   </div>
   <div *ngIf="isMyOffer()" name="myOffer" class="row">
       <div class="col">
           <button class="btn btn-outline-success btn-lg" (click)="sendConfirmReturn()"
-                  [disabled]="!hasMyOfferBorrowedStatus()">
+                  [disabled]="!hasOfferBorrowedStatus()">
               Potwierdź zwrot
           </button>
       </div>
@@ -36,10 +44,10 @@
      </div>
     <div class="col">
       <button class="btn btn-lg" [ngClass]="{
-              'btn-secondary': !hasMyOfferHiddenStatus(),
-              'btn-success': hasMyOfferHiddenStatus()
-            }" type="button" (click)="changeOfferStatus()" [disabled]="hasMyOfferBorrowedStatus()">
-                {{ hasMyOfferHiddenStatus() ? "Aktywuj ofertę" : "Ukryj ofertę" }}
+              'btn-secondary': !hasOfferHiddenStatus(),
+              'btn-success': hasOfferHiddenStatus()
+            }" type="button" (click)="changeOfferStatus()" [disabled]="hasOfferBorrowedStatus()">
+                {{ hasOfferHiddenStatus() ? "Aktywuj ofertę" : "Ukryj ofertę" }}
             </button>
         </div>
         <div class="col">
