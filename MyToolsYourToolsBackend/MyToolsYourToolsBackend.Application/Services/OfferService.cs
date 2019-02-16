@@ -112,6 +112,14 @@ namespace MyToolsYourToolsBackend.Application.Services
             return Mapper.Map<IEnumerable<OfferDto>>(offersFromRepo);
         }
 
+        public IEnumerable<OfferDto> GetBorrowedByUserOffers(Guid userId)
+        {
+            var offersBorrowedByUserIds = _dbContext.Rents.Where(r => r.BorrowerId == userId).Select(r => r.OfferId);
+            var offersBorrowedByUser = _dbContext.Offers.Where(o => offersBorrowedByUserIds.Contains(o.Id));
+
+            return Mapper.Map<IEnumerable<OfferDto>>(offersBorrowedByUser);
+        }
+
         public OfferDto HideOffer(Guid id)
         {
             var offer = _dbContext.Offers.FirstOrDefault(o => o.Id == id);

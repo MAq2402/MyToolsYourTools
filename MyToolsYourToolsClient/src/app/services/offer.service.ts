@@ -23,6 +23,10 @@ export class OfferService {
     return this.http.get<Offer[]>(this.baseUrl + userId + '/offers-for-user-groups');
   }
 
+  getBorrowedByUserOffers(userId: string): Observable<Offer[]> {
+    return this.http.get<Offer[]>(this.baseUrl + userId + '/offers-borrowed-by-user');
+  }
+
   getUserOffers(userId: string):  Observable<Offer[]> {
     return this.http.get<Offer[]>(this.baseUrl + userId + '/offers');
   }
