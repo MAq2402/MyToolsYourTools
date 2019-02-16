@@ -3,7 +3,7 @@
     <a class="navbar-brand" [routerLink]="['']">MyToolYourTool</a>
 
     <ul class="nav navbar-nav navbar-right">
-      <li class="points">
+      <li class="points" *ngIf="currentUser">
         Posiadane punkty: {{currentUser.points}}
       </li>
       <li>
@@ -14,6 +14,7 @@
       <li>
         <button class="btn btn-outline-success my-2 my-sm-0 my-btn " type="submit" routerLink="admin-panel">
           <i class="material-icons my-icons">perm_identity</i>
+          <span class="button_badge" *ngIf="currentUserNotificationsCount">{{currentUserNotificationsCount}}</span>
         </button>
       </li>
       <li>
