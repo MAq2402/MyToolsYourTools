@@ -34,8 +34,9 @@ namespace MyToolsYourToolsBackend.API.Infrastructure
                 .ForMember(dest=>dest.OfferName,
                 opt=>opt.MapFrom(src=>src.Offer.Tool));
               
-                cfg.CreateMap<RentForCreationDto, Rent>();
-   
+                cfg.CreateMap<RentDto, Rent>();
+                cfg.CreateMap<Rent, RentDto>();
+
                 cfg.CreateMap<OpinionForCreationDto, Opinion>();
                 cfg.CreateMap<Opinion, OpinionDto>();
 

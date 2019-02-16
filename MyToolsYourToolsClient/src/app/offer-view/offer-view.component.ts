@@ -8,6 +8,11 @@ import { UserService } from '../services/user.service';
 import { GroupService } from '../services/group.service';
 import { map, tap } from 'rxjs/operators';
 import { OfferStatus } from '../enums/OfferStatus';
+import { AlertService } from '../services/alert.service';
+import { NotificationService } from '../services/notification.service';
+import { NotificationForCreation } from '../models/NotificationForCreation';
+import { NotificationType } from '../enums/NotificationType';
+import { RentService } from '../services/rent.service';
 
 @Component({
   selector: 'app-offer-view',
@@ -23,8 +28,17 @@ export class OfferViewComponent implements OnInit {
   users: User[];
   groups: Group[];
 
-  constructor(private route: ActivatedRoute, private offerService: OfferService, private userService: UserService,
-     private groupService: GroupService) { }
+  alreadySendRentRequest: boolean;
+
+  constructor(
+    private route: ActivatedRoute,
+    private offerService: OfferService,
+    private userService: UserService,
+    private groupService: GroupService,
+    private alertService: AlertService,
+    private notificationService: NotificationService,
+    private rentService: RentService
+  ) { }
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('auth_key');
@@ -42,6 +56,8 @@ export class OfferViewComponent implements OnInit {
     this.offerService.getOffer(id).pipe(
       map(o => this.offer = o),
       tap(_ => {
+        this.notificationService.checkIfUserCanSendRentRequest(this.currentUserId, this.offer.id)
+        .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
       /* tutaj trzeba pobrać nazwę użytkownika i grupy,
        najlepiej przypisane do zmiennych bindowanych w komponencie */
       })
@@ -97,12 +113,45 @@ export class OfferViewComponent implements OnInit {
     return Object.values(OfferStatus)[number];
   }
 
-  sendRentRequest(event, userId, offerId) {
-    // TODO: wysłanie żądania wyporzyczenia
+  sendRentRequest() {
+    const notificationToSend: NotificationForCreation = {
+      ownerId: this.offer.ownerId,
+      targetUserId: this.currentUserId,
+      offerId: this.offer.id,
+      type: NotificationType.rentRequest
+    };
+    this.notificationService.addNotification(notificationToSend).subscribe(
+      result => {
+        this.alertService.success('Wysłano prośbę o wypożyczenie.');
+        this.alreadySendRentRequest = true;
+        // TODO zablokowanie wysłania kolejnej prośby
+      },
+      error => {
+        this.alertService.error(error.error);
+        console.log(error);
+      }
+    );
   }
 
-  sendConfirmReturn(event, userId, offerId) {
-    // TODO: wysłanie potwierdzenia zwrotu
+  sendConfirmReturn() {
+    // TODO: pierw wyświetlenie pop-up z wystawieniem opinii wypożyczającemu inną metodą a na "Wyślij" wykonanie tej
+    this.rentService.deleteRent(this.offer.id).subscribe(
+      result => {
+        const notificationToSend: NotificationForCreation = {
+          ownerId: result.borrowerId,
+          targetUserId: this.currentUserId,
+          offerId: result.offerId,
+          type: NotificationType.opinion
+        };
+        this.notificationService.addNotification(notificationToSend).subscribe();
+        this.alertService.success('Potwierdzono zwrot przedmiotu oferty');
+        this.getOffer(result.offerId); // refresh offer view
+      },
+      error => {
+        this.alertService.error(error.error);
+        console.log(error);
+      }
+    )
   }
 
 }

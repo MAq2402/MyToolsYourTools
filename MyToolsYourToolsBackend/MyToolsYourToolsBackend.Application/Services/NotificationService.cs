@@ -8,16 +8,19 @@ using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
 using MyToolsYourToolsBackend.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using MyToolsYourToolsBackend.Application.Strategies.Points;
 
 namespace MyToolsYourToolsBackend.Application.Services
 {
     public class NotificationService : INotificationService
     {
         private AppDbContext _dbContext;
+        private IPointsService _pointsService;
 
-        public NotificationService(AppDbContext dbContext)
+        public NotificationService(AppDbContext dbContext, IPointsService pointsService)
         {
             _dbContext = dbContext;
+            _pointsService = pointsService;
         }
 
         public bool userHasNotifications(Guid userId)
@@ -37,7 +40,14 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             var newNotification = Mapper.Map<Notification>(notification);
             _dbContext.Notifications.Add(newNotification);
-            if(_dbContext.SaveChanges() == 0)
+
+            if (newNotification.Type == NotificationType.RentRequest)
+            {
+                var borrower = _dbContext.Users.FirstOrDefault(u => u.Id == notification.TargetUserId);
+                _pointsService.ModifyPoints(borrower, new PointsModificationGetDepositStrategy());
+            }
+
+            if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not add notification");
             }
@@ -47,35 +57,29 @@ namespace MyToolsYourToolsBackend.Application.Services
         }
 
         public bool DeleteNotification(Guid notificationId)
-        {
-            
+        {  
             var notificationToDelete = _dbContext.Notifications.FirstOrDefault(n => n.Id==notificationId);
-            if(notificationToDelete!=null)
+            if (notificationToDelete != null)
             {
-            _dbContext.Notifications.Remove(notificationToDelete);
-            
-            if(_dbContext.SaveChanges() == 0)
-            {
-                throw new Exception("Could not delete");
-               
+                if (notificationToDelete.Type == NotificationType.RentRequest)
+                {
+                    var borrower = _dbContext.Users.FirstOrDefault(u =>
+                                                u.Id == notificationToDelete.TargetUserId);
+                    _pointsService.ModifyPoints(borrower, new PointsModificationReturnDepositStrategy());
+                }
+
+                _dbContext.Notifications.Remove(notificationToDelete);
+
+                if (_dbContext.SaveChanges() == 0)
+                {
+                    throw new Exception("Could not delete");
+                }
+                return true;
             }
-            return true;
-            }
-            else return false;
-        }
-
-        public NotificationDto SendNotificationFromServer(Guid toUserId, Guid fromUserId, Guid offerId, NotificationType type)
-        {
-            var notificationToSend = new NotificationForCreationDto()
+            else
             {
-                OwnerId = toUserId,
-                TargetUserId = fromUserId,
-                OfferId = offerId,
-                Type = type
-            };
-
-            return AddNotification(notificationToSend);
-
+                return false;
+            }
         }
 
         public bool CheckIfUserAlreadySendRentRequest(Guid userId, Guid offerId)
