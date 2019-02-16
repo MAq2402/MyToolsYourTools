@@ -12,7 +12,6 @@ namespace MyToolsYourToolsBackend.Application.Services
         IEnumerable<NotificationDto> GetNotificationsForUser(Guid userId);
         NotificationDto AddNotification(NotificationForCreationDto notification);
         bool DeleteNotification(Guid notificationId);
-        NotificationDto SendNotificationFromServer(Guid toUserId, Guid fromUserId, Guid offerId, NotificationType type);
         bool CheckIfUserAlreadySendRentRequest(Guid userId, Guid offerId);
     }
 }

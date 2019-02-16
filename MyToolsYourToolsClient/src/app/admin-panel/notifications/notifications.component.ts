@@ -4,6 +4,9 @@ import { NotificationType } from '../../enums/NotificationType';
 import { NotificationService } from '../../services/notification.service';
 import { Opinion } from '../../models/Opinion';
 import { OpinionService } from '../../services/opinion.service';
+import { RentService } from '../../services/rent.service';
+import { Rent } from '../../models/Rent';
+import { AlertService } from '../../services/alert.service';
 
 
 @Component({
@@ -13,7 +16,7 @@ import { OpinionService } from '../../services/opinion.service';
 })
 export class NotificationsComponent implements OnInit {
 
- 
+
   inputText = {};
 
 
@@ -25,26 +28,52 @@ export class NotificationsComponent implements OnInit {
 
   constructor(
     private notificationService: NotificationService,
-    private opinionService:  OpinionService
-
+    private opinionService:  OpinionService,
+    private rentService: RentService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('auth_key');
+    this.getUserNotifications();
+  }
+
+  getUserNotifications() {
     this.notificationService.getUserNotifications(this.currentUserId)
       .subscribe(n => {
         this.rentRequests = n.filter(not => not.type === NotificationType.rentRequest);
         this.opinions = n.filter(not => not.type === NotificationType.opinion);
       });
   }
-  onRequestNotificationApproved(requestId: any){
-    this.rentRequests = this.rentRequests.filter(n => n.id !== requestId);
-    this.notificationService.deleteNotification(requestId).subscribe();
+  onRequestNotificationApproved(rentRequest: Notification){
+    const rentToSend = new Rent(rentRequest.offerId, rentRequest.targetUserId);
+    this.rentService.addRent(rentToSend).subscribe(
+      result => {
+        this.alertService.success('Przedmiot oferty został pomyślnie udostępniony');
+        this.deleteNotification(rentRequest);
+      },
+      error => {
+        this.alertService.error(error.error);
+        console.log(error);
+      }
+    );
+
   }
-  onRequestNotificationRejected(requestId: any){
-    this.rentRequests = this.rentRequests.filter(n => n.id !== requestId);
-    this.notificationService.deleteNotification(requestId).subscribe();
+  onRequestNotificationRejected(rentRequest: Notification){
+    this.alertService.info('Prośba o udostępnienie została odrzucona');
+    this.deleteNotification(rentRequest);
   }
+
+  deleteNotification(notification: Notification) {
+    /*if (notification.type === NotificationType.rentRequest) {
+      this.rentRequests = this.rentRequests.filter(n => n.id !== notification.id);
+    } else if (notification.type === NotificationType.opinion) {
+      this.opinions = this.opinions.filter(n => n.id !== notification.id);
+    }*/
+    this.notificationService.deleteNotification(notification.id)
+    .subscribe(_ => this.getUserNotifications());
+  }
+
   onOpinionSent(requestId: any){
     console.log(this.inputText[requestId]);
     let currentRequest: Notification = this.opinions.find(r=>r.id===requestId);
