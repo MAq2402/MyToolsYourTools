@@ -82,7 +82,9 @@ export class NotificationsComponent implements OnInit {
       message: this.inputText[requestId],
       ratedUserId: currentRequest.targetUserId,
       ratingUserId: currentRequest.ownerId
-  }
+  } 
+  
+
     this.opinionService.addOpinion(tmpOpinion).subscribe();
     this.opinions = this.opinions.filter(n => n.id !== requestId);
     this.notificationService.deleteNotification(requestId).subscribe();

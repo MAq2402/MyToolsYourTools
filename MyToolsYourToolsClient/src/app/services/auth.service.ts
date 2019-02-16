@@ -5,6 +5,7 @@ import { RegisterCredentials } from '../models/registerCredentials';
 import { LoginCredentials } from '../models/loginCredentials';
 import { Observable, Subscription, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { AlertService } from './alert.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,25 +17,33 @@ const httpOptions = {
 export class AuthService {
   private currentUser: User;
   error: String;
+  registerError: any;
   baseUrl = 'https://localhost:44341/api/';
-  constructor(private http: HttpClient, public router: Router) {}
+  constructor(private http: HttpClient, public router: Router, private alertService: AlertService) {}
 
   register(credentials: RegisterCredentials): Subscription {
     return this.http.post<any>(this.baseUrl + 'register', credentials, httpOptions).subscribe(u => {
-      this.currentUser = u;
-      localStorage.setItem('auth_key', u.id);
-      this.router.navigate(['']);
-    });
-  }
-  login(credentials: LoginCredentials): Subscription{
-    return this.http.post<any>(this.baseUrl + 'login', credentials, httpOptions).subscribe(u => {
+      this.alertService.success("Rejestracja przebiegła pomyślnie (z serwisu)");
       this.currentUser = u;
       localStorage.setItem('auth_key', u.id);
       this.router.navigate(['']);
     },
-    (error: String) => { this.error = error; }
-    );
+    error=>this.alertService.error(error.error));
   }
+  login(credentials: LoginCredentials): Subscription{
+    return this.http.post<any>(this.baseUrl + 'login', credentials, httpOptions).subscribe(u => {
+      this.currentUser = u;
+      this.alertService.success("Witaj "+this.currentUser.userName+"!");
+      localStorage.setItem('auth_key', u.id);
+      this.router.navigate(['']);
+    },
+
+    error=>this.alertService.error(error.error));
+
+    
+  
+  
+
 
   getCurrentUser(): Observable<User> {
     if(this.currentUser) {
