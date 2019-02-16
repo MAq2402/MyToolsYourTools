@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MyToolsYourToolsBackend.Application.Dtos;
+using MyToolsYourToolsBackend.Application.Strategies.Points;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
 using MyToolsYourToolsBackend.Domain.Enums;
@@ -13,10 +15,12 @@ namespace MyToolsYourToolsBackend.Application.Services
     public class OfferService : IOfferService
     {
         private AppDbContext _dbContext;
+        private IPointsService _pointsService;
 
-        public OfferService(AppDbContext dbContext)
+        public OfferService(AppDbContext dbContext, IPointsService pointsService)
         {
             _dbContext = dbContext;
+            _pointsService = pointsService;
         }
 
         public OfferDto ActivateOffer(Guid id)
@@ -36,17 +40,19 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             var offerToSave = Mapper.Map<Offer>(offer);
 
-            _dbContext.Users.FirstOrDefault(u => u.Id == userId).Offers.Add(offerToSave);
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
 
-            if(_dbContext.SaveChanges() == 0)
+            user.Offers.Add(offerToSave);
+
+            _pointsService.ModifyPoints(user, new PointsModificationOfferCreationStrategy());
+
+            if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not add offer");
             }
 
             return Mapper.Map<OfferDto>(offerToSave);
-
         }
-
         public bool CheckIfOfferExists(Guid id)
         {
             return _dbContext.Offers.Any(o => o.Id == id);
@@ -75,6 +81,17 @@ namespace MyToolsYourToolsBackend.Application.Services
             var offerFromRepo = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
 
             return Mapper.Map<OfferDto>(offerFromRepo);
+        }
+
+        public IEnumerable<OfferDto> GetOffersForUserGroups(Guid userId)
+        {
+            var user = _dbContext.Users.Include(u => u.UserGroups).FirstOrDefault(u => u.Id == userId);
+            var offers = _dbContext.Offers.Where(o => o.Status == OfferStatus.Active)
+                                          .Where(o => o.OwnerId != userId)
+                                          .Where(o => user.UserGroups.Select(ug => ug.GroupId)
+                                                                     .Contains(o.GroupId));
+
+            return Mapper.Map<IEnumerable<OfferDto>>(offers);
         }
 
         public IEnumerable<OfferDto> GetUserOffers(Guid userId)

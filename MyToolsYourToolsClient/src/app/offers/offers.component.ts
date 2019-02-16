@@ -12,7 +12,7 @@ import { OfferStatus } from '../enums/OfferStatus';
   styleUrls: ["./offers.component.css"]
 })
 export class OffersComponent implements OnInit {
-  activeOffers: Offer[];
+  offers: Offer[];
   searchedOffers: Offer[];
   currentSearch: String;
   login;
@@ -20,7 +20,6 @@ export class OffersComponent implements OnInit {
   currentUserId: string;
 
   currentCategory: ToolCategory;
-  offers: Offer[];
   groups: Group[];
   categories: ToolCategory;
   constructor(
@@ -30,17 +29,16 @@ export class OffersComponent implements OnInit {
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('auth_key');
-    this.offerService.getOffers().subscribe(o => (this.offers = o));
-    this.offerService.getActiveOffers().subscribe(o => {
-      this.activeOffers = o;
-      this.searchedOffers = this.activeOffers;
+    this.offerService.getOffersForUserGroups(this.currentUserId).subscribe(o => {
+      this.offers = o;
+      this.searchedOffers = this.offers;
     });
     this.groupService
       .getUserGroups(this.currentUserId)
       .subscribe(o => (this.groups = o));
   }
   searchAndFilter() {
-    this.searchedOffers = this.activeOffers;
+    this.searchedOffers = this.offers;
     if (this.currentSearch) {
       this.searchedOffers = this.searchedOffers.filter(o =>
           o.tool.toLowerCase().includes(this.currentSearch.toLowerCase())

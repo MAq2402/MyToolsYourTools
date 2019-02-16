@@ -6,25 +6,32 @@ using AutoMapper;
 using MyToolsYourToolsBackend.Application.Dtos;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
+using MyToolsYourToolsBackend.Application.Strategies.Points;
 
 namespace MyToolsYourToolsBackend.Application.Services
 {
     public class OpinionService : IOpinionService
     {
         private AppDbContext _dbContext;
+        private IPointsService _pointsService;
 
-        public OpinionService(AppDbContext dbContext)
+        public OpinionService(AppDbContext dbContext, IPointsService pointsService)
         {
             _dbContext = dbContext;
+            _pointsService = pointsService;
         }
 
         public OpinionDto AddOpinion(OpinionForCreationDto opinion, Guid ratedUserId, Guid ratingUserId)
         {
             var opinionToSave = Mapper.Map<Opinion>(opinion);
-            
-            _dbContext.Users.FirstOrDefault(u => u.Id == ratingUserId ).GivenOpinions.Add(opinionToSave);
+
+            var ratingUser = _dbContext.Users.FirstOrDefault(u => u.Id == ratingUserId);
+            ratingUser.GivenOpinions.Add(opinionToSave);
+
             _dbContext.Users.FirstOrDefault(u => u.Id == ratedUserId).ReceivedOpinions.Add(opinionToSave);
             _dbContext.Opinions.Add(opinionToSave);
+
+            _pointsService.ModifyPoints(ratingUser, new PointsModificationOpinionAdditionStrategy());
 
             if (_dbContext.SaveChanges() == 0)
             {
@@ -33,7 +40,6 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             return Mapper.Map<OpinionDto>(opinionToSave);
         }
-
         public IEnumerable<OpinionDto> GetAllOpinions()
         {
             return Mapper.Map<IEnumerable<OpinionDto>>(_dbContext.Opinions);

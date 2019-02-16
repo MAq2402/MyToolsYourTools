@@ -8,8 +8,8 @@ namespace MyToolsYourToolsBackend.Application.Services
 {
     public interface IRentService
     {
-        bool CheckIfUserHasEnoughPoints(Guid userId, int sumToSubtract);
-        Rent AddRent(RentForCreationDto rent, int pointsCost);
-        void DeleteRent(Guid offerId, int pointsReward);
+        bool CheckIfUserHasEnoughPoints(Guid userId);
+        Rent AddRent(RentForCreationDto rent);
+        void DeleteRent(Guid offerId);
     }
 }
