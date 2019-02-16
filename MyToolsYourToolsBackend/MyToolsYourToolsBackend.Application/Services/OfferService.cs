@@ -124,5 +124,16 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             return Mapper.Map<OfferDto>(offer);
         }
+
+        public OfferDto UpdateOffer(OfferForUpdateDto offer,Guid id)
+        {
+            var offerToUpdate = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
+
+            Mapper.Map(offerToUpdate, offer);
+
+            _dbContext.SaveChanges();
+
+            return Mapper.Map<OfferDto>(offerToUpdate);
+        }
     }
 }

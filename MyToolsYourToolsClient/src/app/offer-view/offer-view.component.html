@@ -1,7 +1,7 @@
 <div class="container">
 
-    <span class="offer-header">{{ offer.tool }}</span>
-    <img class="offer-image" src="{{ offer.imageSource }}" />
+  <span class="offer-header">{{ offer.tool }}</span>
+  <img class="offer-image" src="{{ offer.imageSource }}" />
 
   <p class="top-buffer20"></p>
   <span>Wystawił: </span>
@@ -17,34 +17,42 @@
   </div>
   <hr class="mb-4" />
   <div *ngIf="!isMyOffer()" name="notMyOffer">
-    <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()"
-      [disabled]="alreadySendRentRequest"> <!-- Dodać wycofainie prośby o wypożyczenie -->
+    <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()" [disabled]="alreadySendRentRequest">
+      <!-- Dodać wycofainie prośby o wypożyczenie -->
       {{ alreadySendRentRequest ? "Prośba o wypożyczenie została wysłana" : "Złóż prośbę o wypożyczenie" }}
     </button>
   </div>
   <div *ngIf="isMyOffer()" name="myOffer" class="row">
-      <div class="col">
-          <button class="btn btn-outline-success btn-lg" (click)="sendConfirmReturn()"
-                  [disabled]="!hasMyOfferBorrowedStatus()">
-              Potwierdź zwrot
-          </button>
-      </div>
+    <div class="col">
+      <button class="btn btn-outline-success btn-lg" (click)="sendConfirmReturn()" [disabled]="!hasMyOfferBorrowedStatus()">
+        Potwierdź zwrot
+      </button>
+    </div>
     <div class="col">
       <button class="btn btn-lg btn-danger" (click)="deleteOffer()">
-          Usuń ofertę
+        Usuń ofertę
       </button>
-     </div>
+    </div>
+    <div class="col">
+      <a class="btn btn-lg btn-info edit-offer" data-toggle="modal" data-target="#editOfferModal">Edytuj ofertę</a>
+    </div>
     <div class="col">
       <button class="btn btn-lg" [ngClass]="{
               'btn-secondary': !hasMyOfferHiddenStatus(),
               'btn-success': hasMyOfferHiddenStatus()
-            }" type="button" (click)="changeOfferStatus()" [disabled]="hasMyOfferBorrowedStatus()">
-                {{ hasMyOfferHiddenStatus() ? "Aktywuj ofertę" : "Ukryj ofertę" }}
-            </button>
-        </div>
-        <div class="col">
-            <h6>Status oferty:</h6>
-            <h5>{{getOfferStatusName(offer.status)}}</h5>
-        </div>
+            }"
+        type="button" (click)="changeOfferStatus()" [disabled]="hasMyOfferBorrowedStatus()">
+        {{ hasMyOfferHiddenStatus() ? "Aktywuj ofertę" : "Ukryj ofertę" }}
+      </button>
     </div>
+    <div class="col">
+      <h6>Status oferty:</h6>
+      <h5>{{getOfferStatusName(offer.status)}}</h5>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editOfferModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel"
+  aria-hidden="true">
+  <app-offer-edit [model] = "offer" [groups] = "groups"></app-offer-edit>
 </div>

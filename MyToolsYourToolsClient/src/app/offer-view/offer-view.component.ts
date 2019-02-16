@@ -164,5 +164,4 @@ export class OfferViewComponent implements OnInit {
       this.alertService.error(err.error);
     });
   }
-
 }

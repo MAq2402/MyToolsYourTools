@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Offer } from '../models/Offer';
-import { Observable, of} from 'rxjs';
+import { Observable, of, Subject} from 'rxjs';
 import { OfferStatus } from '../enums/OfferStatus';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -40,6 +40,9 @@ export class OfferService {
   }
   deleteOffer(offerId: string): Observable<Offer> {
     return this.http.delete<Offer>(this.baseUrl + 'offers/' + offerId);
+  }
+  updateOffer(offerId: string, offer: Offer): Observable<Offer> {
+    return this.http.put<Offer>(this.baseUrl + 'offers/' + offerId, offer, httpOptions);
   }
 
 }

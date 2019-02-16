@@ -33,6 +33,7 @@ import { AlertComponent } from './alert/alert.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { MyOffersComponent } from './admin-panel/my-offers/my-offers.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { OfferEditComponent } from './offer-edit/offer-edit.component';
 
 
 
@@ -58,7 +59,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     CreateGroupComponent,
     AlertComponent,
     MyOffersComponent,
-    PaginationComponent
+    PaginationComponent,
+    OfferEditComponent
   ],
   imports: [
     BrowserModule,

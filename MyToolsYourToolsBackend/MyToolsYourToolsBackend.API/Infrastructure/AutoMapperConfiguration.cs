@@ -21,6 +21,7 @@ namespace MyToolsYourToolsBackend.API.Infrastructure
                 cfg.CreateMap<Offer, OfferDto>();
                 cfg.CreateMap<OfferForCreationDto, Offer>()
                 .ForMember(dest => dest.ToolCategory, opt => opt.MapFrom(src => (ToolCategory)src.ToolCategoryEnumerationNumber));
+                cfg.CreateMap<OfferForUpdateDto, Offer>();
 
                 cfg.CreateMap<Group, GroupDto>();
                 cfg.CreateMap<GroupForCreationDto, Group>();

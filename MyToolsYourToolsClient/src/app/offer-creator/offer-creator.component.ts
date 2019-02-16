@@ -7,14 +7,9 @@ import { ToolCategory } from '../enums/tool-category';
 import { AlertService } from '../services/alert.service';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { toolCategoryHelper } from './tool-category-helper';
 
-const toolCategoryHelper = [
-  { id: 0, category: ToolCategory.mower, src: '../../assets/images/kosiarka.png' },
-  { id: 1, category: ToolCategory.barrow, src: '../../assets/images/taczka.png'  },
-  { id: 2, category: ToolCategory.gardenAccessory, src: '../../assets/images/akcesoria.png'  },
-  { id: 3, category: ToolCategory.shovel, src: '../../assets/images/lopata.png'  },
-  { id: 4, category: ToolCategory.rake, src: '../../assets/images/grabie.png'  }
-];
+
 @Component({
   selector: 'app-offer-creator',
   templateUrl: './offer-creator.component.html',
@@ -55,12 +50,7 @@ export class OfferCreatorComponent implements OnInit {
   }
 
   addOffer() {
-    for (const category in toolCategoryHelper) {
-      if (toolCategoryHelper[category].category === this.categoryName) {
-        this.model.toolCategoryEnumerationNumber = toolCategoryHelper[category].id;
-        this.model.imageSource = toolCategoryHelper[category].src;
-      }
-    }
+    this.resolveCategory();
     this.offerService.addOffer(this.model, this.currentUserId).subscribe(res => {
       this.alertService.success('Oferta utworzona pomyślnie');
       this.userService.announceUserUpdate(true);
@@ -68,6 +58,15 @@ export class OfferCreatorComponent implements OnInit {
     }, error => {
       this.alertService.error(error.error);
     });
+  }
+
+  resolveCategory() {
+    for (const category in toolCategoryHelper) {
+      if (toolCategoryHelper[category].category === this.categoryName) {
+        this.model.toolCategoryEnumerationNumber = toolCategoryHelper[category].id;
+        this.model.imageSource = toolCategoryHelper[category].src;
+      }
+    }
   }
   getCategoriesNames() {
     return Object.values(ToolCategory);

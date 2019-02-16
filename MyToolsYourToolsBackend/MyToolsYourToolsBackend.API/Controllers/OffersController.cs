@@ -93,5 +93,18 @@ namespace MyToolsYourToolsBackend.API.Controllers
 
             return NoContent();
         }
+        [HttpPut("offers/{id}")]
+
+        public IActionResult UpdateOffer([FromBody] OfferForUpdateDto offerFromBody,Guid id)
+        {
+            if(!_offerService.CheckIfOfferExists(id))
+            {
+                return NotFound();
+            }
+
+            var offerToReturn  = _offerService.UpdateOffer(offerFromBody ,id);
+
+            return Ok(offerToReturn);
+        }
     }
 }
