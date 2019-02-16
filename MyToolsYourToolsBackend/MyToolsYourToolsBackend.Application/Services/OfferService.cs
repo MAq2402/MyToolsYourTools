@@ -63,6 +63,17 @@ namespace MyToolsYourToolsBackend.Application.Services
             return _dbContext.Offers.FirstOrDefault(o => o.Id == id).Status == OfferStatus.Active;
         }
 
+        public void DeleteOffer(Guid id)
+        {
+            var offerToDelete = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
+            _dbContext.Remove(offerToDelete);
+
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new Exception("Could not delete offer");
+            }
+        }
+
         public IEnumerable<OfferDto> GetAllOffers(bool onlyActive)
         {
             if (onlyActive)

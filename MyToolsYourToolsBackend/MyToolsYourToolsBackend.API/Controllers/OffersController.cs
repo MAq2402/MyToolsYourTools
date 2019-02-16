@@ -37,7 +37,7 @@ namespace MyToolsYourToolsBackend.API.Controllers
         }
 
 
-    [HttpGet("{userId}/offers")]
+        [HttpGet("{userId}/offers")]
         public IActionResult GetUserOffers(Guid userId)
         {
             return Ok(_offerService.GetUserOffers(userId));
@@ -80,6 +80,18 @@ namespace MyToolsYourToolsBackend.API.Controllers
             }
             var offer = _offerService.HideOffer(id);
             return Ok(offer);
+        }
+
+        [HttpDelete("offers/{id}")]
+        public IActionResult DeleteOffer(Guid id)
+        {
+            if (!_offerService.CheckIfOfferExists(id))
+            {
+                return NotFound();
+            }
+            _offerService.DeleteOffer(id);
+
+            return NoContent();
         }
     }
 }

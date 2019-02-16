@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
     userName: '',
     password: ''
   }
-  currentLoginError: String;
+
   constructor(private authService: AuthService) {}
   ngOnInit() {
   }
@@ -20,7 +20,5 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.authService.login(this.model);
-    this.currentLoginError = this.authService.error;
-    console.log(this.currentLoginError);
   }
 }

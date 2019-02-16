@@ -37,7 +37,7 @@ namespace MyToolsYourToolsBackend.API.Controllers
 
             if(user == null)
             {
-                return BadRequest("Wrong credentials");
+                return BadRequest("Błędny login lub hasło");
             }
             return Ok(user);
         }

@@ -36,10 +36,10 @@ namespace MyToolsYourToolsBackend.API.Controllers
                 return NotFound();
             }
 
-            if(!_rentService.CheckIfUserHasEnoughPoints(rentFromBody.BorrowerId))
-            {
-                return BadRequest("Niewystarczająca ilość punktów na zrealizowanie wypożyczenia.");
-            }
+            //if(!_rentService.CheckIfUserHasEnoughPoints(rentFromBody.BorrowerId))
+            //{
+            //    return BadRequest("Niewystarczająca ilość punktów na zrealizowanie wypożyczenia.");
+            //}
            
             if (!_offerService.CheckIfOfferIsActive(rentFromBody.OfferId))
             {
