@@ -23,12 +23,17 @@
     </button>
   </div>
   <div *ngIf="isMyOffer()" name="myOffer" class="row">
+      <div class="col">
+          <button class="btn btn-outline-success btn-lg" (click)="sendConfirmReturn()"
+                  [disabled]="!hasMyOfferBorrowedStatus()">
+              Potwierdź zwrot
+          </button>
+      </div>
     <div class="col">
-      <button class="btn btn-outline-success btn-lg" (click)="sendConfirmReturn()"
-        [disabled]="!hasMyOfferBorrowedStatus()">
-        Potwierdź zwrot
+      <button class="btn btn-lg btn-danger" (click)="deleteOffer()">
+          Usuń ofertę
       </button>
-    </div>
+     </div>
     <div class="col">
       <button class="btn btn-lg" [ngClass]="{
               'btn-secondary': !hasMyOfferHiddenStatus(),

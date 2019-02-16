@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Offer } from '../models/Offer';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OfferService } from '../services/offer.service';
 import { Group } from '../models/Group';
 import { User } from '../models/User';
@@ -37,7 +37,8 @@ export class OfferViewComponent implements OnInit {
     private groupService: GroupService,
     private alertService: AlertService,
     private notificationService: NotificationService,
-    private rentService: RentService
+      private rentService: RentService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -152,6 +153,16 @@ export class OfferViewComponent implements OnInit {
         console.log(error);
       }
     )
+  }
+
+  deleteOffer() {
+    this.offerService.deleteOffer(this.offer.id).subscribe(res => {
+      this.router.navigate(['admin-panel']);
+      this.alertService.success('Pomyślnie usunięto ofertę');
+    },
+    err => {
+      this.alertService.error(err.error);
+    });
   }
 
 }
