@@ -13,6 +13,7 @@ import { NotificationService } from '../services/notification.service';
 import { NotificationForCreation } from '../models/NotificationForCreation';
 import { NotificationType } from '../enums/NotificationType';
 import { RentService } from '../services/rent.service';
+import { serializePath } from '@angular/router/src/url_tree';
 
 @Component({
   selector: 'app-offer-view',
@@ -28,6 +29,7 @@ export class OfferViewComponent implements OnInit {
   users: User[];
   groups: Group[];
 
+  agreementCheckbox = false;
   alreadySendRentRequest: boolean;
 
   constructor(
@@ -77,6 +79,22 @@ export class OfferViewComponent implements OnInit {
     for (const user of this.users) {
       if (user.id === userId) {
         return user.firstName + ' ' +  user.lastName;
+      }
+    }
+  }
+
+  private getUserPhoneNumber(userId) {
+    for (const user of this.users) {
+      if (user.id === userId) {
+        return user.phoneNumber;
+      }
+    }
+  }
+
+  private getUserEmail(userId) {
+    for (const user of this.users) {
+      if (user.id === userId) {
+        return user.email;
       }
     }
   }
@@ -152,7 +170,7 @@ export class OfferViewComponent implements OnInit {
         this.alertService.error(error.error);
         console.log(error);
       }
-    )
+    );
   }
 
   deleteOffer() {
