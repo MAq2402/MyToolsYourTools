@@ -28,7 +28,7 @@ namespace MyToolsYourToolsBackend.API.Controllers
         }
 
         [HttpPost("rents")]
-        public IActionResult AddRent([FromBody]RentForCreationDto rentFromBody)
+        public IActionResult AddRent([FromBody]RentDto rentFromBody)
         {
             if (!_userService.CheckIfUserExists(rentFromBody.BorrowerId)
                 || !_offerService.CheckIfOfferExists(rentFromBody.OfferId))
@@ -36,20 +36,18 @@ namespace MyToolsYourToolsBackend.API.Controllers
                 return NotFound();
             }
 
-            int pointsRentCost = 100;
-
-            if(!_rentService.CheckIfUserHasEnoughPoints(rentFromBody.BorrowerId, pointsRentCost))
+            if(!_rentService.CheckIfUserHasEnoughPoints(rentFromBody.BorrowerId))
             {
                 return BadRequest("Niewystarczająca ilość punktów na zrealizowanie wypożyczenia.");
             }
-
+           
             if (!_offerService.CheckIfOfferIsActive(rentFromBody.OfferId))
             {
                 return BadRequest("Oferta nieaktywna.");
             }
 
-            _rentService.AddRent(rentFromBody, pointsRentCost);
-
+             _rentService.AddRent(rentFromBody);
+             
             return NoContent();
         }
 
@@ -61,11 +59,7 @@ namespace MyToolsYourToolsBackend.API.Controllers
                 return NotFound();
             }
 
-            int pointsReturnReward = 100;
-
-            _rentService.DeleteRent(offerId, pointsReturnReward);
-
-            return NoContent();
+            return Ok(_rentService.DeleteRent(offerId));
         }
     }
 }

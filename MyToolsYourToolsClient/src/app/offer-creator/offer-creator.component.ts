@@ -6,6 +6,7 @@ import { Offer } from '../models/Offer';
 import { ToolCategory } from '../enums/tool-category';
 import { AlertService } from '../services/alert.service';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 const toolCategoryHelper = [
   { id: 0, category: ToolCategory.mower, src: '../../assets/images/kosiarka.png' },
@@ -40,6 +41,7 @@ export class OfferCreatorComponent implements OnInit {
   constructor(private groupService: GroupService,
     private offerService: OfferService,
     private alertService: AlertService,
+    private userService: UserService,
     private router: Router) { }
 
   ngOnInit() {
@@ -61,6 +63,7 @@ export class OfferCreatorComponent implements OnInit {
     }
     this.offerService.addOffer(this.model, this.currentUserId).subscribe(res => {
       this.alertService.success('Oferta utworzona pomyślnie');
+      this.userService.announceUserUpdate(true);
       this.router.navigate(['offer-view/' + res.id]);
     }, error => {
       this.alertService.error(error.error);

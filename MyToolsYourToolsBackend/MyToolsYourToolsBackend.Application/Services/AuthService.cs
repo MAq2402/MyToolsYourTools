@@ -5,6 +5,7 @@ using System.Text;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MyToolsYourToolsBackend.Application.Dtos;
+using MyToolsYourToolsBackend.Application.Strategies.Points;
 using MyToolsYourToolsBackend.Domain.DbContexts;
 using MyToolsYourToolsBackend.Domain.Entities;
 
@@ -13,10 +14,12 @@ namespace MyToolsYourToolsBackend.Application.Services
     public class AuthService : IAuthService
     {
         private AppDbContext _dbContext;
+        private IPointsService _pointsService;
 
-        public AuthService(AppDbContext dbContext)
+        public AuthService(AppDbContext dbContext, IPointsService pointsService)
         {
             _dbContext = dbContext;
+            _pointsService = pointsService;
         }
 
         public UserDto Login(LoginCredentialsDto loginCredentials)
@@ -30,6 +33,8 @@ namespace MyToolsYourToolsBackend.Application.Services
         public UserDto Register(RegisterCredentialsDto registerCredentials)
         {
             var userToSave = Mapper.Map<User>(registerCredentials);
+
+            _pointsService.ModifyPoints(userToSave, new PointsModificationRegistrationStrategy());
 
             _dbContext.Add(userToSave);
 

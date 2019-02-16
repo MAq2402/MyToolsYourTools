@@ -3,7 +3,7 @@ import { User } from '../models/User';
 import { HttpClient, HttpHeaders,  } from '@angular/common/http';
 import { RegisterCredentials } from '../models/registerCredentials';
 import { LoginCredentials } from '../models/loginCredentials';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { Router } from '@angular/router';
 
 const httpOptions = {
@@ -14,7 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
-  currentUser: User;
+  private currentUser: User;
   error: String;
   baseUrl = 'https://localhost:44341/api/';
   constructor(private http: HttpClient, public router: Router) {}
@@ -34,6 +34,16 @@ export class AuthService {
     },
     (error: String) => { this.error = error; }
     );
+  }
 
+  getCurrentUser(): Observable<User> {
+    if(this.currentUser) {
+      return of(this.currentUser);
+    } else {
+      return this.http.get<User>(this.baseUrl + 'users/' + localStorage.getItem('auth_key'));
+    }
+  }
+  setCurrentUserToNull() {
+    this.currentUser = null;
   }
 }

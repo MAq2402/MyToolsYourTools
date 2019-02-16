@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MyToolsYourToolsBackend.Application.Dtos
 {
-    public class RentForCreationDto
+    public class RentDto
     {
         public Guid OfferId { get; set; }
         public Guid BorrowerId { get; set; }
