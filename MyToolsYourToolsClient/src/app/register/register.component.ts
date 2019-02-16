@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegisterCredentials } from '../models/registerCredentials';
 import { AuthService } from '../services/auth.service';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -17,9 +18,10 @@ export class RegisterComponent {
     email: '',
     phoneNumber: '',
   };
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private alertService: AlertService) {}
 
   onSubmit() {
     this.authService.register(this.model);
+    
   }
 }
