@@ -3,6 +3,7 @@ import { Opinion } from '../../models/Opinion';
 import { OpinionService } from '../../services/opinion.service';
 import { AlertService } from '../../services/alert.service';
 import { User } from '../../models/User';
+import { OfferStatus } from '../../enums/OfferStatus';
 
 declare var $: any;
 
@@ -15,7 +16,8 @@ export class LeaveFeedbackComponent implements OnInit {
 
   @Output() sentOpinion = new EventEmitter<Opinion>();
   @Input() borrower: User;
-  @Input() currentUserId: string;
+
+   currentUserId: string;
 
   opinion: Opinion = {id: '', message: '', ratedUserId: '', ratingUserId: ''};
 
@@ -23,6 +25,8 @@ export class LeaveFeedbackComponent implements OnInit {
   
   
   ngOnInit() {
+    this.currentUserId = localStorage.getItem('auth_key'); 
+    
   }
 
   leaveFeedback(){

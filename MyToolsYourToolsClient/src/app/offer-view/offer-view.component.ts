@@ -28,6 +28,9 @@ export class OfferViewComponent implements OnInit {
   offer: Offer;
   users: User[];
   groups: Group[];
+  borrower: User;
+  owner: User;
+
 
   alreadySendRentRequest: boolean;
 
@@ -45,22 +48,27 @@ export class OfferViewComponent implements OnInit {
     this.currentUserId = localStorage.getItem('auth_key');
     // TODO: pobieranie nazwy grupy i nazwy użytkownika zrobić w tap'ie niżej callami do API
     this.groupService.getGroups().subscribe(o => this.groups = o);
-    this.userService.getUsers().subscribe(o => this.users = o);
+    this.userService.getUsers().subscribe(o => this.users = o);  
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.getOffer(id);
     });
+    
   }
 
-
   private getOffer(id) {
-    this.offerService.getOffer(id).pipe(
+   this.offerService.getOffer(id).pipe(
       map(o => this.offer = o),
-      tap(_ => {
+      tap(_ => { 
         this.notificationService.checkIfUserCanSendRentRequest(this.currentUserId, this.offer.id)
         .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
+
+        this.userService.getUserById(this.offer.ownerId).subscribe(o => this.owner = o);
+        this.userService.getOfferBorrower(this.offer.id).subscribe(u => this.borrower = u);
+       
       /* tutaj trzeba pobrać nazwę użytkownika i grupy,
        najlepiej przypisane do zmiennych bindowanych w komponencie */
+      
       })
     ).subscribe();
   }
@@ -162,10 +170,5 @@ export class OfferViewComponent implements OnInit {
       this.sendConfirmReturn();
     }
   }
-
-    private getOfferBorrower(){
-      return this.userService.getOfferBorrower(this.offer.id).subscribe();
-    }
-      
   
 }

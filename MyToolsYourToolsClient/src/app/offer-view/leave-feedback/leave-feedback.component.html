@@ -9,10 +9,11 @@
     </div>
     <div class="modal-body">
       <form (ngSubmit)="leaveFeedback()">
-        <label for="message">Jak oceniasz współpracę z użytkownikiem {{borrower.firstName}}? </label>
+        <label for="message">Jak oceniasz współpracę z użytkownikiem
+        {{borrower.firstName}} {{borrower.lastName}}?  </label>
         <input
           type="text"
-          class="form-control"
+          class="form-control  my-modal"
           id="message"
           required
           [(ngModel)]="this.opinion.message"

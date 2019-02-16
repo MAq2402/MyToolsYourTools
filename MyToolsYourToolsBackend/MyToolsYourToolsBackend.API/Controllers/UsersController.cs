@@ -16,10 +16,12 @@ namespace MyToolsYourToolsBackend.API.Controllers
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
+        private IOfferService _offerService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IOfferService offerService)
         {
             _userService = userService;
+            _offerService = offerService;
         }
 
         [HttpGet("Users")]
@@ -38,6 +40,9 @@ namespace MyToolsYourToolsBackend.API.Controllers
         [HttpGet("{offerId}/Users")]
         public IActionResult GetOfferBorrower(Guid offerId)
         {
+            if (!_offerService.CheckIfOfferIsRented(offerId)) {
+                return NoContent();
+            }
             return Ok(_userService.GetOfferBorrower(offerId));
         }
     }
