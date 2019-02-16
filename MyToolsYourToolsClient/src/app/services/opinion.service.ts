@@ -18,7 +18,7 @@ export class OpinionService {
   constructor(private http: HttpClient) { }
 
   getOpinions(): Observable<Opinion[]> {
-    return this.http.get<Opinion[]>(this.baseUrl + 'opinions');
+    return this.http.get<Opinion[]>(this.baseUrl + 'opinions',httpOptions);
   }
 
   addOpinion(opinion: Opinion): Observable<Opinion> {
@@ -27,6 +27,7 @@ export class OpinionService {
   }
 
   getUserReceivedOpinions(userId: string): Observable<Opinion[]> {
-    return this.http.get<Opinion[]>(this.baseUrl + userId + '/opinions');
+    
+    return this.http.get<Opinion[]>(this.baseUrl + userId + '/opinions',httpOptions);
   }
 }

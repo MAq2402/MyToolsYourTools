@@ -19,8 +19,10 @@ export class OpinionsComponent implements OnInit {
   constructor(private opinionService: OpinionService, private userService: UserService) { }
 
   ngOnInit() {
+    
     this.userService.getUsers().subscribe(u => this.users = u);
-    this.opinionService.getUserReceivedOpinions(this.user.id).subscribe(o => this.opinions = o);
+     this.opinionService.getUserReceivedOpinions(this.user.id).subscribe(o => this.opinions = o);
+    
   }
 
   private searchRatingUserName(ratingUserId: string) {

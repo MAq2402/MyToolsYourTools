@@ -85,9 +85,18 @@ export class NotificationsComponent implements OnInit {
   } 
   
 
-    this.opinionService.addOpinion(tmpOpinion).subscribe();
-    this.opinions = this.opinions.filter(n => n.id !== requestId);
-    this.notificationService.deleteNotification(requestId).subscribe();
+    this.opinionService.addOpinion(tmpOpinion).subscribe(
+      result => {
+        this.alertService.success('Opinia została przesłana');
+        this.opinions = this.opinions.filter(n => n.id !== requestId);
+        this.notificationService.deleteNotification(requestId).subscribe();
+      },
+      error => {
+        this.alertService.error(error.error);
+        console.log(error);
+      }
+    );
+   
   }
 
 }
