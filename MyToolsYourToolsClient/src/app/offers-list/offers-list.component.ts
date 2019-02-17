@@ -21,9 +21,11 @@ export class OffersListComponent implements OnInit {
   }
 
   searchGroupName(groupId) {
-    for (const g of this.groups) {
-      if (g.id === groupId) {
-        return g.name;
+    if(this.groups){
+      for (const g of this.groups) {
+        if (g.id === groupId) {
+          return g.name;
+        }
       }
     }
     }

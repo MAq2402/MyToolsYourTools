@@ -48,7 +48,7 @@ export class OfferViewComponent implements OnInit {
     this.currentUserId = localStorage.getItem('auth_key');
     // TODO: pobieranie nazwy grupy i nazwy użytkownika zrobić w tap'ie niżej callami do API
     this.groupService.getGroups().subscribe(o => this.groups = o);
-    this.userService.getUsers().subscribe(o => this.users = o);  
+    this.userService.getUsers().subscribe(o => this.users = o);
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.getOffer(id);
@@ -58,13 +58,12 @@ export class OfferViewComponent implements OnInit {
   private getOffer(id) {
    this.offerService.getOffer(id).pipe(
       map(o => this.offer = o),
-      tap(_ => { 
+      tap(_ => {
         this.notificationService.checkIfUserCanSendRentRequest(this.currentUserId, this.offer.id)
         .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
-
         this.userService.getUserById(this.offer.ownerId).subscribe(o => this.owner = o);
         this.userService.getOfferBorrower(this.offer.id).subscribe(u => this.borrower = u);
-       
+
       /* tutaj trzeba pobrać nazwę użytkownika i grupy,
        najlepiej przypisane do zmiennych bindowanych w komponencie */
       })
@@ -88,24 +87,31 @@ export class OfferViewComponent implements OnInit {
   }
 
   private getGroupName(userId) {
-    for (const group of this.groups) {
-      if (group.id === userId) {
-        return group.name;
+    if (this.groups) {
+      for (const group of this.groups) {
+        if (group.id === userId) {
+          return group.name;
+        }
       }
     }
   }
 
   private isMyOffer() {
-    return this.offer.ownerId === this.currentUserId;
+    if (this.offer) {
+      return this.offer.ownerId === this.currentUserId;
+    }
   }
 
   private hasMyOfferBorrowedStatus() {
-
-    return Object.values(OfferStatus)[this.offer.status] === OfferStatus.rented;
+    if (this.offer) {
+      return Object.values(OfferStatus)[this.offer.status] === OfferStatus.rented;
+    }
   }
 
   private hasMyOfferHiddenStatus() {
-    return Object.values(OfferStatus)[this.offer.status] === OfferStatus.hidden;
+    if (this.offer) {
+      return Object.values(OfferStatus)[this.offer.status] === OfferStatus.hidden;
+    }
   }
 
   private changeOfferStatus() {
@@ -175,9 +181,9 @@ export class OfferViewComponent implements OnInit {
 
   onOpinionSent(sentOpinion: Opinion){
     if (sentOpinion != null) {
-     
+
       this.sendConfirmReturn();
     }
   }
-  
+
 }
