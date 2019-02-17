@@ -1,15 +1,14 @@
-<div class="container">
-
+<div class="container" >
     <span class="offer-header">{{ offer.tool }}</span>
     <img class="offer-image" src="{{ offer.imageSource }}" />
 
   <p class="top-buffer20"></p>
   <span>Wystawił: </span>
-  <a [routerLink]="['/user-profile', offer.ownerId]" class="badge badge-success top-buffer40">
-    {{ getUserName(offer.ownerId) }} {{ getUserSurname(offer.ownerId) }}
+  <a [routerLink]="['/user-profile', owner.id]" class="badge badge-success top-buffer40">
+    {{owner.firstName}} {{ owner.lastName }}
   </a>
   <p class="top-buffer20"></p>
-  <span>Udostępnione w grupie:</span>
+  <span>Udostępnione w grupie: </span>
   <a>{{ getGroupName(offer.groupId) }}</a>
   <div class="top-buffer20">Opis przedmiotu:</div>
   <div class="offer-description top-buffer10">
@@ -23,12 +22,12 @@
     </button>
   </div>
   <div *ngIf="isMyOffer()" name="myOffer" class="row">
-      <div class="col">
-          <button class="btn btn-outline-success btn-lg" (click)="sendConfirmReturn()"
-                  [disabled]="!hasMyOfferBorrowedStatus()">
-              Potwierdź zwrot
-          </button>
-      </div>
+    <div class="col">
+      <button class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#leaveFeedbackModal"
+        [disabled]="!hasMyOfferBorrowedStatus()" >
+        Potwierdź zwrot
+    </button>
+    </div>
     <div class="col">
       <button class="btn btn-lg btn-danger" (click)="deleteOffer()">
           Usuń ofertę
@@ -48,3 +47,11 @@
         </div>
     </div>
 </div>
+
+
+<div *ngIf="hasMyOfferBorrowedStatus()" class="modal fade" id="leaveFeedbackModal" tabindex="-1"
+ role="dialog" aria-labelledby="leaveFeedbackModalLabel" aria-hidden="true">
+   <app-leave-feedback [borrower]="borrower" (sentOpinion)="onOpinionSent($event)">
+    </app-leave-feedback>
+</div>
+

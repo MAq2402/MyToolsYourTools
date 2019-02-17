@@ -141,5 +141,6 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             return Mapper.Map<OfferDto>(offer);
         }
+
     }
 }
