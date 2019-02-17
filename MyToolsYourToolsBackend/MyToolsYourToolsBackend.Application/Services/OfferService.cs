@@ -16,11 +16,13 @@ namespace MyToolsYourToolsBackend.Application.Services
     {
         private AppDbContext _dbContext;
         private IPointsService _pointsService;
+        private INotificationService _notificationService;
 
-        public OfferService(AppDbContext dbContext, IPointsService pointsService)
+        public OfferService(AppDbContext dbContext, IPointsService pointsService, INotificationService notificationService)
         {
             _dbContext = dbContext;
             _pointsService = pointsService;
+            _notificationService = notificationService;
         }
 
         public OfferDto ActivateOffer(Guid id)
@@ -63,15 +65,30 @@ namespace MyToolsYourToolsBackend.Application.Services
             return _dbContext.Offers.FirstOrDefault(o => o.Id == id).Status == OfferStatus.Active;
         }
 
+        public bool CheckIfOfferIsRented(Guid id)
+        {
+            return _dbContext.Offers.FirstOrDefault(o => o.Id == id).Status == OfferStatus.Rented;
+        }
+
         public void DeleteOffer(Guid id)
         {
             var offerToDelete = _dbContext.Offers.FirstOrDefault(o => o.Id == id);
+
+            RemoveLinkedNotification(id);
+
             _dbContext.Remove(offerToDelete);
 
             if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not delete offer");
             }
+        }
+
+        private void RemoveLinkedNotification(Guid id)
+        {
+            var notifciationToDelete = _dbContext.Notifications.FirstOrDefault(n => n.OfferId == id);
+
+            _notificationService.DeleteNotification(notifciationToDelete.Id);
         }
 
         public IEnumerable<OfferDto> GetAllOffers(bool onlyActive)
@@ -124,5 +141,6 @@ namespace MyToolsYourToolsBackend.Application.Services
 
             return Mapper.Map<OfferDto>(offer);
         }
+
     }
 }

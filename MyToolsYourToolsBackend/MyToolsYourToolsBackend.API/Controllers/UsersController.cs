@@ -10,29 +10,40 @@ using MyToolsYourToolsBackend.Application.Services;
 
 namespace MyToolsYourToolsBackend.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     [EnableCors("MyToolsYourTools")]
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
+        private IOfferService _offerService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IOfferService offerService)
         {
             _userService = userService;
+            _offerService = offerService;
         }
 
-        [HttpGet]
+        [HttpGet("Users")]
         public IActionResult GetUsers()
         {
             return Ok(_userService.GetUsers());
         }
-        [Route("{userId}")]
+        [Route("Users/{userId}")]
         [HttpGet]
         public IActionResult GetUserById(Guid userId)
         {
             return Ok(_userService.GetUserById(userId));
 
+        }
+
+        [HttpGet("{offerId}/Users")]
+        public IActionResult GetOfferBorrower(Guid offerId)
+        {
+            if (!_offerService.CheckIfOfferIsRented(offerId)) {
+                return NoContent();
+            }
+            return Ok(_userService.GetOfferBorrower(offerId));
         }
     }
 }

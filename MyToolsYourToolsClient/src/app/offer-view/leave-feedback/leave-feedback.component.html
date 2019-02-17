@@ -1,0 +1,30 @@
+<!-- Modal - leave feedback -->
+<div class="modal-dialog" role="document" >
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="leaveFeedbackModalLabel">Wystaw opinię</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="leaveFeedback()">
+        <label for="message">Jak oceniasz współpracę z użytkownikiem
+        {{borrower.firstName}} {{borrower.lastName}}?  </label>
+        <input
+          type="text"
+          class="form-control  my-modal"
+          id="message"
+          required
+          [(ngModel)]="this.opinion.message"
+          name="message"
+          #name="ngModel"
+        />
+        <div class="col-sm-12 my-buttons-container">
+          <button type="button" class="btn btn-light float-right my-button-wrap" data-dismiss="modal">Anuluj</button>
+          <button type="submit" class="btn btn-success float-right my-button-wrap">Wyślij</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
