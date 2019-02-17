@@ -130,6 +130,7 @@ export class OfferViewComponent implements OnInit {
     this.notificationService.addNotification(notificationToSend).subscribe(
       result => {
         this.alertService.success('Wysłano prośbę o wypożyczenie.');
+        this.userService.announceUserUpdate(true);
         this.alreadySendRentRequest = true;
         // TODO zablokowanie wysłania kolejnej prośby
       },
