@@ -142,9 +142,5 @@ namespace MyToolsYourToolsBackend.Application.Services
             return Mapper.Map<OfferDto>(offer);
         }
 
-        public bool CheckIfOfferIsRented(Guid offerId)
-        {
-            return _dbContext.Offers.FirstOrDefault(o => o.Id == offerId).Status == OfferStatus.Rented;
-        }
     }
 }
