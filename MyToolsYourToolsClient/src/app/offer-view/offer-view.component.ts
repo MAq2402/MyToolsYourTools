@@ -114,13 +114,13 @@ export class OfferViewComponent implements OnInit {
     }
   }
 
-  private hasMyOfferBorrowedStatus() {
+  private hasOfferBorrowedStatus() {
     if (this.offer) {
       return Object.values(OfferStatus)[this.offer.status] === OfferStatus.rented;
     }
   }
 
-  private hasMyOfferHiddenStatus() {
+  private hasOfferHiddenStatus() {
     if (this.offer) {
       return Object.values(OfferStatus)[this.offer.status] === OfferStatus.hidden;
     }

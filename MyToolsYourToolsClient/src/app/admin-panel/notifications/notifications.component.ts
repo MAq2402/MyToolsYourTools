@@ -44,6 +44,7 @@ export class NotificationsComponent implements OnInit {
       .subscribe(n => {
         this.rentRequests = n.filter(not => not.type === NotificationType.rentRequest);
         this.opinions = n.filter(not => not.type === NotificationType.opinion);
+        this.userService.announceUserUpdate(true);
       });
   }
   onRequestNotificationApproved(rentRequest: Notification){
@@ -68,7 +69,10 @@ export class NotificationsComponent implements OnInit {
 
   deleteNotification(notification: Notification) {
     this.notificationService.deleteNotification(notification.id)
-      .subscribe(_ => this.getUserNotifications());
+      .subscribe(_ => {
+        this.getUserNotifications();
+        this.userService.announceUserUpdate(true);
+      });
   }
 
   onOpinionSent(requestId: any){
@@ -80,7 +84,7 @@ export class NotificationsComponent implements OnInit {
       ratedUserId: currentRequest.targetUserId,
       ratingUserId: currentRequest.ownerId
     }
-    this.opinionService.addOpinion(tmpOpinion).subscribe();
+    this.opinionService.addOpinion(tmpOpinion).subscribe(x => this.userService.announceUserUpdate(true));
     this.opinions = this.opinions.filter(n => n.id !== requestId);
     this.notificationService.deleteNotification(requestId).subscribe();
   }
