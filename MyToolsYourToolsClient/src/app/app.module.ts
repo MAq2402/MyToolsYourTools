@@ -34,6 +34,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { MyOffersComponent } from './admin-panel/my-offers/my-offers.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { LeaveFeedbackComponent } from './offer-view/leave-feedback/leave-feedback.component';
+import { RouterModule, Routes } from '@angular/router';
 
 
 
@@ -64,6 +65,7 @@ import { LeaveFeedbackComponent } from './offer-view/leave-feedback/leave-feedba
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
