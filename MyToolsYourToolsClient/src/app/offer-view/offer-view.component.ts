@@ -61,36 +61,10 @@ export class OfferViewComponent implements OnInit {
           .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
         this.userService.getUserById(this.offer.ownerId).subscribe(o => this.owner = o);
         this.userService.getOfferBorrower(this.offer.id).subscribe(u => this.borrower = u);
-        console.log(this.offer);
-        this.groupService.getGroupById(this.offer.groupId).subscribe(g => {this.group = g; console.log("from subs " + this.group)});
-        console.log("from tap:" + this.group)
+        this.groupService.getGroupById(this.offer.groupId).subscribe(g => this.group = g);
       })
     ).subscribe();
   }
-
-  private getUserName(userId) {
-    for (const user of this.users) {
-      if (user.id === userId) {
-        return user.userName;
-      }
-    }
-  }
-
-  private getUserSurname(userId) {
-    for (const user of this.users) {
-      if (user.id === userId) {
-        return user.firstName + ' ' +  user.lastName;
-      }
-    }
-  }
-
-/*  private getGroupName(userId) {
-    for (const group of this.groups) {
-      if (group.id === userId) {
-        return group.name;
-      }
-    }
-  }*/
 
   private isMyOffer() {
     return this.offer.ownerId === this.currentUserId;
@@ -138,7 +112,6 @@ export class OfferViewComponent implements OnInit {
   }
 
   sendConfirmReturn() {
-    // TODO: pierw wyświetlenie pop-up z wystawieniem opinii wypożyczającemu inną metodą a na "Wyślij" wykonanie tej
     this.rentService.deleteRent(this.offer.id).subscribe(
       result => {
         const notificationToSend: NotificationForCreation = {
@@ -171,7 +144,6 @@ export class OfferViewComponent implements OnInit {
 
   onOpinionSent(sentOpinion: Opinion){
     if (sentOpinion != null) {
-
       this.sendConfirmReturn();
     }
   }

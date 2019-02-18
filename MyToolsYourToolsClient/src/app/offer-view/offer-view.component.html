@@ -26,7 +26,7 @@
     </div>
     <div *ngIf="hasOfferBorrowedStatus()" name="borrowedByMe">
         <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()"
-          [disabled]="true"> <!-- Dodać wycofainie prośby o wypożyczenie -->
+          [disabled]="true">
           {{ "Oferta aktualnie wypożyczona" }}
         </button>
       </div>
@@ -34,7 +34,7 @@
   <div *ngIf="isMyOffer()" name="myOffer" class="row">
     <div class="col">
       <button class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#leaveFeedbackModal"
-        [disabled]="!hasMyOfferBorrowedStatus()" >
+        [disabled]="!hasOfferBorrowedStatus()" >
         Potwierdź zwrot
     </button>
     </div>
