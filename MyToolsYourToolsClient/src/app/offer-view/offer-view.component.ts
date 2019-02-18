@@ -27,7 +27,7 @@ export class OfferViewComponent implements OnInit {
   offers: Offer[];
   offer: Offer;
   users: User[];
-  groups: Group[];
+  group: Group;
   borrower: User;
   owner: User;
 
@@ -46,9 +46,7 @@ export class OfferViewComponent implements OnInit {
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('auth_key');
-    // TODO: pobieranie nazwy grupy i nazwy użytkownika zrobić w tap'ie niżej callami do API
-    this.groupService.getGroups().subscribe(o => this.groups = o);
-    this.userService.getUsers().subscribe(o => this.users = o);  
+    this.userService.getUsers().subscribe(o => this.users = o);
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.getOffer(id);
@@ -58,15 +56,14 @@ export class OfferViewComponent implements OnInit {
   private getOffer(id) {
    this.offerService.getOffer(id).pipe(
       map(o => this.offer = o),
-      tap(_ => { 
+      tap(_ => {
         this.notificationService.checkIfUserCanSendRentRequest(this.currentUserId, this.offer.id)
-        .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
-
+          .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
         this.userService.getUserById(this.offer.ownerId).subscribe(o => this.owner = o);
         this.userService.getOfferBorrower(this.offer.id).subscribe(u => this.borrower = u);
-       
-      /* tutaj trzeba pobrać nazwę użytkownika i grupy,
-       najlepiej przypisane do zmiennych bindowanych w komponencie */
+        console.log(this.offer);
+        this.groupService.getGroupById(this.offer.groupId).subscribe(g => {this.group = g; console.log("from subs " + this.group)});
+        console.log("from tap:" + this.group)
       })
     ).subscribe();
   }
@@ -87,13 +84,13 @@ export class OfferViewComponent implements OnInit {
     }
   }
 
-  private getGroupName(userId) {
+/*  private getGroupName(userId) {
     for (const group of this.groups) {
       if (group.id === userId) {
         return group.name;
       }
     }
-  }
+  }*/
 
   private isMyOffer() {
     return this.offer.ownerId === this.currentUserId;
@@ -174,9 +171,9 @@ export class OfferViewComponent implements OnInit {
 
   onOpinionSent(sentOpinion: Opinion){
     if (sentOpinion != null) {
-     
+
       this.sendConfirmReturn();
     }
   }
-  
+
 }

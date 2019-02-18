@@ -7,7 +7,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="modal-body">
+    <div *ngIf="borrower" class="modal-body">
       <form (ngSubmit)="leaveFeedback()">
         <label for="message">Jak oceniasz współpracę z użytkownikiem
         {{borrower.firstName}} {{borrower.lastName}}?  </label>
