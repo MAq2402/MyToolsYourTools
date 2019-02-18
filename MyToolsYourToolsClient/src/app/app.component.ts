@@ -9,9 +9,6 @@ import { UserService } from './services/user.service';
 })
 export class AppComponent {
   title = 'My Tools Your Tools';
-  constructor(private userService: UserService) {
-
-  }
 
   showNavbar(): boolean {
     return !!localStorage.getItem('auth_key');

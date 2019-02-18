@@ -88,7 +88,10 @@ namespace MyToolsYourToolsBackend.Application.Services
         {
             var notifciationToDelete = _dbContext.Notifications.FirstOrDefault(n => n.OfferId == id);
 
-            _notificationService.DeleteNotification(notifciationToDelete.Id);
+            if(notifciationToDelete != null)
+            {
+                _notificationService.DeleteNotification(notifciationToDelete.Id);
+            }
         }
 
         public IEnumerable<OfferDto> GetAllOffers(bool onlyActive)

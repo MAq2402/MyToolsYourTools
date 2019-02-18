@@ -4,6 +4,7 @@ import { OpinionService } from '../../services/opinion.service';
 import { AlertService } from '../../services/alert.service';
 import { User } from '../../models/User';
 import { OfferStatus } from '../../enums/OfferStatus';
+import { UserService } from '../../services/user.service';
 
 declare var $: any;
 
@@ -21,7 +22,7 @@ export class LeaveFeedbackComponent implements OnInit {
 
   opinion: Opinion = {id: '', message: '', ratedUserId: '', ratingUserId: ''};
 
-  constructor(private opinionService: OpinionService, private alertService: AlertService) { }
+  constructor(private opinionService: OpinionService, private alertService: AlertService, private userService: UserService) { }
 
 
   ngOnInit() {
@@ -37,6 +38,7 @@ export class LeaveFeedbackComponent implements OnInit {
         this.alertService.success('Twoja opinia została wysłana');
         $('#leaveFeedbackModal').modal('hide');
         this.sentOpinion.emit(result);
+        this.userService.announceUserUpdate(true);
       },
       error => {
         this.alertService.error(error.error);
