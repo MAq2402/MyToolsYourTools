@@ -95,6 +95,11 @@ namespace MyToolsYourToolsBackend.API.Controllers
             {
                 return NotFound();
             }
+            if (_offerService.CheckIfOfferIsRented(id))
+            {
+                return BadRequest("Nie możesz usunąć oferty, ponieważ przedmiot został wypożyczony");
+            }
+            
             _offerService.DeleteOffer(id);
 
             return NoContent();

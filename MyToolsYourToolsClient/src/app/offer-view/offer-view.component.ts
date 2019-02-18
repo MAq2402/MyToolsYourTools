@@ -13,6 +13,7 @@ import { NotificationService } from '../services/notification.service';
 import { NotificationForCreation } from '../models/NotificationForCreation';
 import { NotificationType } from '../enums/NotificationType';
 import { RentService } from '../services/rent.service';
+import { Opinion } from '../models/Opinion';
 
 @Component({
   selector: 'app-offer-view',
@@ -27,6 +28,8 @@ export class OfferViewComponent implements OnInit {
   offer: Offer;
   users: User[];
   groups: Group[];
+  borrower: User;
+  owner: User;
 
   alreadySendRentRequest: boolean;
 
@@ -45,20 +48,23 @@ export class OfferViewComponent implements OnInit {
     this.currentUserId = localStorage.getItem('auth_key');
     // TODO: pobieranie nazwy grupy i nazwy użytkownika zrobić w tap'ie niżej callami do API
     this.groupService.getGroups().subscribe(o => this.groups = o);
-    this.userService.getUsers().subscribe(o => this.users = o);
+    this.userService.getUsers().subscribe(o => this.users = o);  
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.getOffer(id);
     });
   }
 
-
   private getOffer(id) {
-    this.offerService.getOffer(id).pipe(
+   this.offerService.getOffer(id).pipe(
       map(o => this.offer = o),
-      tap(_ => {
+      tap(_ => { 
         this.notificationService.checkIfUserCanSendRentRequest(this.currentUserId, this.offer.id)
         .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
+
+        this.userService.getUserById(this.offer.ownerId).subscribe(o => this.owner = o);
+        this.userService.getOfferBorrower(this.offer.id).subscribe(u => this.borrower = u);
+       
       /* tutaj trzeba pobrać nazwę użytkownika i grupy,
        najlepiej przypisane do zmiennych bindowanych w komponencie */
       })
@@ -124,6 +130,7 @@ export class OfferViewComponent implements OnInit {
     this.notificationService.addNotification(notificationToSend).subscribe(
       result => {
         this.alertService.success('Wysłano prośbę o wypożyczenie.');
+        this.userService.announceUserUpdate(true);
         this.alreadySendRentRequest = true;
       },
       error => {
@@ -164,4 +171,12 @@ export class OfferViewComponent implements OnInit {
     });
   }
 
+
+  onOpinionSent(sentOpinion: Opinion){
+    if (sentOpinion != null) {
+     
+      this.sendConfirmReturn();
+    }
+  }
+  
 }

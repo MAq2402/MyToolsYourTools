@@ -7,6 +7,7 @@ import { OpinionService } from '../../services/opinion.service';
 import { RentService } from '../../services/rent.service';
 import { Rent } from '../../models/Rent';
 import { AlertService } from '../../services/alert.service';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class NotificationsComponent implements OnInit {
     private notificationService: NotificationService,
     private opinionService:  OpinionService,
     private rentService: RentService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
