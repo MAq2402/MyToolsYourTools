@@ -13,6 +13,7 @@ import { NotificationService } from '../services/notification.service';
 import { NotificationForCreation } from '../models/NotificationForCreation';
 import { NotificationType } from '../enums/NotificationType';
 import { RentService } from '../services/rent.service';
+import { serializePath } from '@angular/router/src/url_tree';
 import { Opinion } from '../models/Opinion';
 
 @Component({
@@ -31,6 +32,7 @@ export class OfferViewComponent implements OnInit {
   borrower: User;
   owner: User;
 
+  agreementCheckbox = false;
   alreadySendRentRequest: boolean;
 
   constructor(
@@ -64,6 +66,46 @@ export class OfferViewComponent implements OnInit {
         this.groupService.getGroupById(this.offer.groupId).subscribe(g => this.group = g);
       })
     ).subscribe();
+  }
+
+  private getUserName(userId) {
+    for (const user of this.users) {
+      if (user.id === userId) {
+        return user.userName;
+      }
+    }
+  }
+
+  private getUserSurname(userId) {
+    for (const user of this.users) {
+      if (user.id === userId) {
+        return user.firstName + ' ' +  user.lastName;
+      }
+    }
+  }
+
+  private getUserPhoneNumber(userId) {
+    for (const user of this.users) {
+      if (user.id === userId) {
+        return user.phoneNumber;
+      }
+    }
+  }
+
+  private getUserEmail(userId) {
+    for (const user of this.users) {
+      if (user.id === userId) {
+        return user.email;
+      }
+    }
+  }
+
+  private getGroupName(userId) {
+    for (const group of this.groups) {
+      if (group.id === userId) {
+        return group.name;
+      }
+    }
   }
 
   private isMyOffer() {
@@ -133,7 +175,7 @@ export class OfferViewComponent implements OnInit {
         this.alertService.error(error.error);
         console.log(error);
       }
-    )
+    );
   }
 
   deleteOffer() {
