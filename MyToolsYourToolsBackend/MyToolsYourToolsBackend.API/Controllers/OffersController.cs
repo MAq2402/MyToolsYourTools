@@ -43,6 +43,12 @@ namespace MyToolsYourToolsBackend.API.Controllers
             return Ok(_offerService.GetUserOffers(userId));
         }
 
+        [HttpGet("{userId}/offers-borrowed-by-user")]
+        public IActionResult GetBorrowedByUserOffers(Guid userId)
+        {
+            return Ok(_offerService.GetBorrowedByUserOffers(userId));
+        }
+
         [HttpGet("offers/{id}", Name = nameof(GetOffer))]
         public IActionResult GetOffer(Guid id)
         {
