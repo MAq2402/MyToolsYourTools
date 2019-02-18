@@ -4,7 +4,7 @@
       <app-groups></app-groups>
     </div>
     <div class="col-sm-6">
-      <app-notifications></app-notifications>
+      <app-notifications (approvedRentRequest)="onApprovedRentRequest()"></app-notifications>
     </div>
   </div>
   <div class="row margin-top">
@@ -12,4 +12,5 @@
       <app-my-offers></app-my-offers>
     </div>
   </div>
+  <div class="row margin-top"></div>
 </div>

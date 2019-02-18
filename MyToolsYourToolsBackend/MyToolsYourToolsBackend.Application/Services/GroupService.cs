@@ -43,6 +43,12 @@ namespace MyToolsYourToolsBackend.Application.Services
             return Mapper.Map<IEnumerable<GroupDto>>(_dbContext.Groups);
         }
 
+        public GroupDto GetGroupById(Guid id)
+        {
+            var groupToReturn = _dbContext.Groups.FirstOrDefault(g => g.Id == id);
+            return Mapper.Map<GroupDto>(groupToReturn);
+        }
+
         public IEnumerable<GroupDto> GetUserGroups(Guid userId)
         {
             var userGroupsIds = _dbContext.UserGroups.Where(g => g.UserId == userId).Select(g => g.GroupId);
