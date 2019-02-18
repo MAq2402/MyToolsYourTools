@@ -1,20 +1,18 @@
-<div *ngIf="offer" class="container" >
-    <span class="offer-header">{{ offer.tool }}</span>
+<div class="container" >
+    <span class="offer-header">{{ offer?.tool }}</span>
     <img class="offer-image" src="{{ offer?.imageSource }}" />
 
-  <div *ngIf="owner">
-    <p class="top-buffer20"></p>
-    <span>Wystawił: </span>
-    <a [routerLink]="['/user-profile', owner.id]" class="badge badge-success top-buffer40">
-      {{owner.firstName}} {{ owner.lastName }}
-    </a>
-  </div>
+  <p class="top-buffer20"></p>
+  <span>Wystawił: </span>
+  <a [routerLink]="['/user-profile', owner?.id]" class="badge badge-success top-buffer40">
+    {{owner?.firstName}} {{ owner?.lastName }}
+  </a>
   <p class="top-buffer20"></p>
   <span>Udostępnione w grupie: </span>
   <a>{{ group?.name }}</a>
   <div class="top-buffer20">Opis przedmiotu:</div>
   <div class="offer-description top-buffer10">
-    {{ offer.description }}
+    {{ offer?.description }}
   </div>
   <hr class="mb-4" />
   <div *ngIf="!isMyOffer()" name="notMyOffer">
@@ -53,7 +51,7 @@
         </div>
         <div class="col">
             <h6>Status oferty:</h6>
-            <h5>{{getOfferStatusName(offer.status)}}</h5>
+            <h5>{{getOfferStatusName(offer?.status)}}</h5>
         </div>
     </div>
 </div>
