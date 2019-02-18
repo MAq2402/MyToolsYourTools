@@ -22,11 +22,11 @@ export class LeaveFeedbackComponent implements OnInit {
   opinion: Opinion = {id: '', message: '', ratedUserId: '', ratingUserId: ''};
 
   constructor(private opinionService: OpinionService, private alertService: AlertService) { }
-  
-  
+
+
   ngOnInit() {
-    this.currentUserId = localStorage.getItem('auth_key'); 
-    
+    this.currentUserId = localStorage.getItem('auth_key');
+
   }
 
   leaveFeedback(){
@@ -43,7 +43,7 @@ export class LeaveFeedbackComponent implements OnInit {
         this.sentOpinion.emit(null);
       }
     );
-    
+
   }
 
 }

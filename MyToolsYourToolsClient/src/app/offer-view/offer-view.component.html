@@ -1,21 +1,22 @@
 <div class="container" >
-    <span class="offer-header">{{ offer.tool }}</span>
-    <img class="offer-image" src="{{ offer.imageSource }}" />
+    <span class="offer-header">{{ offer?.tool }}</span>
+    <img class="offer-image" src="{{ offer?.imageSource }}" />
 
   <p class="top-buffer20"></p>
   <span>Wystawił: </span>
-  <a [routerLink]="['/user-profile', owner.id]" class="badge badge-success top-buffer40">
-    {{owner.firstName}} {{ owner.lastName }}
+  <a [routerLink]="['/user-profile', owner?.id]" class="badge badge-success top-buffer40">
+    {{owner?.firstName}} {{ owner?.lastName }}
   </a>
   <p class="top-buffer20"></p>
   <span>Udostępnione w grupie: </span>
-  <a>{{ getGroupName(offer.groupId) }}</a>
+  <a>{{ group?.name }}</a>
   <div class="top-buffer20">Opis przedmiotu:</div>
   <div class="offer-description top-buffer10">
-    {{ offer.description }}
+    {{ offer?.description }}
   </div>
   <p class="top-buffer20"></p>
   <div *ngIf="!isMyOffer()" name="notMyOffer">
+
       <p>
           <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#agreement" aria-expanded="false" aria-controls="collapseExample">
             Zobacz umowę
@@ -54,15 +55,24 @@
             </label>
           </div>
         <hr class="mb-4" />
-    <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()"
-      [disabled]="alreadySendRentRequest || !agreementCheckbox"> <!-- Dodać wycofanie prośby o wypożyczenie -->
-      {{ alreadySendRentRequest ? "Prośba o wypożyczenie została wysłana" : "Złóż prośbę o wypożyczenie" }}
-    </button>
+    <div *ngIf="!hasOfferBorrowedStatus()" name="notBorrowedByMe">
+      <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()"
+        [disabled]="alreadySendRentRequest || !agreementCheckbox""> <!-- Dodać wycofainie prośby o wypożyczenie -->
+        {{ alreadySendRentRequest ? "Prośba o wypożyczenie została wysłana" : "Złóż prośbę o wypożyczenie" }}
+      </button>
+    </div>
+    <div *ngIf="hasOfferBorrowedStatus()" name="borrowedByMe">
+        <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" (click)="sendRentRequest()"
+          [disabled]="true">
+          {{ "Oferta aktualnie wypożyczona" }}
+        </button>
+      </div>
+
   </div>
   <div *ngIf="isMyOffer()" name="myOffer" class="row">
     <div class="col">
       <button class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#leaveFeedbackModal"
-        [disabled]="!hasMyOfferBorrowedStatus()" >
+        [disabled]="!hasOfferBorrowedStatus()" >
         Potwierdź zwrot
     </button>
     </div>
@@ -73,21 +83,21 @@
      </div>
     <div class="col">
       <button class="btn btn-lg" [ngClass]="{
-              'btn-secondary': !hasMyOfferHiddenStatus(),
-              'btn-success': hasMyOfferHiddenStatus()
-            }" type="button" (click)="changeOfferStatus()" [disabled]="hasMyOfferBorrowedStatus()">
-                {{ hasMyOfferHiddenStatus() ? "Aktywuj ofertę" : "Ukryj ofertę" }}
+              'btn-secondary': !hasOfferHiddenStatus(),
+              'btn-success': hasOfferHiddenStatus()
+            }" type="button" (click)="changeOfferStatus()" [disabled]="hasOfferBorrowedStatus()">
+                {{ hasOfferHiddenStatus() ? "Aktywuj ofertę" : "Ukryj ofertę" }}
             </button>
         </div>
         <div class="col">
             <h6>Status oferty:</h6>
-            <h5>{{getOfferStatusName(offer.status)}}</h5>
+            <h5>{{getOfferStatusName(offer?.status)}}</h5>
         </div>
     </div>
 </div>
 
 
-<div *ngIf="hasMyOfferBorrowedStatus()" class="modal fade" id="leaveFeedbackModal" tabindex="-1"
+<div class="modal fade" id="leaveFeedbackModal" tabindex="-1"
  role="dialog" aria-labelledby="leaveFeedbackModalLabel" aria-hidden="true">
    <app-leave-feedback [borrower]="borrower" (sentOpinion)="onOpinionSent($event)">
     </app-leave-feedback>

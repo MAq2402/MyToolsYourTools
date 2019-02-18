@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'My Tools Your Tools';
+  constructor(private userService: UserService) {
+
+  }
+
+  showNavbar(): boolean {
+    return !!localStorage.getItem('auth_key');
+  }
 }

@@ -28,7 +28,7 @@ export class OfferViewComponent implements OnInit {
   offers: Offer[];
   offer: Offer;
   users: User[];
-  groups: Group[];
+  group: Group;
   borrower: User;
   owner: User;
 
@@ -42,15 +42,13 @@ export class OfferViewComponent implements OnInit {
     private groupService: GroupService,
     private alertService: AlertService,
     private notificationService: NotificationService,
-      private rentService: RentService,
+    private rentService: RentService,
     private router: Router
   ) { }
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('auth_key');
-    // TODO: pobieranie nazwy grupy i nazwy użytkownika zrobić w tap'ie niżej callami do API
-    this.groupService.getGroups().subscribe(o => this.groups = o);
-    this.userService.getUsers().subscribe(o => this.users = o);  
+    this.userService.getUsers().subscribe(o => this.users = o);
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.getOffer(id);
@@ -60,15 +58,12 @@ export class OfferViewComponent implements OnInit {
   private getOffer(id) {
    this.offerService.getOffer(id).pipe(
       map(o => this.offer = o),
-      tap(_ => { 
+      tap(_ => {
         this.notificationService.checkIfUserCanSendRentRequest(this.currentUserId, this.offer.id)
-        .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
-
+          .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
         this.userService.getUserById(this.offer.ownerId).subscribe(o => this.owner = o);
         this.userService.getOfferBorrower(this.offer.id).subscribe(u => this.borrower = u);
-       
-      /* tutaj trzeba pobrać nazwę użytkownika i grupy,
-       najlepiej przypisane do zmiennych bindowanych w komponencie */
+        this.groupService.getGroupById(this.offer.groupId).subscribe(g => this.group = g);
       })
     ).subscribe();
   }
@@ -114,16 +109,21 @@ export class OfferViewComponent implements OnInit {
   }
 
   private isMyOffer() {
-    return this.offer.ownerId === this.currentUserId;
+    if (this.offer) {
+      return this.offer.ownerId === this.currentUserId;
+    }
   }
 
   private hasMyOfferBorrowedStatus() {
-
-    return Object.values(OfferStatus)[this.offer.status] === OfferStatus.rented;
+    if (this.offer) {
+      return Object.values(OfferStatus)[this.offer.status] === OfferStatus.rented;
+    }
   }
 
   private hasMyOfferHiddenStatus() {
-    return Object.values(OfferStatus)[this.offer.status] === OfferStatus.hidden;
+    if (this.offer) {
+      return Object.values(OfferStatus)[this.offer.status] === OfferStatus.hidden;
+    }
   }
 
   private changeOfferStatus() {
@@ -150,7 +150,6 @@ export class OfferViewComponent implements OnInit {
         this.alertService.success('Wysłano prośbę o wypożyczenie.');
         this.userService.announceUserUpdate(true);
         this.alreadySendRentRequest = true;
-        // TODO zablokowanie wysłania kolejnej prośby
       },
       error => {
         this.alertService.error(error.error);
@@ -160,7 +159,6 @@ export class OfferViewComponent implements OnInit {
   }
 
   sendConfirmReturn() {
-    // TODO: pierw wyświetlenie pop-up z wystawieniem opinii wypożyczającemu inną metodą a na "Wyślij" wykonanie tej
     this.rentService.deleteRent(this.offer.id).subscribe(
       result => {
         const notificationToSend: NotificationForCreation = {
@@ -193,9 +191,8 @@ export class OfferViewComponent implements OnInit {
 
   onOpinionSent(sentOpinion: Opinion){
     if (sentOpinion != null) {
-     
       this.sendConfirmReturn();
     }
   }
-  
+
 }

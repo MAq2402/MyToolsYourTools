@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Notification } from '../../models/Notification';
 import { NotificationType } from '../../enums/NotificationType';
 import { NotificationService } from '../../services/notification.service';
@@ -17,10 +17,9 @@ import { UserService } from '../../services/user.service';
 })
 export class NotificationsComponent implements OnInit {
 
+  @Output() approvedRentRequest = new EventEmitter<boolean>();
 
   inputText = {};
-
-
 
   currentUserId: string;
 
@@ -52,6 +51,7 @@ export class NotificationsComponent implements OnInit {
     this.rentService.addRent(rentToSend).subscribe(
       result => {
         this.alertService.success('Przedmiot oferty został pomyślnie udostępniony');
+        this.approvedRentRequest.emit(true);
         this.deleteNotification(rentRequest);
       },
       error => {
