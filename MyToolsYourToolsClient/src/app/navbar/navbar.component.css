@@ -23,7 +23,7 @@
   position: absolute; 
   top: 0;
   right: 0;
-
+}
 a:not([href]):not([tabindex]) {
   text-decoration: none;
   color: #28a745;
