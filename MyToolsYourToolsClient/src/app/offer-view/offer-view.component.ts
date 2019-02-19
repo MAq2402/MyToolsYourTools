@@ -13,7 +13,6 @@ import { NotificationService } from '../services/notification.service';
 import { NotificationForCreation } from '../models/NotificationForCreation';
 import { NotificationType } from '../enums/NotificationType';
 import { RentService } from '../services/rent.service';
-import { serializePath } from '@angular/router/src/url_tree';
 import { Opinion } from '../models/Opinion';
 
 @Component({
@@ -24,6 +23,7 @@ import { Opinion } from '../models/Opinion';
 export class OfferViewComponent implements OnInit {
 
   currentUserId: string;
+  currentUser: User;
 
   offers: Offer[];
   offer: Offer;
@@ -61,51 +61,12 @@ export class OfferViewComponent implements OnInit {
       tap(_ => {
         this.notificationService.checkIfUserCanSendRentRequest(this.currentUserId, this.offer.id)
           .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
-        this.userService.getUserById(this.offer.ownerId).subscribe(o => this.owner = o);
+        this.userService.getUserById(this.offer.ownerId).subscribe(u => this.owner = u);
+        this.userService.getUserById(this.currentUserId).subscribe(u => this.currentUser = u);
         this.userService.getOfferBorrower(this.offer.id).subscribe(u => this.borrower = u);
         this.groupService.getGroupById(this.offer.groupId).subscribe(g => this.group = g);
       })
     ).subscribe();
-  }
-
-  private getUserName(userId) {
-    for (const user of this.users) {
-      if (user.id === userId) {
-        return user.userName;
-      }
-    }
-  }
-
-  private getUserSurname(userId) {
-    for (const user of this.users) {
-      if (user.id === userId) {
-        return user.firstName + ' ' +  user.lastName;
-      }
-    }
-  }
-
-  private getUserPhoneNumber(userId) {
-    for (const user of this.users) {
-      if (user.id === userId) {
-        return user.phoneNumber;
-      }
-    }
-  }
-
-  private getUserEmail(userId) {
-    for (const user of this.users) {
-      if (user.id === userId) {
-        return user.email;
-      }
-    }
-  }
-
-  private getGroupName(userId) {
-    for (const group of this.groups) {
-      if (group.id === userId) {
-        return group.name;
-      }
-    }
   }
 
   private isMyOffer() {
