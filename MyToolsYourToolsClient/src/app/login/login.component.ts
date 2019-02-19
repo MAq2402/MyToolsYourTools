@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { LoginCredentials } from '../models/loginCredentials';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -13,12 +14,14 @@ export class LoginComponent implements OnInit {
     password: ''
   }
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService) {}
   ngOnInit() {
   }
   
 
   onSubmit() {
     this.authService.login(this.model);
+    
   }
 }

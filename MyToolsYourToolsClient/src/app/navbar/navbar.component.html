@@ -14,7 +14,7 @@
       <li>
         <button class="btn btn-outline-success my-2 my-sm-0 my-btn " type="submit" routerLink="admin-panel">
           <i class="material-icons my-icons">perm_identity</i>
-          <span class="button_badge" *ngIf="currentUserNotificationsCount">{{currentUserNotificationsCount}}</span>
+          <span class="button_badge" *ngIf="currentUserNotificationsCount&&currentUser">{{currentUserNotificationsCount}}</span>
         </button>
       </li>
       <li>

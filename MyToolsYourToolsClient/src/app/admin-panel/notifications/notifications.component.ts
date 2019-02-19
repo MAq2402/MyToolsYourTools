@@ -7,6 +7,7 @@ import { OpinionService } from '../../services/opinion.service';
 import { RentService } from '../../services/rent.service';
 import { Rent } from '../../models/Rent';
 import { AlertService } from '../../services/alert.service';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class NotificationsComponent implements OnInit {
     private notificationService: NotificationService,
     private opinionService:  OpinionService,
     private rentService: RentService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -51,6 +53,7 @@ export class NotificationsComponent implements OnInit {
       result => {
         this.alertService.success('Przedmiot oferty został pomyślnie udostępniony');
         this.deleteNotification(rentRequest);
+        this.notificationService.announceNotificationUpdate(true);
       },
       error => {
         this.alertService.error(error.error);
@@ -62,6 +65,7 @@ export class NotificationsComponent implements OnInit {
   onRequestNotificationRejected(rentRequest: Notification){
     this.alertService.info('Prośba o udostępnienie została odrzucona');
     this.deleteNotification(rentRequest);
+    this.notificationService.announceNotificationUpdate(true);
   }
 
   deleteNotification(notification: Notification) {
@@ -85,7 +89,9 @@ export class NotificationsComponent implements OnInit {
       result => {
         this.alertService.success('Opinia została przesłana');
         this.opinions = this.opinions.filter(n => n.id !== requestId);
+        this.userService.announceUserUpdate(true);
         this.notificationService.deleteNotification(requestId).subscribe();
+        this.notificationService.announceNotificationUpdate(true);
       },
       error => {
         this.alertService.error(error.error);
