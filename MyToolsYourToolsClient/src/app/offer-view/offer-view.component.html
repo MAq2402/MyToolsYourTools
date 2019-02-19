@@ -2,9 +2,9 @@
     <span class="offer-header">{{ offer?.tool }}</span>
     <img class="offer-image" src="{{ offer?.imageSource }}" />
 
-  <p class="top-buffer20"></p>
+  <p  class="top-buffer20"></p>
   <span>Wystawił: </span>
-  <a [routerLink]="['/user-profile', owner?.id]" class="badge badge-success top-buffer40">
+  <a *ngIf ="owner && owner.id" [routerLink]="['/user-profile', owner.id]" class="badge badge-success top-buffer40">
     {{owner?.firstName}} {{ owner?.lastName }}
   </a>
   <p class="top-buffer20"></p>

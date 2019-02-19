@@ -45,12 +45,9 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<User> {
-    if(this.currentUser) {
-      return of(this.currentUser);
-    } else {
+      console.log('wchodzeTutaj)');
       return this.http.get<User>(this.baseUrl + 'users/' + localStorage.getItem('auth_key'));
     }
-  }
   setCurrentUserToNull() {
     this.currentUser = null;
   }
