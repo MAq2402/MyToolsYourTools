@@ -22,11 +22,18 @@ namespace MyToolsYourToolsBackend.API.Controllers
         {
             _groupService = groupService;
         }
-       [HttpGet("groups")]
-       public IActionResult GetGroups()
-       {
-            return Ok(_groupService.GetAllGroups());
-       }
+
+        [HttpGet("groups")]
+        public IActionResult GetGroups()
+        {
+             return Ok(_groupService.GetAllGroups());
+        }
+
+        [HttpGet("groups/{groupId}")]
+        public IActionResult GetGroupById(Guid groupId)
+        {
+            return Ok(_groupService.GetGroupById(groupId));
+        }
 
         [HttpGet("{userId}/groups")]
         public IActionResult GetUserGroups(Guid userId)

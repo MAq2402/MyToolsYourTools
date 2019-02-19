@@ -6,12 +6,23 @@
       </div>
     </div>
   </div>
-  <div class="card-body">
+  <div class="card-body my-card-body-height">
+      <div class="row my-buttons-container">
+          <a id="myGroupsBtn" class="col btn btn-outline-primary my-button" role="button" (click)="onActiveOffers()"
+            [ngClass]="{'my-button-active': currentDisplayedOffersFlag === displayedOffers.active }">Aktywne</a>
+            <a id="myGroupsBtn" class="col btn btn-outline-primary my-button" role="button" (click)="onHiddenOffers()"
+            [ngClass]="{'my-button-active': currentDisplayedOffersFlag === displayedOffers.hidden }">Ukryte</a>
+          <a id="allGroupsBtn" class="col btn btn-outline-primary my-button" role="button" (click)="onRentedOffers()"
+            [ngClass]="{'my-button-active': currentDisplayedOffersFlag === displayedOffers.rented }">Udostępnione</a>
+          <a id="allGroupsBtn" class="col btn btn-outline-primary my-button" role="button" (click)="onBorrowedOffers()"
+            [ngClass]="{'my-button-active': currentDisplayedOffersFlag === displayedOffers.borrowed }">Wypożyczone</a>
+        </div>
     <div class="row">
-      <div class="col-sm-12">
-        <app-offers-list [offers]="userOffers" [groups]="groups"></app-offers-list>
+      <div *ngIf="groups" class="col-sm-12">
+        <app-offers-list [offers]="currentDisplayedOffers" [groups]="groups"></app-offers-list>
       </div>
     </div>
   </div>
+  <div class="card-footer my-card-footer-height"></div>
 </div>
 

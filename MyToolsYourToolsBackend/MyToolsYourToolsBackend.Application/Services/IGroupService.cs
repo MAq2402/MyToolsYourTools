@@ -11,5 +11,6 @@ namespace MyToolsYourToolsBackend.Application.Services
         IEnumerable<GroupDto> GetUserGroups(Guid userId);
         IEnumerable<GroupDto> GetAllGroups();
         GroupDto AddGroup(GroupForCreationDto group);
+        GroupDto GetGroupById(Guid id);
     }
 }

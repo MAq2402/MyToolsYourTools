@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Notification } from '../../models/Notification';
 import { NotificationType } from '../../enums/NotificationType';
 import { NotificationService } from '../../services/notification.service';
@@ -17,10 +17,9 @@ import { UserService } from '../../services/user.service';
 })
 export class NotificationsComponent implements OnInit {
 
+  @Output() approvedRentRequest = new EventEmitter<boolean>();
 
   inputText = {};
-
-
 
   currentUserId: string;
 
@@ -45,6 +44,7 @@ export class NotificationsComponent implements OnInit {
       .subscribe(n => {
         this.rentRequests = n.filter(not => not.type === NotificationType.rentRequest);
         this.opinions = n.filter(not => not.type === NotificationType.opinion);
+        this.userService.announceUserUpdate(true);
       });
   }
   onRequestNotificationApproved(rentRequest: Notification){
@@ -52,6 +52,7 @@ export class NotificationsComponent implements OnInit {
     this.rentService.addRent(rentToSend).subscribe(
       result => {
         this.alertService.success('Przedmiot oferty został pomyślnie udostępniony');
+        this.approvedRentRequest.emit(true);
         this.deleteNotification(rentRequest);
         this.notificationService.announceNotificationUpdate(true);
       },
@@ -70,7 +71,10 @@ export class NotificationsComponent implements OnInit {
 
   deleteNotification(notification: Notification) {
     this.notificationService.deleteNotification(notification.id)
-      .subscribe(_ => this.getUserNotifications());
+      .subscribe(_ => {
+        this.getUserNotifications();
+        this.userService.announceUserUpdate(true);
+      });
   }
 
   onOpinionSent(requestId: any){
@@ -81,6 +85,7 @@ export class NotificationsComponent implements OnInit {
       message: this.inputText[requestId],
       ratedUserId: currentRequest.targetUserId,
       ratingUserId: currentRequest.ownerId
+
 
   } 
   
@@ -99,6 +104,7 @@ export class NotificationsComponent implements OnInit {
       }
     );
    
+
   }
 
 }

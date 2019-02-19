@@ -45,7 +45,11 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('auth_key');
     this.router.navigate(['login']);
     this.alertService.success("Wylogowano");
+
     this.currentUserNotificationsCount = null;
+
+    this.currentUser = null;
+
   }
 
   goToOfferCreator() {

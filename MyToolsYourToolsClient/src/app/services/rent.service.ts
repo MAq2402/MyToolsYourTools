@@ -24,5 +24,4 @@ export class RentService {
     return this.http.delete<Rent>(this.baseUrl + 'rents/' + offerId, httpOptions);
   }
 
-
 }

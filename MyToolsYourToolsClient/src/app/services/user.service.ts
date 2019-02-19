@@ -29,4 +29,9 @@ export class UserService {
   announceUserUpdate(message: boolean) {
     this.userUpdateAnnouncedSource.next(message);
   }
+
+  getOfferBorrower(offerId: string): Observable<User>{
+    return this.http.get<User>(this.baseUrl + offerId + "/Users", httpOptions);
+  }
+
 }

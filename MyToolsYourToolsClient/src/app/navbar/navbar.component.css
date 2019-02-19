@@ -11,6 +11,7 @@
   margin-right:10px;
   margin-top:10px
 }
+
 .button_badge {
   background-color: #fa3e3e;
   border-radius: 2px;
@@ -22,4 +23,9 @@
   position: absolute; 
   top: 0;
   right: 0;
+
+a:not([href]):not([tabindex]) {
+  text-decoration: none;
+  color: #28a745;
+
 }
