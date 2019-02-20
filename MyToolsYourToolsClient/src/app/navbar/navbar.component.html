@@ -3,8 +3,10 @@
     <a class="navbar-brand" [routerLink]="['']">MyToolYourTool</a>
 
     <ul class="nav navbar-nav navbar-right">
+
       <li class="points">
         Posiadane punkty: {{currentUser?.points}}
+
       </li>
       <li>
         <button (click) = "goToOfferCreator()" class="btn btn-outline-success my-2 my-sm-0 my-btn " type="submit">
@@ -14,11 +16,16 @@
       <li>
         <a *ngIf = 'currentUser && currentUser.id' [routerLink] = "['/user-profile', currentUser?.id]" class="btn btn-outline-success my-2 my-sm-0 my-btn ">
           <i class="material-icons my-icons">perm_identity</i>
+
+         
+
         </a>
       </li>
       <li>
         <button class="btn btn-outline-success my-2 my-sm-0 my-btn " type="submit" routerLink="admin-panel">
           <i class="material-icons my-icons">settings</i>
+          <span class="button_badge" *ngIf="currentUserNotificationsCount&&currentUser">{{currentUserNotificationsCount}}</span>
+
         </button>
       </li>
       <li>

@@ -54,6 +54,7 @@ export class NotificationsComponent implements OnInit {
         this.alertService.success('Przedmiot oferty został pomyślnie udostępniony');
         this.approvedRentRequest.emit(true);
         this.deleteNotification(rentRequest);
+        this.notificationService.announceNotificationUpdate(true);
       },
       error => {
         this.alertService.error(error.error);
@@ -65,6 +66,7 @@ export class NotificationsComponent implements OnInit {
   onRequestNotificationRejected(rentRequest: Notification){
     this.alertService.info('Prośba o udostępnienie została odrzucona');
     this.deleteNotification(rentRequest);
+    this.notificationService.announceNotificationUpdate(true);
   }
 
   deleteNotification(notification: Notification) {
@@ -83,10 +85,26 @@ export class NotificationsComponent implements OnInit {
       message: this.inputText[requestId],
       ratedUserId: currentRequest.targetUserId,
       ratingUserId: currentRequest.ownerId
-    }
-    this.opinionService.addOpinion(tmpOpinion).subscribe(x => this.userService.announceUserUpdate(true));
-    this.opinions = this.opinions.filter(n => n.id !== requestId);
-    this.notificationService.deleteNotification(requestId).subscribe();
+
+
+  } 
+  
+
+    this.opinionService.addOpinion(tmpOpinion).subscribe(
+      result => {
+        this.alertService.success('Opinia została przesłana');
+        this.opinions = this.opinions.filter(n => n.id !== requestId);
+        this.userService.announceUserUpdate(true);
+        this.notificationService.deleteNotification(requestId).subscribe();
+        this.notificationService.announceNotificationUpdate(true);
+      },
+      error => {
+        this.alertService.error(error.error);
+        console.log(error);
+      }
+    );
+   
+
   }
 
 }

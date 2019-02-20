@@ -19,8 +19,14 @@ export class OpinionsComponent implements OnInit, OnChanges {
   constructor(private opinionService: OpinionService, private userService: UserService) { }
 
   ngOnInit() {
+    
     this.userService.getUsers().subscribe(u => this.users = u);
+
+     this.opinionService.getUserReceivedOpinions(this.user.id).subscribe(o => this.opinions = o);
+    
+
     this.getUser();
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
