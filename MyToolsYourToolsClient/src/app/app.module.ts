@@ -35,6 +35,7 @@ import { MyOffersComponent } from './admin-panel/my-offers/my-offers.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { LeaveFeedbackComponent } from './offer-view/leave-feedback/leave-feedback.component';
 import { RouterModule, Routes } from '@angular/router';
+import { ApproveRentRequestComponent } from './admin-panel/notifications/approve-rent-request/approve-rent-request.component';
 
 
 
@@ -61,7 +62,8 @@ import { RouterModule, Routes } from '@angular/router';
     AlertComponent,
     MyOffersComponent,
     PaginationComponent,
-    LeaveFeedbackComponent
+    LeaveFeedbackComponent,
+    ApproveRentRequestComponent
   ],
   imports: [
     BrowserModule,

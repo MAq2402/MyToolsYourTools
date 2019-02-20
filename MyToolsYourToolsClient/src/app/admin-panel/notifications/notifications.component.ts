@@ -61,8 +61,8 @@ export class NotificationsComponent implements OnInit {
         console.log(error);
       }
     );
-
   }
+
   onRequestNotificationRejected(rentRequest: Notification){
     this.alertService.info('Prośba o udostępnienie została odrzucona');
     this.deleteNotification(rentRequest);
@@ -87,8 +87,8 @@ export class NotificationsComponent implements OnInit {
       ratingUserId: currentRequest.ownerId
 
 
-  } 
-  
+  }
+
 
     this.opinionService.addOpinion(tmpOpinion).subscribe(
       result => {
@@ -103,7 +103,7 @@ export class NotificationsComponent implements OnInit {
         console.log(error);
       }
     );
-   
+
 
   }
 
