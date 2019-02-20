@@ -8,6 +8,8 @@ import { RentService } from '../../services/rent.service';
 import { Rent } from '../../models/Rent';
 import { AlertService } from '../../services/alert.service';
 import { UserService } from '../../services/user.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ApproveRentRequestComponent } from './approve-rent-request/approve-rent-request.component';
 
 
 @Component({
@@ -31,7 +33,8 @@ export class NotificationsComponent implements OnInit {
     private opinionService:  OpinionService,
     private rentService: RentService,
     private alertService: AlertService,
-    private userService: UserService
+    private userService: UserService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -47,6 +50,21 @@ export class NotificationsComponent implements OnInit {
         this.userService.announceUserUpdate(true);
       });
   }
+
+  onApproveRentRequestOpenModal(rentRequest: Notification) {
+    const modalRef = this.modalService.open(ApproveRentRequestComponent);
+    modalRef.componentInstance.offerTool = rentRequest.offerName;
+    modalRef.componentInstance.ownerId = rentRequest.ownerId;
+    modalRef.componentInstance.borrowerId = rentRequest.targetUserId;
+    modalRef.result.then(res => {
+      if (res === 'approved') {
+        this.onRequestNotificationApproved(rentRequest);
+      } else if (res === 'rejected') {
+        this.alertService.error('Aby zatwierdzić wypożyczenie, musisz zakaceptować umowę.');
+      }
+    });
+  }
+
   onRequestNotificationApproved(rentRequest: Notification){
     const rentToSend = new Rent(rentRequest.offerId, rentRequest.targetUserId);
     this.rentService.addRent(rentToSend).subscribe(

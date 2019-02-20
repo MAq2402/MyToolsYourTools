@@ -19,7 +19,7 @@
               </span>
             </div>
             <div clss="col-auto">
-              <button (click)="onApproveRentRequestModalOpen(request)" class="btn btn-success btn-sm float-right" >
+              <button (click)="onApproveRentRequestOpenModal(request)" class="btn btn-success btn-sm float-right" >
                 <i class="material-icons">done</i>
               </button>
             </div>
@@ -56,9 +56,4 @@
   </div>
   <div class="card-footer my-card-footer-height">
   </div>
-</div>
-
-<!-- Modal - approve rent request -->
-<div class="modal fade" id="approveRentRequestModal" tabindex="-1" role="dialog" aria-labelledby="approveRentRequestModalLabel" aria-hidden="true">
-  <app-approve-rent-request></app-approve-rent-request>
 </div>

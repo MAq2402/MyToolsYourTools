@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -72,10 +72,14 @@ import { ApproveRentRequestComponent } from './admin-panel/notifications/approve
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgbAlertModule
+    NgbAlertModule,
+    NgbModalModule
   ],
   providers: [OfferService, UserService, GroupService, RentService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
+  entryComponents: [
+      ApproveRentRequestComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

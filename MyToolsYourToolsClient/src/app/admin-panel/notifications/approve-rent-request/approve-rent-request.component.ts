@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RentService } from 'src/app/services/rent.service';
-import { AlertService } from 'src/app/services/alert.service';
-import { NotificationService } from 'src/app/services/notification.service';
+import { AlertService } from '../../../services/alert.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { User } from '../../../models/User';
+import { UserService } from '../../../services/user.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-approve-rent-request',
@@ -11,14 +12,41 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ApproveRentRequestComponent implements OnInit {
 
+  offerTool: string;
+  ownerId: string;
+  owner: User;
+  borrowerId: string;
+  borrower: User;
+
   constructor(
-    private alertService: AlertService
+    private activeModal: NgbActiveModal,
+    private alertService: AlertService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
+    this.userService.getUserById(this.ownerId).pipe(
+      tap(u => {
+        this.owner = u;
+      })
+    ).subscribe();
+    this.userService.getUserById(this.borrowerId).pipe(
+      tap(u => {
+        this.borrower = u;
+      })
+    ).subscribe();
+  }
+
+  rejectRentRequest() {
+    this.activeModal.close('rejected');
   }
 
   approveRentRequest(){
+    this.activeModal.close('approved');
+  }
+
+  closeModal(){
+    this.activeModal.close('closed');
   }
 
 }
