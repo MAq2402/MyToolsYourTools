@@ -22,6 +22,5 @@ export class RegisterComponent {
 
   onSubmit() {
     this.authService.register(this.model);
-    
   }
 }

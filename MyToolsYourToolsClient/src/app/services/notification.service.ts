@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Notification } from '../models/Notification';
 import { NotificationType } from '../enums/NotificationType';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NotificationForCreation } from '../models/NotificationForCreation';
 
@@ -14,8 +14,13 @@ const httpOptions = {
 })
 export class NotificationService {
   baseUrl = 'https://localhost:44341/api/';
+  private notificationUpdateAnnouncedSource = new Subject<boolean>();
+
+  notificationUpdateAnnounced$ = this.notificationUpdateAnnouncedSource.asObservable();
 
   constructor(private http: HttpClient) { }
+
+
 
   getUserNotifications(userId: string): Observable<Notification[]> {
    return this.http.get<Notification[]>(this.baseUrl + 'notifications/' + userId, httpOptions);
@@ -30,4 +35,9 @@ export class NotificationService {
     return this.http.get<boolean>(this.baseUrl + 'notifications/' + userId +
       '/' +  offerId + '/check-if-can-send-rent-request', httpOptions);
    }
+   announceNotificationUpdate(message: boolean) {
+    this.notificationUpdateAnnouncedSource.next(message);
+    console.log("update");
+  }
+
 }

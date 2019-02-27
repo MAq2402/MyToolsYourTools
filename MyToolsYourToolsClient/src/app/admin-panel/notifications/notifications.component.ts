@@ -7,6 +7,7 @@ import { OpinionService } from '../../services/opinion.service';
 import { RentService } from '../../services/rent.service';
 import { Rent } from '../../models/Rent';
 import { AlertService } from '../../services/alert.service';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class NotificationsComponent implements OnInit {
     private notificationService: NotificationService,
     private opinionService:  OpinionService,
     private rentService: RentService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -42,6 +44,7 @@ export class NotificationsComponent implements OnInit {
       .subscribe(n => {
         this.rentRequests = n.filter(not => not.type === NotificationType.rentRequest);
         this.opinions = n.filter(not => not.type === NotificationType.opinion);
+        this.userService.announceUserUpdate(true);
       });
   }
   onRequestNotificationApproved(rentRequest: Notification){
@@ -51,6 +54,7 @@ export class NotificationsComponent implements OnInit {
         this.alertService.success('Przedmiot oferty został pomyślnie udostępniony');
         this.approvedRentRequest.emit(true);
         this.deleteNotification(rentRequest);
+        this.notificationService.announceNotificationUpdate(true);
       },
       error => {
         this.alertService.error(error.error);
@@ -62,11 +66,15 @@ export class NotificationsComponent implements OnInit {
   onRequestNotificationRejected(rentRequest: Notification){
     this.alertService.info('Prośba o udostępnienie została odrzucona');
     this.deleteNotification(rentRequest);
+    this.notificationService.announceNotificationUpdate(true);
   }
 
   deleteNotification(notification: Notification) {
     this.notificationService.deleteNotification(notification.id)
-      .subscribe(_ => this.getUserNotifications());
+      .subscribe(_ => {
+        this.getUserNotifications();
+        this.userService.announceUserUpdate(true);
+      });
   }
 
   onOpinionSent(requestId: any){
@@ -77,10 +85,26 @@ export class NotificationsComponent implements OnInit {
       message: this.inputText[requestId],
       ratedUserId: currentRequest.targetUserId,
       ratingUserId: currentRequest.ownerId
-    }
-    this.opinionService.addOpinion(tmpOpinion).subscribe();
-    this.opinions = this.opinions.filter(n => n.id !== requestId);
-    this.notificationService.deleteNotification(requestId).subscribe();
+
+
+  } 
+  
+
+    this.opinionService.addOpinion(tmpOpinion).subscribe(
+      result => {
+        this.alertService.success('Opinia została przesłana');
+        this.opinions = this.opinions.filter(n => n.id !== requestId);
+        this.userService.announceUserUpdate(true);
+        this.notificationService.deleteNotification(requestId).subscribe();
+        this.notificationService.announceNotificationUpdate(true);
+      },
+      error => {
+        this.alertService.error(error.error);
+        console.log(error);
+      }
+    );
+   
+
   }
 
 }

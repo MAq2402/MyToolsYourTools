@@ -13,6 +13,7 @@ import { NotificationService } from '../services/notification.service';
 import { NotificationForCreation } from '../models/NotificationForCreation';
 import { NotificationType } from '../enums/NotificationType';
 import { RentService } from '../services/rent.service';
+import { Opinion } from '../models/Opinion';
 
 @Component({
   selector: 'app-offer-view',
@@ -22,12 +23,16 @@ import { RentService } from '../services/rent.service';
 export class OfferViewComponent implements OnInit {
 
   currentUserId: string;
+  currentUser: User;
 
   offers: Offer[];
   offer: Offer;
   users: User[];
-  groups: Group[];
+  group: Group;
+  borrower: User;
+  owner: User;
 
+  agreementCheckbox = false;
   alreadySendRentRequest: boolean;
 
   constructor(
@@ -43,8 +48,6 @@ export class OfferViewComponent implements OnInit {
 
   ngOnInit() {
     this.currentUserId = localStorage.getItem('auth_key');
-    // TODO: pobieranie nazwy grupy i nazwy użytkownika zrobić w tap'ie niżej callami do API
-    this.groupService.getGroups().subscribe(o => this.groups = o);
     this.userService.getUsers().subscribe(o => this.users = o);
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -52,54 +55,36 @@ export class OfferViewComponent implements OnInit {
     });
   }
 
-
   private getOffer(id) {
-    this.offerService.getOffer(id).pipe(
+   this.offerService.getOffer(id).pipe(
       map(o => this.offer = o),
       tap(_ => {
         this.notificationService.checkIfUserCanSendRentRequest(this.currentUserId, this.offer.id)
-        .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
-      /* tutaj trzeba pobrać nazwę użytkownika i grupy,
-       najlepiej przypisane do zmiennych bindowanych w komponencie */
+          .subscribe(canSendRentRequest => this.alreadySendRentRequest = !canSendRentRequest);
+        this.userService.getUserById(this.offer.ownerId).subscribe(u => this.owner = u);
+        this.userService.getUserById(this.currentUserId).subscribe(u => this.currentUser = u);
+        this.userService.getOfferBorrower(this.offer.id).subscribe(u => this.borrower = u);
+        this.groupService.getGroupById(this.offer.groupId).subscribe(g => this.group = g);
       })
     ).subscribe();
   }
 
-  private getUserName(userId) {
-    for (const user of this.users) {
-      if (user.id === userId) {
-        return user.userName;
-      }
-    }
-  }
-
-  private getUserSurname(userId) {
-    for (const user of this.users) {
-      if (user.id === userId) {
-        return user.firstName + ' ' +  user.lastName;
-      }
-    }
-  }
-
-  private getGroupName(userId) {
-    for (const group of this.groups) {
-      if (group.id === userId) {
-        return group.name;
-      }
-    }
-  }
-
   private isMyOffer() {
-    return this.offer.ownerId === this.currentUserId;
+    if (this.offer) {
+      return this.offer.ownerId === this.currentUserId;
+    }
   }
 
   private hasOfferBorrowedStatus() {
-
-    return Object.values(OfferStatus)[this.offer.status] === OfferStatus.rented;
+    if (this.offer) {
+      return Object.values(OfferStatus)[this.offer.status] === OfferStatus.rented;
+    }
   }
 
   private hasOfferHiddenStatus() {
-    return Object.values(OfferStatus)[this.offer.status] === OfferStatus.hidden;
+    if (this.offer) {
+      return Object.values(OfferStatus)[this.offer.status] === OfferStatus.hidden;
+    }
   }
 
   private changeOfferStatus() {
@@ -124,6 +109,7 @@ export class OfferViewComponent implements OnInit {
     this.notificationService.addNotification(notificationToSend).subscribe(
       result => {
         this.alertService.success('Wysłano prośbę o wypożyczenie.');
+        this.userService.announceUserUpdate(true);
         this.alreadySendRentRequest = true;
       },
       error => {
@@ -134,7 +120,6 @@ export class OfferViewComponent implements OnInit {
   }
 
   sendConfirmReturn() {
-    // TODO: pierw wyświetlenie pop-up z wystawieniem opinii wypożyczającemu inną metodą a na "Wyślij" wykonanie tej
     this.rentService.deleteRent(this.offer.id).subscribe(
       result => {
         const notificationToSend: NotificationForCreation = {
@@ -151,7 +136,7 @@ export class OfferViewComponent implements OnInit {
         this.alertService.error(error.error);
         console.log(error);
       }
-    )
+    );
   }
 
   deleteOffer() {
@@ -162,6 +147,13 @@ export class OfferViewComponent implements OnInit {
     err => {
       this.alertService.error(err.error);
     });
+  }
+
+
+  onOpinionSent(sentOpinion: Opinion){
+    if (sentOpinion != null) {
+      this.sendConfirmReturn();
+    }
   }
 
 }
